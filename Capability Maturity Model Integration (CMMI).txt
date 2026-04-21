@@ -1,0 +1,7 @@
+ the Capability Maturity Model Integration (CMMI), a framework used by organizations to benchmark and evolve their internal processes. The model consists of five distinct levels of maturity (127 - 133)
+
+Level 1 Initial (245) Organizations rely on informal practices. While work gets done, projects frequently suffer from delays and budget overruns.
+Level 2 Managed (258) Organizations introduce basic, repeatable processes. Key activities include project planning, monitoring and control, configuration management, and supplier agreement management.
+Level 3 Defined (325) Organizations implement formal, documented practices across various areas, such as risk management, organizational training, and technical solution validationverification.
+Level 4 Quantitatively Managed (355) Organizations use specific quantitative measures to track progress and evaluate the effectiveness of their development practices.
+Level 5 Optimizing (412) The organization focuses on continuous improvement. Feedback from projects is used to refine processes through causal analysis and performance management to ensure ongoing enhancement.
