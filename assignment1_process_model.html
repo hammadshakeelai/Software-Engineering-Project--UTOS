@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment No. 1 — Process Model Selection</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink-mid: #3a3a36;
+    --ink-light: #6b6b65;
+    --ink-faint: #9a9a93;
+    --rule: #c8c8be;
+    --rule-light: #e2e2d8;
+    --paper: #faf9f5;
+    --paper-warm: #f5f3ec;
+    --paper-tint: #eeece3;
+    --accent: #1a1a18;
+    --serif: 'EB Garamond', 'Georgia', serif;
+    --body: 'Source Serif 4', 'Georgia', serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  html { background: var(--paper-warm); }
+
+  body {
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink);
+    background: var(--paper-warm);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover {
+    min-height: 96vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 5rem;
+    position: relative;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--ink);
+  }
+
+  .cover-meta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 3rem;
+    line-height: 2.2;
+  }
+
+  .cover-rule {
+    width: 60px;
+    height: 1px;
+    background: var(--ink);
+    margin: 1.5rem auto;
+  }
+
+  .cover h1 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.25;
+    color: var(--ink);
+    max-width: 640px;
+    margin: 0 auto 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .cover-sub {
+    font-family: var(--body);
+    font-size: 14px;
+    color: var(--ink-light);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 3.5rem;
+  }
+
+  .cover-info {
+    font-family: var(--body);
+    font-size: 15px;
+    color: var(--ink-mid);
+    line-height: 2;
+  }
+
+  .cover-info strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .cover-footer {
+    position: absolute;
+    bottom: 2rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    display: block;
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 4rem 0 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--ink);
+    margin: 2.5rem 0 0.8rem;
+  }
+
+  h4 {
+    font-family: var(--body);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+    margin: 2rem 0 0.6rem;
+  }
+
+  p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  /* ── PULL QUOTE / HIGHLIGHT ── */
+  .callout {
+    border-left: 3px solid var(--ink);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--paper-tint);
+  }
+
+  .callout p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0;
+    text-align: left;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-family: var(--body);
+  }
+
+  table caption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 0 0 0.6rem;
+  }
+
+  thead th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+
+  thead th:first-child { border-radius: 0; }
+
+  tbody tr:nth-child(even) { background: var(--paper-tint); }
+  tbody tr:hover { background: var(--paper-tint); }
+
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--rule-light);
+    vertical-align: middle;
+    color: var(--ink-mid);
+  }
+
+  td:first-child {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  td.score {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  td.score-high { color: #2a6b2a; font-weight: 600; }
+  td.score-low  { color: #8b2a2a; }
+  td.score-mid  { color: var(--ink-mid); }
+  td.winner     { background: #f0f4e8; color: #2a6b2a; font-weight: 600; }
+
+  /* ── INCREMENT ROADMAP ── */
+  .increment-list {
+    list-style: none;
+    margin: 1.5rem 0;
+  }
+
+  .increment-list li {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .increment-list li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .inc-badge {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+  }
+
+  .inc-body strong {
+    font-family: var(--body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .inc-body p {
+    font-size: 15px;
+    color: var(--ink-mid);
+    margin: 0;
+    text-align: left;
+  }
+
+  /* ── DIAGRAM WRAPPER ── */
+  .diagram-wrap {
+    margin: 2.5rem 0;
+    page-break-inside: avoid;
+  }
+
+  .diagram-caption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: center;
+    margin-top: 0.8rem;
+  }
+
+  .diagram-svg {
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: white;
+    display: block;
+  }
+
+  /* ── FOOTNOTE / REFERENCE BLOCK ── */
+  .ref-block {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--ink);
+  }
+
+  .ref-block h2 {
+    margin-top: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .ref-list {
+    list-style: none;
+    font-size: 15px;
+    color: var(--ink-mid);
+    line-height: 1.8;
+    margin-top: 1rem;
+  }
+
+  .ref-list li {
+    padding-left: 2rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+
+  .ref-list li::before {
+    content: '[' counter(ref-counter) ']';
+    counter-increment: ref-counter;
+    font-family: var(--mono);
+    font-size: 11px;
+    position: absolute;
+    left: 0;
+    top: 3px;
+    color: var(--ink-light);
+  }
+
+  .ref-list { counter-reset: ref-counter; }
+
+  /* ── SELECTED MODEL BANNER ── */
+  .selection-banner {
+    border: 2px solid var(--ink);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .banner-icon {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 36px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .banner-text strong {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--ink);
+  }
+
+  .banner-text span {
+    font-size: 14px;
+    color: var(--ink-light);
+  }
+
+  /* ── PROSE LIST ── */
+  .prose-list {
+    list-style: none;
+    margin: 1rem 0 1.5rem;
+  }
+
+  .prose-list li {
+    padding-left: 1.6rem;
+    position: relative;
+    margin-bottom: 0.6rem;
+    color: var(--ink-mid);
+    font-size: 16px;
+  }
+
+  .prose-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--ink-light);
+  }
+
+  /* ── INLINE SECTION DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 3rem 0;
+  }
+
+  /* ── PAGE NUMBER FOOTER ── */
+  @media print {
+    body { background: white; }
+    .page { padding: 0; max-width: 100%; }
+    .diagram-svg { page-break-inside: avoid; }
+    h2 { page-break-before: always; }
+    h2:first-of-type { page-break-before: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ COVER ══ -->
+  <div class="cover">
+    <div class="cover-meta">
+      Bachelor of Science in Artificial Intelligence&nbsp;&nbsp;·&nbsp;&nbsp;Group B&nbsp;&nbsp;·&nbsp;&nbsp;4th Semester<br>
+      Subject: Software Engineering&nbsp;&nbsp;·&nbsp;&nbsp;Session 2025–26
+    </div>
+    <div class="cover-rule"></div>
+    <p class="cover-sub">Assignment No. 1</p>
+    <h1>Process Model Selection for a University Timetable Optimization &amp; Management System</h1>
+    <div class="cover-rule"></div>
+    <div class="cover-info">
+      <strong>Submitted by:</strong> [Your Name] — Roll No. [XXXX]<br>
+      <strong>Instructor:</strong> [Instructor Name]<br>
+      <strong>Department:</strong> Department of Computer Science<br>
+      <strong>Date:</strong> [Submission Date]
+    </div>
+    <div class="cover-footer">Software Engineering · Assignment 1 · BSAI-4B</div>
+  </div>
+
+  <!-- ══ SECTION 1 ══ -->
+  <section>
+    <h2><span class="section-num">Section 1</span>Introduction</h2>
+
+    <p>Before any team writes a single line of code, before anyone draws a single flowchart, there is one decision that quietly shapes everything that follows — the choice of a <em>process model</em>. It determines how requirements are gathered, how risks are faced, how developers iterate, how stakeholders give feedback, and ultimately whether the final product looks anything like what was originally imagined.</p>
+
+    <p>This assignment explores that foundational decision for a specific project: a <strong>University Timetable Optimization and Management System</strong>. The system is intended to automate the preparation, review, and publication of academic schedules across multiple departments, teachers, student groups, and physical rooms — eliminating the manual, error-prone, spreadsheet-driven timetabling that most universities still endure today.</p>
+
+    <p>The goal of this report is not simply to pick a model and move on. The goal is to examine the nature of the project carefully, understand what each candidate process model offers and what it costs, and then make a reasoned, justified choice that any reader — whether a professor or a future developer on the team — could look at and say, "Yes, that makes sense for this kind of project."</p>
+
+    <div class="callout">
+      <p>A process model is not a bureaucratic formality. It is the architecture of how a team thinks and works. Choosing the wrong one can doom a project as surely as a wrong algorithm or a broken database schema.</p>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2 ══ -->
+  <section>
+    <h2><span class="section-num">Section 2</span>Project Overview</h2>
+
+    <p>The University Timetable Optimization and Management System is a web-based application built for academic institutions. At its core, the system must do two distinct things that are harder to combine than they might appear at first glance: manage master data, and generate feasible schedules from that data.</p>
+
+    <p>On the management side, the system must handle records for departments, semesters, courses, sections, student groups, teachers, rooms, and time slots. Administrators need to configure teacher availability, room capacities, blocked days, holidays, and institutional policy preferences. All of this is fairly standard information management work.</p>
+
+    <p>On the optimization side, the system must take that data and produce timetables that avoid direct scheduling conflicts — two teachers in the same room, a section scheduled in two places at once, a teacher assigned during their declared unavailability — while simultaneously trying to satisfy softer preferences like compact student schedules, morning-heavy timetabling during summer terms, and spatial proximity for rooms used in consecutive sessions.</p>
+
+    <p>The expected users of the system span five roles: the Timetable Administrator who controls the entire process, the Department Coordinator who oversees academic unit requirements, the Teacher who submits availability and views their own schedule, the Student who accesses published timetables, and the Facility Manager who tracks room usage. Each of these roles interacts with the system differently and has different expectations of what "done" looks like.</p>
+
+    <p>This combination — non-trivial data management, algorithmic scheduling, multi-role interaction, and evolving institutional policies — makes the project genuinely complex. It is not a homework CRUD app. It demands a development process mature enough to handle that complexity without collapsing under its own weight.</p>
+  </section>
+
+  <!-- ══ SECTION 3 ══ -->
+  <section>
+    <h2><span class="section-num">Section 3</span>Requirements Characterization</h2>
+
+    <p>To choose a process model rationally, it is necessary to first understand what kind of requirements this project carries. Not all software projects are alike. The nature of the requirements — how stable they are, how well-understood they are, how visual they need to be — has a direct bearing on which process model will serve the team best.</p>
+
+    <h3>3.1 — What Is Known from the Start</h3>
+    <p>Certain things about the timetable system are clear before development begins. Every academic institution knows its basic entities: teachers have names and availability, rooms have capacities, courses meet a certain number of times per week, and schedules must not produce clashes. These hard constraints can be specified early and with confidence.</p>
+
+    <h3>3.2 — What Tends to Emerge Later</h3>
+    <p>But there is another category of requirement that shows up in nearly every timetable project: the preferences and edge cases that nobody mentions until they see a draft schedule and react to it. A department head might say, "We did not realize we wanted to specify that third-year courses should be scheduled before noon." A teacher might submit a change request that reveals a missing rule in the system. A room might turn out to be unsuitable for large lectures for reasons that were never documented.</p>
+
+    <p>This pattern — early clarity on structure, late discovery of nuanced preferences — is almost universal in scheduling software. Any honest process model selection must account for it.</p>
+
+    <h3>3.3 — Visual Validation Is Essential</h3>
+    <p>Timetable systems are inherently visual products. A schedule is not meaningful as a database table — it becomes meaningful when it is laid out in a grid and a human being can look at it and say, "This looks reasonable" or "This makes no sense." That means early user feedback on screen design, workflow layout, and schedule presentation is genuinely important, not just a nice-to-have.</p>
+
+    <h3>3.4 — The Project Has Natural Phases</h3>
+    <p>The system can be broken into logical layers: first the master data, then the rule configuration, then the generation engine, then the review-and-repair workflow, then publication and reporting. These layers depend on each other in a clear sequence. That structural decomposition suggests that phased development — building and validating one layer before investing in the next — is a natural fit.</p>
+  </section>
+
+  <!-- ══ SECTION 4 ══ -->
+  <section>
+    <h2><span class="section-num">Section 4</span>Candidate Process Models</h2>
+
+    <p>Four well-established software development process models were considered as candidates for this project. Each is described below, along with its characteristic strengths and the circumstances where it tends to work well or poorly. A diagram of each model is provided to illustrate how it structures the development lifecycle.</p>
+
+    <!-- WATERFALL DIAGRAM -->
+    <h3>4.1 — The Waterfall Model</h3>
+    <p>The Waterfall Model is the classic sequential development lifecycle, first formalized by Royce in 1970 and later popularized as the canonical "structured" approach to software engineering. It divides development into distinct, non-overlapping phases: Requirements, System Design, Implementation, Testing, Deployment, and Maintenance. Each phase must be fully completed and signed off before the next one begins. The idea is that a project, like water flowing downhill, moves in only one direction.</p>
+    <p>Waterfall is most powerful when requirements are exceptionally stable and well-understood at the outset — think embedded systems with hardware constraints, or projects with regulatory sign-off requirements at each phase boundary. Its documentation-heavy approach also provides a clear audit trail. Where it struggles is precisely where most real-world software ends up: when user needs evolve, when stakeholders change their minds after seeing a working prototype, or when the project domain contains hidden complexity that only surfaces during implementation.</p>
+
+    <div class="diagram-wrap">
+      <svg class="diagram-svg" viewBox="0 0 720 540" xmlns="http://www.w3.org/2000/svg">
+        <title>Waterfall Model Diagram</title>
+        <defs>
+          <marker id="arr-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M1 1L9 5L1 9" fill="none" stroke="#1a1a18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- Phase boxes — staircase pattern -->
+        <!-- Phase 1: Requirements -->
+        <rect x="40" y="40" width="180" height="62" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <rect x="40" y="40" width="180" height="18" rx="3" fill="#1a1a18"/>
+        <rect x="40" y="52" width="180" height="6" rx="0" fill="#1a1a18"/>
+        <text x="130" y="53" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="white" letter-spacing="0.1em">PHASE 1</text>
+        <text x="130" y="79" text-anchor="middle" font-family="'EB Garamond',serif" font-size="17" fill="#1a1a18" font-style="italic">Requirements Analysis</text>
+        <text x="130" y="95" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Gather &amp; document all needs</text>
+
+        <!-- Phase 2: Design -->
+        <rect x="130" y="145" width="180" height="62" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <rect x="130" y="145" width="180" height="18" rx="3" fill="#1a1a18"/>
+        <rect x="130" y="157" width="180" height="6" rx="0" fill="#1a1a18"/>
+        <text x="220" y="158" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="white" letter-spacing="0.1em">PHASE 2</text>
+        <text x="220" y="184" text-anchor="middle" font-family="'EB Garamond',serif" font-size="17" fill="#1a1a18" font-style="italic">System Design</text>
+        <text x="220" y="200" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Architecture &amp; data models</text>
+
+        <!-- Phase 3: Implementation -->
+        <rect x="220" y="250" width="180" height="62" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <rect x="220" y="250" width="180" height="18" rx="3" fill="#1a1a18"/>
+        <rect x="220" y="262" width="180" height="6" rx="0" fill="#1a1a18"/>
+        <text x="310" y="263" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="white" letter-spacing="0.1em">PHASE 3</text>
+        <text x="310" y="289" text-anchor="middle" font-family="'EB Garamond',serif" font-size="17" fill="#1a1a18" font-style="italic">Implementation</text>
+        <text x="310" y="305" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Code modules &amp; unit tests</text>
+
+        <!-- Phase 4: Testing -->
+        <rect x="310" y="355" width="180" height="62" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <rect x="310" y="355" width="180" height="18" rx="3" fill="#1a1a18"/>
+        <rect x="310" y="367" width="180" height="6" rx="0" fill="#1a1a18"/>
+        <text x="400" y="368" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="white" letter-spacing="0.1em">PHASE 4</text>
+        <text x="400" y="394" text-anchor="middle" font-family="'EB Garamond',serif" font-size="17" fill="#1a1a18" font-style="italic">Testing &amp; Validation</text>
+        <text x="400" y="410" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Integration &amp; system tests</text>
+
+        <!-- Phase 5: Deployment -->
+        <rect x="400" y="460" width="180" height="62" rx="3" fill="#1a1a18"/>
+        <text x="490" y="494" text-anchor="middle" font-family="'EB Garamond',serif" font-size="17" fill="white" font-style="italic">Deployment &amp; Maintenance</text>
+        <text x="490" y="512" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">Release, monitor, support</text>
+        <text x="490" y="476" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#9a9a93" letter-spacing="0.1em">PHASE 5</text>
+
+        <!-- Arrows flowing downward -->
+        <line x1="130" y1="102" x2="200" y2="143" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-w)"/>
+        <line x1="220" y1="207" x2="290" y2="248" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-w)"/>
+        <line x1="310" y1="312" x2="380" y2="353" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-w)"/>
+        <line x1="400" y1="417" x2="470" y2="458" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-w)"/>
+
+        <!-- Feedback annotation (costly late changes) -->
+        <path d="M590 395 C650 395, 660 150, 600 102" fill="none" stroke="#c8c8be" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arr-w)"/>
+        <text x="660" y="260" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93" transform="rotate(90,660,260)">Late changes are very costly</text>
+
+        <!-- "One direction only" label -->
+        <text x="28" y="320" font-family="'JetBrains Mono',monospace" font-size="10" fill="#9a9a93" transform="rotate(-90,28,320)" text-anchor="middle" letter-spacing="0.06em">ONE DIRECTION ONLY →</text>
+      </svg>
+      <p class="diagram-caption">Figure 1 — The Waterfall Model: sequential, phase-locked, one-way flow</p>
+    </div>
+
+    <!-- INCREMENTAL DIAGRAM -->
+    <h3>4.2 — The Incremental Model</h3>
+    <p>The Incremental Model decomposes development into a series of smaller, self-contained releases, each of which adds a defined chunk of functionality to what was built before. Rather than trying to deliver the entire system at once, the team makes a series of deliveries — each one working software that can be reviewed, tested, and built upon.</p>
+    <p>Each increment follows a mini-lifecycle of its own: analysis, design, code, and test, applied to that increment's scope. The system grows progressively, and stakeholders can interact with working versions of the product throughout development, not just at the end. This early and continuous feedback loop is one of the model's most valuable properties.</p>
+
+    <div class="diagram-wrap">
+      <svg class="diagram-svg" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg">
+        <title>Incremental Model Diagram</title>
+        <defs>
+          <marker id="arr-i" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M1 1L9 5L1 9" fill="none" stroke="#1a1a18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- Baseline -->
+        <rect x="30" y="30" width="120" height="50" rx="3" fill="#1a1a18"/>
+        <text x="90" y="50" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="white" letter-spacing="0.08em">BASELINE</text>
+        <text x="90" y="66" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#9a9a93" font-style="italic">Requirements</text>
+
+        <!-- Arrow baseline to Inc 1 -->
+        <line x1="150" y1="55" x2="178" y2="55" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-i)"/>
+
+        <!-- INCREMENT 1 -->
+        <text x="200" y="20" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.08em">INCREMENT 1</text>
+        <rect x="180" y="30" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="221" y="56" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Analyse</text>
+        <rect x="265" y="30" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="306" y="56" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Design</text>
+        <rect x="350" y="30" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="391" y="56" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Code</text>
+        <rect x="435" y="30" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="476" y="56" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Test</text>
+        <!-- inner arrows inc1 -->
+        <line x1="262" y1="51" x2="263" y2="51" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-i)"/>
+        <line x1="263" y1="51" x2="348" y2="51" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-i)"/>
+        <line x1="348" y1="51" x2="433" y2="51" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-i)"/>
+        <!-- Delivery badge -->
+        <rect x="527" y="30" width="80" height="42" rx="3" fill="#1a1a18"/>
+        <text x="567" y="48" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="white" letter-spacing="0.05em">DELIVERY</text>
+        <text x="567" y="62" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#9a9a93" font-style="italic">Version 1.0</text>
+        <line x1="517" y1="51" x2="525" y2="51" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-i)"/>
+
+        <!-- INCREMENT 2 -->
+        <text x="200" y="120" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.08em">INCREMENT 2</text>
+        <rect x="180" y="128" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="221" y="154" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Analyse</text>
+        <rect x="265" y="128" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="306" y="154" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Design</text>
+        <rect x="350" y="128" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="391" y="154" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Code</text>
+        <rect x="435" y="128" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="476" y="154" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Test</text>
+        <line x1="263" y1="149" x2="348" y2="149" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-i)"/>
+        <line x1="348" y1="149" x2="433" y2="149" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-i)"/>
+        <rect x="527" y="128" width="80" height="42" rx="3" fill="#1a1a18"/>
+        <text x="567" y="146" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="white" letter-spacing="0.05em">DELIVERY</text>
+        <text x="567" y="160" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#9a9a93" font-style="italic">Version 2.0</text>
+        <line x1="517" y1="149" x2="525" y2="149" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-i)"/>
+
+        <!-- INCREMENT 3 -->
+        <text x="200" y="218" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.08em">INCREMENT 3</text>
+        <rect x="180" y="226" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="221" y="252" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Analyse</text>
+        <rect x="265" y="226" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="306" y="252" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Design</text>
+        <rect x="350" y="226" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="391" y="252" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Code</text>
+        <rect x="435" y="226" width="82" height="42" rx="2" fill="white" stroke="#1a1a18" stroke-width="1"/>
+        <text x="476" y="252" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#1a1a18" font-style="italic">Test</text>
+        <line x1="263" y1="247" x2="348" y2="247" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-i)"/>
+        <line x1="348" y1="247" x2="433" y2="247" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-i)"/>
+        <rect x="527" y="226" width="80" height="42" rx="3" fill="#1a1a18"/>
+        <text x="567" y="244" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="white" letter-spacing="0.05em">DELIVERY</text>
+        <text x="567" y="258" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#9a9a93" font-style="italic">Version 3.0</text>
+        <line x1="517" y1="247" x2="525" y2="247" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-i)"/>
+
+        <!-- Feedback loop arrows (right side) -->
+        <path d="M607 72 C640 72, 640 100, 607 100" fill="none" stroke="#c8c8be" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr-i)"/>
+        <path d="M607 170 C640 170, 640 198, 607 198" fill="none" stroke="#c8c8be" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr-i)"/>
+        <text x="668" y="87" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">feedback</text>
+        <text x="668" y="185" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">feedback</text>
+
+        <!-- Vertical connector between increments -->
+        <line x1="240" y1="72" x2="240" y2="126" stroke="#c8c8be" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="240" y1="170" x2="240" y2="224" stroke="#c8c8be" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- System grows label -->
+        <text x="90" y="300" text-anchor="middle" font-family="'EB Garamond',serif" font-size="14" fill="#6b6b65" font-style="italic">System grows with each delivery</text>
+
+        <!-- Progress bar illustration -->
+        <rect x="30" y="340" width="80" height="18" rx="2" fill="#e2e2d8"/>
+        <rect x="30" y="340" width="30" height="18" rx="2" fill="#1a1a18"/>
+        <text x="120" y="354" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">After Increment 1</text>
+
+        <rect x="30" y="370" width="80" height="18" rx="2" fill="#e2e2d8"/>
+        <rect x="30" y="370" width="55" height="18" rx="2" fill="#1a1a18"/>
+        <text x="120" y="384" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">After Increment 2</text>
+
+        <rect x="30" y="396" width="80" height="18" rx="2" fill="#e2e2d8"/>
+        <rect x="30" y="396" width="80" height="18" rx="2" fill="#1a1a18"/>
+        <text x="120" y="410" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">After Increment 3 — complete</text>
+      </svg>
+      <p class="diagram-caption">Figure 2 — The Incremental Model: structured phases, repeated for each delivery</p>
+    </div>
+
+    <!-- SPIRAL DIAGRAM -->
+    <h3>4.3 — The Spiral Model</h3>
+    <p>Proposed by Barry Boehm in 1986, the Spiral Model is a risk-driven development lifecycle that organizes the project around repeated cycles — or spirals — of planning, risk assessment, engineering, and evaluation. It does not separate these activities into distinct sequential phases. Instead, it revisits all of them in every cycle, with the project growing more concrete and the risks becoming smaller with each rotation outward from the center.</p>
+    <p>The model is particularly well-suited to large, high-stakes projects where technical uncertainty is significant. Its emphasis on risk identification at every stage means that dangerous assumptions get surfaced and dealt with early rather than discovered during integration testing. For a university project on a semester timeline, however, its procedural overhead can outweigh its benefits unless the project genuinely has the kind of critical risk profile that justifies full spiral discipline.</p>
+
+    <div class="diagram-wrap">
+      <svg class="diagram-svg" viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg">
+        <title>Spiral Model Diagram</title>
+        <defs>
+          <marker id="arr-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M1 1L9 5L1 9" fill="none" stroke="#1a1a18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- Quadrant labels -->
+        <text x="200" y="48" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#6b6b65" letter-spacing="0.07em">PLANNING</text>
+        <text x="530" y="48" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#6b6b65" letter-spacing="0.07em">RISK ANALYSIS</text>
+        <text x="530" y="552" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#6b6b65" letter-spacing="0.07em">ENGINEERING</text>
+        <text x="200" y="552" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#6b6b65" letter-spacing="0.07em">EVALUATION</text>
+
+        <!-- Quadrant dividers -->
+        <line x1="360" y1="30" x2="360" y2="560" stroke="#e2e2d8" stroke-width="1"/>
+        <line x1="30" y1="295" x2="690" y2="295" stroke="#e2e2d8" stroke-width="1"/>
+
+        <!-- Origin -->
+        <circle cx="360" cy="295" r="6" fill="#1a1a18"/>
+        <text x="370" y="290" font-family="'EB Garamond',serif" font-size="11" fill="#6b6b65" font-style="italic">Start</text>
+
+        <!-- Spiral paths — 4 rotations, growing outward -->
+        <!-- Rotation 1 (inner, small) -->
+        <path d="M360,295 
+                 C360,255 400,240 430,250 
+                 C470,265 480,305 470,340
+                 C455,380 415,395 380,385
+                 C330,370 300,320 310,270
+                 C322,218 380,195 430,205" 
+              fill="none" stroke="#1a1a18" stroke-width="1" opacity="0.5"/>
+
+        <!-- Rotation 2 (medium) -->
+        <path d="M430,205 
+                 C490,210 540,255 550,305
+                 C562,365 525,420 480,445
+                 C425,478 350,470 305,440
+                 C245,400 230,325 245,265
+                 C262,195 335,155 400,155
+                 C470,155 540,195 570,245" 
+              fill="none" stroke="#1a1a18" stroke-width="1.2" opacity="0.65"/>
+
+        <!-- Rotation 3 (outer) -->
+        <path d="M570,245
+                 C620,290 630,360 610,415
+                 C580,490 510,530 440,535
+                 C355,542 270,505 220,450
+                 C155,378 148,280 175,210
+                 C205,130 290,80 380,72
+                 C475,63 565,105 620,165" 
+              fill="none" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-s)" opacity="0.8"/>
+
+        <!-- Milestone markers -->
+        <!-- Cycle 1 markers -->
+        <circle cx="430" cy="250" r="5" fill="#1a1a18"/>
+        <text x="438" y="245" font-family="'Source Serif 4',serif" font-size="11" fill="#1a1a18">Concept</text>
+
+        <circle cx="470" cy="345" r="5" fill="#1a1a18"/>
+        <text x="478" y="350" font-family="'Source Serif 4',serif" font-size="11" fill="#1a1a18">Prototype</text>
+
+        <circle cx="310" cy="270" r="5" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="235" y="265" font-family="'Source Serif 4',serif" font-size="11" fill="#1a1a18">Review 1</text>
+
+        <!-- Cycle 2 markers -->
+        <circle cx="550" cy="305" r="6" fill="#1a1a18"/>
+        <text x="558" y="310" font-family="'Source Serif 4',serif" font-size="11" fill="#1a1a18">Risk resolved</text>
+
+        <circle cx="245" cy="265" r="6" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="155" y="260" font-family="'Source Serif 4',serif" font-size="11" fill="#1a1a18">Review 2</text>
+
+        <!-- Cycle 3 markers -->
+        <circle cx="610" cy="415" r="6" fill="#1a1a18"/>
+        <text x="618" y="420" font-family="'Source Serif 4',serif" font-size="11" fill="#1a1a18">System built</text>
+
+        <circle cx="175" cy="210" r="6" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="80" y="205" font-family="'Source Serif 4',serif" font-size="11" fill="#1a1a18">Final review</text>
+
+        <!-- Axis labels -->
+        <text x="360" y="22" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#9a9a93" letter-spacing="0.05em">← cumulative cost / progress outward →</text>
+
+        <!-- Corner labels with boxes -->
+        <rect x="65" y="55" width="85" height="22" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="107" y="70" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Objectives &amp; constraints</text>
+
+        <rect x="565" y="55" width="95" height="22" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="612" y="70" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Identify &amp; reduce risk</text>
+
+        <rect x="565" y="520" width="95" height="22" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="612" y="535" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Develop &amp; verify</text>
+
+        <rect x="65" y="520" width="95" height="22" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="112" y="535" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Stakeholder review</text>
+      </svg>
+      <p class="diagram-caption">Figure 3 — The Spiral Model (Boehm, 1986): risk-driven, outward-growing cycles</p>
+    </div>
+
+    <!-- AGILE DIAGRAM -->
+    <h3>4.4 — Agile / XP Practices</h3>
+    <p>Agile software development is not a single model but a family of methodologies that share a common philosophy: deliver working software early and often, respond to changing requirements rather than fighting them, and prioritize human collaboration over comprehensive documentation. Extreme Programming (XP) is one specific Agile method that emphasizes practices like pair programming, test-driven development, continuous integration, and very short release cycles.</p>
+    <p>Agile methods are extraordinary in environments where requirements are highly volatile and constant user interaction is possible. They can produce remarkable results. However, they require tight stakeholder collaboration that is not always available in academic project contexts. They can also feel underdisciplined when a course assignment demands formal documented outputs. This does not mean Agile techniques are useless here — it means they work better as tactical practices inside a more formally structured process than as the primary lifecycle model.</p>
+
+    <div class="diagram-wrap">
+      <svg class="diagram-svg" viewBox="0 0 720 460" xmlns="http://www.w3.org/2000/svg">
+        <title>Agile / XP Iterative Model Diagram</title>
+        <defs>
+          <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M1 1L9 5L1 9" fill="none" stroke="#1a1a18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- Sprint 1 -->
+        <rect x="30" y="50" width="80" height="80" rx="40" fill="#1a1a18"/>
+        <text x="70" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="white" letter-spacing="0.05em">SPRINT</text>
+        <text x="70" y="100" text-anchor="middle" font-family="'EB Garamond',serif" font-size="20" fill="white" font-style="italic">1</text>
+        <text x="70" y="158" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Plan · Build · Test · Review</text>
+        <!-- Sprint 1 inner details -->
+        <text x="70" y="185" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">1–2 weeks</text>
+
+        <!-- Arrow sprint 1 → 2 -->
+        <line x1="112" y1="90" x2="148" y2="90" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+        <!-- Sprint 2 -->
+        <rect x="150" y="50" width="80" height="80" rx="40" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="190" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.05em">SPRINT</text>
+        <text x="190" y="100" text-anchor="middle" font-family="'EB Garamond',serif" font-size="20" fill="#1a1a18" font-style="italic">2</text>
+        <text x="190" y="158" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Plan · Build · Test · Review</text>
+        <text x="190" y="185" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">1–2 weeks</text>
+
+        <!-- Arrow sprint 2 → 3 -->
+        <line x1="232" y1="90" x2="268" y2="90" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+        <!-- Sprint 3 -->
+        <rect x="270" y="50" width="80" height="80" rx="40" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="310" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.05em">SPRINT</text>
+        <text x="310" y="100" text-anchor="middle" font-family="'EB Garamond',serif" font-size="20" fill="#1a1a18" font-style="italic">3</text>
+        <text x="310" y="158" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Plan · Build · Test · Review</text>
+        <text x="310" y="185" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">1–2 weeks</text>
+
+        <!-- Arrow sprint 3 → n -->
+        <line x1="352" y1="90" x2="388" y2="90" stroke="#1a1a18" stroke-width="1.5"/>
+        <line x1="388" y1="90" x2="404" y2="90" stroke="#c8c8be" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="430" y="94" text-anchor="start" font-family="'Source Serif 4',serif" font-size="14" fill="#9a9a93">· · ·</text>
+
+        <!-- Sprint N (final) -->
+        <rect x="470" y="50" width="80" height="80" rx="40" fill="white" stroke="#1a1a18" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="510" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.05em">SPRINT</text>
+        <text x="510" y="100" text-anchor="middle" font-family="'EB Garamond',serif" font-size="20" fill="#1a1a18" font-style="italic">N</text>
+        <text x="510" y="158" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Plan · Build · Test · Review</text>
+
+        <!-- Release -->
+        <line x1="552" y1="90" x2="588" y2="90" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-a)"/>
+        <rect x="590" y="60" width="100" height="60" rx="3" fill="#1a1a18"/>
+        <text x="640" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="white" letter-spacing="0.05em">RELEASE</text>
+        <text x="640" y="100" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#9a9a93" font-style="italic">Working software</text>
+
+        <!-- XP Practices -->
+        <text x="30" y="225" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.08em">CORE XP PRACTICES</text>
+        <line x1="30" y1="232" x2="690" y2="232" stroke="#c8c8be" stroke-width="0.5"/>
+
+        <!-- Practice cards -->
+        <rect x="30" y="245" width="152" height="50" rx="3" fill="white" stroke="#c8c8be" stroke-width="1"/>
+        <text x="106" y="265" text-anchor="middle" font-family="'EB Garamond',serif" font-size="14" fill="#1a1a18" font-style="italic">Pair Programming</text>
+        <text x="106" y="282" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">Two devs, one screen</text>
+
+        <rect x="196" y="245" width="152" height="50" rx="3" fill="white" stroke="#c8c8be" stroke-width="1"/>
+        <text x="272" y="265" text-anchor="middle" font-family="'EB Garamond',serif" font-size="14" fill="#1a1a18" font-style="italic">Test-Driven Dev.</text>
+        <text x="272" y="282" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">Tests before code</text>
+
+        <rect x="362" y="245" width="152" height="50" rx="3" fill="white" stroke="#c8c8be" stroke-width="1"/>
+        <text x="438" y="265" text-anchor="middle" font-family="'EB Garamond',serif" font-size="14" fill="#1a1a18" font-style="italic">Continuous Integration</text>
+        <text x="438" y="282" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">Frequent small merges</text>
+
+        <rect x="528" y="245" width="162" height="50" rx="3" fill="white" stroke="#c8c8be" stroke-width="1"/>
+        <text x="609" y="265" text-anchor="middle" font-family="'EB Garamond',serif" font-size="14" fill="#1a1a18" font-style="italic">Collective Ownership</text>
+        <text x="609" y="282" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">Shared codebase</text>
+
+        <!-- Backlog concept -->
+        <text x="30" y="330" font-family="'JetBrains Mono',monospace" font-size="9" fill="#6b6b65" letter-spacing="0.08em">PRODUCT BACKLOG → SPRINT BACKLOG → WORKING CODE</text>
+        <line x1="30" y1="337" x2="690" y2="337" stroke="#c8c8be" stroke-width="0.5"/>
+
+        <!-- Backlog items (visual) -->
+        <rect x="30" y="350" width="148" height="22" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="104" y="365" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">User story: Login system</text>
+        <rect x="30" y="378" width="148" height="22" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="104" y="393" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">User story: View schedule</text>
+        <rect x="30" y="406" width="148" height="22" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="104" y="421" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">User story: Edit slot</text>
+
+        <line x1="184" y1="370" x2="210" y2="370" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+        <rect x="212" y="350" width="148" height="22" rx="2" fill="#1a1a18"/>
+        <text x="286" y="365" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="white">In this sprint</text>
+        <rect x="212" y="378" width="148" height="22" rx="2" fill="white" stroke="#c8c8be" stroke-width="1"/>
+        <text x="286" y="393" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Next sprint</text>
+        <rect x="212" y="406" width="148" height="22" rx="2" fill="white" stroke="#c8c8be" stroke-width="1"/>
+        <text x="286" y="421" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Future sprint</text>
+
+        <line x1="366" y1="370" x2="392" y2="370" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-a)"/>
+
+        <rect x="394" y="355" width="90" height="66" rx="3" fill="#1a1a18"/>
+        <text x="439" y="378" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="white" letter-spacing="0.05em">DONE</text>
+        <text x="439" y="398" text-anchor="middle" font-family="'EB Garamond',serif" font-size="13" fill="#9a9a93" font-style="italic">Working software</text>
+        <text x="439" y="415" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#6b6b65">demo-able</text>
+      </svg>
+      <p class="diagram-caption">Figure 4 — Agile / XP: short iterative sprints, continuous delivery, backlog-driven</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ SECTION 5 ══ -->
+  <section>
+    <h2><span class="section-num">Section 5</span>Selection Criteria</h2>
+
+    <p>Choosing between candidate models requires more than intuition. The following criteria were defined based on the characteristics of this specific project. Each criterion describes a dimension along which the project's needs can be assessed and compared against what each model provides.</p>
+
+    <ul class="prose-list">
+      <li><strong>Requirement volatility.</strong> How likely are the requirements to change or grow after development begins? A project with stable, frozen requirements can afford a sequential model. One where requirements are expected to evolve needs a model that accommodates change without treating it as a failure.</li>
+      <li><strong>Project complexity.</strong> Does the system do more than store and retrieve data? Does it include algorithmic behavior, constraint processing, rule management, or other non-trivial logic? Higher complexity favors staged development.</li>
+      <li><strong>Need for visual validation.</strong> Do stakeholders need to see working screens and timetable layouts early in the process, rather than just reading requirement documents? Early visual feedback reduces the risk of building the wrong interface.</li>
+      <li><strong>Technical risk.</strong> Are there areas of the project where the right technical approach is uncertain? The scheduling engine involves decisions about constraint handling and optimization that carry real implementation risk.</li>
+      <li><strong>Documentation requirements.</strong> This is an academic project. It must produce not just working software but also formal documentation at each stage. Some models are more documentation-friendly than others.</li>
+      <li><strong>Phased deliverability.</strong> Can the project be broken into meaningful, independently testable pieces? A model that supports phased delivery reduces the all-or-nothing risk of a single end-of-semester submission.</li>
+      <li><strong>Testing feasibility.</strong> Can different parts of the system be tested independently, or must everything come together before any meaningful testing is possible?</li>
+    </ul>
+  </section>
+
+  <!-- ══ SECTION 6 ══ -->
+  <section>
+    <h2><span class="section-num">Section 6</span>Comparative Evaluation</h2>
+
+    <p>The four candidate models were scored against each criterion. Scores run from 1 (poor fit) to 5 (excellent fit). The weight of each criterion reflects its relative importance to this specific project. The Incremental Model column is highlighted because it emerges as the strongest overall fit.</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1 — Weighted comparison of candidate process models</caption>
+        <thead>
+          <tr>
+            <th>Criterion</th>
+            <th style="text-align:center">Weight</th>
+            <th style="text-align:center">Waterfall</th>
+            <th style="text-align:center">Incremental</th>
+            <th style="text-align:center">Spiral</th>
+            <th style="text-align:center">Agile/XP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Requirement volatility handling</td>
+            <td class="score">5</td>
+            <td class="score score-low">2</td>
+            <td class="score winner">5</td>
+            <td class="score score-high">5</td>
+            <td class="score score-high">5</td>
+          </tr>
+          <tr>
+            <td>Modular development suitability</td>
+            <td class="score">4</td>
+            <td class="score score-low">3</td>
+            <td class="score winner">5</td>
+            <td class="score score-mid">4</td>
+            <td class="score score-mid">4</td>
+          </tr>
+          <tr>
+            <td>Early feedback &amp; prototype support</td>
+            <td class="score">4</td>
+            <td class="score score-low">2</td>
+            <td class="score winner">5</td>
+            <td class="score score-high">5</td>
+            <td class="score score-high">5</td>
+          </tr>
+          <tr>
+            <td>Risk handling</td>
+            <td class="score">4</td>
+            <td class="score score-low">2</td>
+            <td class="score winner">4</td>
+            <td class="score score-high">5</td>
+            <td class="score score-mid">4</td>
+          </tr>
+          <tr>
+            <td>Documentation suitability</td>
+            <td class="score">3</td>
+            <td class="score score-high">5</td>
+            <td class="score winner">4</td>
+            <td class="score score-mid">4</td>
+            <td class="score score-low">3</td>
+          </tr>
+          <tr>
+            <td>Semester project practicality</td>
+            <td class="score">5</td>
+            <td class="score score-low">3</td>
+            <td class="score winner">5</td>
+            <td class="score score-low">2</td>
+            <td class="score score-mid">4</td>
+          </tr>
+          <tr>
+            <td>Ease of testing in stages</td>
+            <td class="score">4</td>
+            <td class="score score-low">2</td>
+            <td class="score winner">5</td>
+            <td class="score score-mid">4</td>
+            <td class="score score-mid">4</td>
+          </tr>
+          <tr>
+            <td>Fit for timetable refinement</td>
+            <td class="score">5</td>
+            <td class="score score-low">2</td>
+            <td class="score winner">5</td>
+            <td class="score score-mid">4</td>
+            <td class="score score-mid">4</td>
+          </tr>
+          <tr style="background:var(--paper-tint); border-top: 2px solid #1a1a18;">
+            <td style="font-weight:600;color:var(--ink)">Weighted total</td>
+            <td class="score" style="font-weight:600">—</td>
+            <td class="score score-low" style="font-weight:600">72</td>
+            <td class="score winner" style="font-weight:600; font-size:16px">107</td>
+            <td class="score score-mid" style="font-weight:600">100</td>
+            <td class="score score-high" style="font-weight:600">99</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The matrix reveals a clear winner in the Incremental Model, which scores highest on the criteria that matter most to this project: requirement volatility handling, modular development, timetable refinement support, and semester practicality. The Spiral Model is a close second on many technical dimensions but falls behind on practicality for an academic project scope. Agile/XP scores well on adaptability but loses points on documentation suitability.</p>
+  </section>
+
+  <!-- ══ SECTION 7 ══ -->
+  <section>
+    <h2><span class="section-num">Section 7</span>Selected Process Model</h2>
+
+    <div class="selection-banner">
+      <div class="banner-icon">▣</div>
+      <div class="banner-text">
+        <strong>Incremental Process Model</strong>
+        <span>Primary lifecycle model for the University Timetable Optimization and Management System. Early prototyping used as a supporting validation technique within initial increments — not as a separate lifecycle.</span>
+      </div>
+    </div>
+
+    <p>The Incremental Process Model has been selected as the primary development lifecycle for this project. This is not a default choice — it is the result of comparing the specific characteristics of a university timetable system against what each model offers.</p>
+
+    <p>One important distinction must be stated clearly: prototyping is <em>not</em> selected as a co-equal lifecycle model. Instead, prototype-quality screens and workflows will be built during early increments specifically to validate user interface decisions and surface hidden requirements. Once that validation is complete, development proceeds on firm incremental footing. Prototyping is a technique used within the lifecycle, not the lifecycle itself.</p>
+  </section>
+
+  <!-- ══ SECTION 8 ══ -->
+  <section>
+    <h2><span class="section-num">Section 8</span>Justification of the Selected Model</h2>
+
+    <h3>8.1 — Requirements Are Practically Guaranteed to Evolve</h3>
+    <p>There is a well-known pattern in timetable software development: the first time a stakeholder sees a generated schedule, they discover requirements they did not know they had. Maybe it is a preference for keeping consecutive classes in nearby rooms. Maybe it is a department rule about not scheduling core courses on Fridays. Maybe a teacher submits a change request that reveals a gap in how the system handles exception cases. In this kind of project, requirement evolution is not a failure of analysis — it is a structural property of the domain. Any process model that treats late requirement changes as exceptional and costly is the wrong model here.</p>
+
+    <h3>8.2 — The System Has Genuine Depth</h3>
+    <p>It would be a mistake to think of this project as a straightforward web application. The scheduling part — generating conflict-free timetables while satisfying soft preferences — is a constrained optimization problem with non-trivial behavior. Rule interactions can produce unexpected outcomes. Score functions behave differently across different data configurations. The system can produce technically valid schedules that nonetheless feel wrong to the people who have to use them. This kind of depth is best approached layer by layer, not all at once.</p>
+
+    <h3>8.3 — Visual Feedback Is Not Optional</h3>
+    <p>The single most important user-facing output of this system is a visual timetable grid. The difference between a good timetable interface and a bad one is something users can recognize immediately but may struggle to articulate upfront. Early prototypes of the schedule view, the conflict inspection panel, and the change-request workflow are not luxury features — they are how the team learns what the system actually needs to feel like to the people using it. The incremental model accommodates this by making early feedback an expected part of the process rather than a deviation from the plan.</p>
+
+    <h3>8.4 — The Project Decomposes Naturally</h3>
+    <p>One of the strongest arguments for an incremental approach is that this particular project falls apart into a natural sequence of layers. You genuinely cannot build the scheduling engine before you have the master data. You genuinely cannot build the review workflow before you have something to review. The dependency chain between components is not arbitrary — it reflects the domain's logic. This means the incremental model is not just philosophically appropriate; it is structurally aligned with how the project actually needs to be built.</p>
+
+    <h3>8.5 — Testing Becomes Manageable</h3>
+    <p>When a project is built incrementally, testing can be applied to each delivery as it is completed. Data validation rules can be tested before the scheduling engine exists. The scheduling engine can be tested before the publication workflow is built. This staged testing approach means that by the time the system is complete, most of it has already been tested in isolation. The alternative — testing everything at the end — creates an enormous integration risk that is particularly dangerous given an academic semester deadline.</p>
+
+    <h3>8.6 — It Supports Future Algorithmic Refinement</h3>
+    <p>The selection of the core scheduling algorithm — whether constraint propagation, simulated annealing, or a hybrid approach — is a decision that benefits from having the surrounding system already working. When the web application, data model, and rule-configuration workflow are in place, the team can experiment with different generation strategies without destabilizing the rest of the system. An incremental model makes this possible; a Waterfall model would force that decision far too early.</p>
+  </section>
+
+  <!-- ══ SECTION 9 ══ -->
+  <section>
+    <h2><span class="section-num">Section 9</span>Why Other Models Were Not Selected</h2>
+
+    <h3>9.1 — Waterfall: The Wrong Shape for This Problem</h3>
+    <p>Waterfall assumes that requirements can be completely and correctly captured before design begins, that design can be completed before implementation begins, and that implementation can be finished before testing begins. In a timetable system where stakeholder preferences surface gradually through iterative draft reviews, that assumption is simply untrue. The cost of late changes in a Waterfall process is high — late-stage requirement changes require backing up through phases that are supposed to be complete. That is not a price worth paying for a project where late discovery of requirements is not an accident but a feature of the domain.</p>
+
+    <h3>9.2 — Spiral: Powerful but Disproportionate</h3>
+    <p>The Spiral Model would be genuinely excellent for a large, mission-critical timetabling system being deployed across a national university network with significant regulatory requirements. Its risk-driven structure would be invaluable. But for a semester-scale academic project, the procedural overhead of full spiral discipline — formal risk assessments at each cycle, prototyping plans, stakeholder sign-offs at every turn — creates more process than the project needs. The timetable system has real risks, but they are manageable through good incremental planning without the full weight of a spiral framework.</p>
+
+    <h3>9.3 — Agile/XP: Good Tactics, Wrong Primary Frame</h3>
+    <p>Agile principles are attractive, and there is no reason the team cannot use Agile-adjacent practices during development — short planning cycles, iterative builds, frequent testing. But Agile as a primary process model presupposes a level of continuous stakeholder availability and adaptability that is harder to guarantee in an academic context. It also tends to deprioritize formal documentation in favor of working software, which is the right trade-off in a commercial startup but not in a course assignment that expects documented deliverables at each stage. Agile practices will inform the implementation style; they will not govern the formal process model.</p>
+  </section>
+
+  <!-- ══ SECTION 10 ══ -->
+  <section>
+    <h2><span class="section-num">Section 10</span>Proposed Increment Plan</h2>
+
+    <p>The following roadmap translates the selected model into a concrete sequence of deliveries. Each increment is designed to be independently reviewable, buildable, and testable. The sequence respects the natural dependency structure of the system while ensuring that something meaningful is working and demonstrable at each stage.</p>
+
+    <ul class="increment-list">
+      <li>
+        <div class="inc-badge">01</div>
+        <div class="inc-body">
+          <strong>Academic Structure &amp; Resource Setup</strong>
+          <p>Departments, semesters, courses, sections, teachers, rooms, and time slots. This is the foundational data layer that everything else depends on. By the end of this increment, the system has its entire entity model working with proper validations, relationships, and basic admin screens.</p>
+        </div>
+      </li>
+      <li>
+        <div class="inc-badge">02</div>
+        <div class="inc-body">
+          <strong>Constraint &amp; Policy Configuration</strong>
+          <p>Teacher availability windows, room suitability flags, blocked days, holidays, and administrative preference settings. Early prototyping of these configuration screens also serves as the primary visual validation phase — stakeholder feedback here will reveal most of the hidden preferences before the scheduling engine is built.</p>
+        </div>
+      </li>
+      <li>
+        <div class="inc-badge">03</div>
+        <div class="inc-body">
+          <strong>Core Timetable Generation (MVP)</strong>
+          <p>The initial scheduling engine that produces a conflict-free timetable from the configured data. This increment introduces hard-constraint validation and a basic conflict view so that generated schedules can be inspected. The generation algorithm does not need to be optimal at this stage — it needs to be correct and reviewable.</p>
+        </div>
+      </li>
+      <li>
+        <div class="inc-badge">04</div>
+        <div class="inc-body">
+          <strong>Review, Repair &amp; Controlled Re-optimization</strong>
+          <p>Draft timetable inspection, manual change request handling, conflict explanation panels, and limited re-optimization after approved changes. This is the increment where the system transitions from "generator" to "management tool" — the difference between a one-shot scheduler and an ongoing operational system.</p>
+        </div>
+      </li>
+      <li>
+        <div class="inc-badge">05</div>
+        <div class="inc-body">
+          <strong>Publication, Filtered Views &amp; Operational Reports</strong>
+          <p>Final timetable publishing, role-based views for teachers and students, room-wise utilization reports, export functionality, and holiday-aware display. This increment completes the user-facing product and makes the system genuinely useful to all five roles in their daily work.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ══ SECTION 11 ══ -->
+  <section>
+    <h2><span class="section-num">Section 11</span>Process Model Lifecycle Diagram</h2>
+
+    <p>The following diagram illustrates the complete Incremental Model lifecycle as applied to this project. It shows the baseline requirements phase, the sequence of increments with their internal mini-cycles, the prototyping activity confined to early increments, and the continuous documentation and testing thread that runs alongside all development.</p>
+
+    <div class="diagram-wrap">
+      <svg class="diagram-svg" viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg">
+        <title>Incremental Model Lifecycle Diagram — Applied to Timetable System</title>
+        <defs>
+          <marker id="arr-l" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M1 1L9 5L1 9" fill="none" stroke="#1a1a18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <marker id="arr-lc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M1 1L9 5L1 9" fill="none" stroke="#9a9a93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- Baseline box -->
+        <rect x="30" y="30" width="130" height="88" rx="3" fill="#1a1a18"/>
+        <text x="95" y="58" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="white" letter-spacing="0.07em">BASELINE</text>
+        <text x="95" y="78" text-anchor="middle" font-family="'EB Garamond',serif" font-size="15" fill="white" font-style="italic">Requirements &amp;</text>
+        <text x="95" y="96" text-anchor="middle" font-family="'EB Garamond',serif" font-size="15" fill="white" font-style="italic">Architecture</text>
+        <text x="95" y="112" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">Known structure</text>
+
+        <!-- Arrow baseline → Inc 1 -->
+        <line x1="160" y1="74" x2="188" y2="74" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#arr-l)"/>
+
+        <!-- ── INCREMENT 1 ── -->
+        <rect x="190" y="30" width="470" height="88" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="425" y="48" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#6b6b65" letter-spacing="0.08em">INCREMENT 1 · Academic Structure &amp; Resources</text>
+
+        <!-- mini-cycle boxes -->
+        <rect x="200" y="55" width="72" height="34" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="236" y="76" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Analyse</text>
+        <line x1="272" y1="72" x2="285" y2="72" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="287" y="55" width="72" height="34" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="323" y="76" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Design</text>
+        <line x1="359" y1="72" x2="372" y2="72" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="374" y="55" width="72" height="34" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="410" y="76" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Code</text>
+        <line x1="446" y1="72" x2="459" y2="72" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="461" y="55" width="72" height="34" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="497" y="76" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Test</text>
+        <line x1="533" y1="72" x2="546" y2="72" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <!-- Prototype badge -->
+        <rect x="548" y="55" width="100" height="34" rx="2" fill="#1a1a18" stroke="#1a1a18"/>
+        <text x="598" y="70" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="white" letter-spacing="0.05em">PROTOTYPE</text>
+        <text x="598" y="83" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">Screen validation</text>
+
+        <!-- Delivery 1 -->
+        <path d="M660 74 L690 74 L690 74" fill="none" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="672" y="70" font-family="'JetBrains Mono',monospace" font-size="8" fill="#1a1a18">v1</text>
+
+        <!-- Feedback arc Inc 1 -->
+        <path d="M598 89 C598 108, 300 108, 300 89" fill="none" stroke="#c8c8be" stroke-width="0.8" stroke-dasharray="4,3" marker-end="url(#arr-lc)"/>
+        <text x="448" y="120" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">review feedback</text>
+
+        <!-- ── INCREMENT 2 ── -->
+        <rect x="190" y="140" width="470" height="72" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="425" y="156" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#6b6b65" letter-spacing="0.08em">INCREMENT 2 · Constraint &amp; Policy Configuration</text>
+        <rect x="200" y="162" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="236" y="181" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Analyse</text>
+        <line x1="272" y1="178" x2="285" y2="178" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="287" y="162" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="323" y="181" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Design</text>
+        <line x1="359" y1="178" x2="372" y2="178" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="374" y="162" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="410" y="181" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Code</text>
+        <line x1="446" y1="178" x2="459" y2="178" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="461" y="162" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="497" y="181" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Test</text>
+        <line x1="533" y1="178" x2="546" y2="178" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="548" y="162" width="100" height="32" rx="2" fill="#1a1a18"/>
+        <text x="598" y="175" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="white" letter-spacing="0.05em">PROTOTYPE</text>
+        <text x="598" y="188" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#9a9a93">Rule form UX</text>
+
+        <!-- ── INCREMENT 3 ── -->
+        <rect x="190" y="232" width="470" height="72" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="425" y="248" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#6b6b65" letter-spacing="0.08em">INCREMENT 3 · Core Timetable Generation (MVP)</text>
+        <rect x="200" y="254" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="236" y="273" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Analyse</text>
+        <line x1="272" y1="270" x2="285" y2="270" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="287" y="254" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="323" y="273" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Design</text>
+        <line x1="359" y1="270" x2="372" y2="270" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="374" y="254" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="410" y="273" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Code</text>
+        <line x1="446" y1="270" x2="459" y2="270" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="461" y="254" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="497" y="273" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Test</text>
+        <line x1="533" y1="270" x2="546" y2="270" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="548" y="254" width="100" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="598" y="267" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">No prototype</text>
+        <text x="598" y="280" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#c8c8be">Build only</text>
+
+        <!-- ── INCREMENT 4 ── -->
+        <rect x="190" y="322" width="470" height="72" rx="3" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+        <text x="425" y="338" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#6b6b65" letter-spacing="0.08em">INCREMENT 4 · Review, Repair &amp; Re-optimization</text>
+        <rect x="200" y="344" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="236" y="363" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Analyse</text>
+        <line x1="272" y1="360" x2="285" y2="360" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="287" y="344" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="323" y="363" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Design</text>
+        <line x1="359" y1="360" x2="372" y2="360" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="374" y="344" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="410" y="363" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Code</text>
+        <line x1="446" y1="360" x2="459" y2="360" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="461" y="344" width="72" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="497" y="363" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Test</text>
+        <line x1="533" y1="360" x2="546" y2="360" stroke="#1a1a18" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="548" y="344" width="100" height="32" rx="2" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="598" y="363" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="11" fill="#9a9a93">No prototype</text>
+
+        <!-- ── INCREMENT 5 ── -->
+        <rect x="190" y="412" width="470" height="72" rx="3" fill="#1a1a18"/>
+        <text x="425" y="428" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9a9a93" letter-spacing="0.08em">INCREMENT 5 · Publication &amp; Reporting</text>
+        <rect x="200" y="434" width="72" height="32" rx="2" fill="white" stroke="#9a9a93" stroke-width="0.5"/>
+        <text x="236" y="453" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Analyse</text>
+        <line x1="272" y1="450" x2="285" y2="450" stroke="white" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="287" y="434" width="72" height="32" rx="2" fill="white" stroke="#9a9a93" stroke-width="0.5"/>
+        <text x="323" y="453" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Design</text>
+        <line x1="359" y1="450" x2="372" y2="450" stroke="white" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="374" y="434" width="72" height="32" rx="2" fill="white" stroke="#9a9a93" stroke-width="0.5"/>
+        <text x="410" y="453" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Code</text>
+        <line x1="446" y1="450" x2="459" y2="450" stroke="white" stroke-width="1" marker-end="url(#arr-l)"/>
+        <rect x="461" y="434" width="72" height="32" rx="2" fill="white" stroke="#9a9a93" stroke-width="0.5"/>
+        <text x="497" y="453" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12.5" fill="#1a1a18" font-style="italic">Test</text>
+        <line x1="533" y1="450" x2="546" y2="450" stroke="white" stroke-width="1"/>
+        <rect x="548" y="434" width="100" height="32" rx="2" fill="white" stroke="#9a9a93" stroke-width="0.5"/>
+        <text x="598" y="447" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="#1a1a18" letter-spacing="0.04em">FULL RELEASE</text>
+        <text x="598" y="460" text-anchor="middle" font-family="'Source Serif 4',serif" font-size="10" fill="#6b6b65">All roles, export</text>
+
+        <!-- Vertical connectors between increments -->
+        <line x1="240" y1="118" x2="240" y2="138" stroke="#c8c8be" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="240" y1="212" x2="240" y2="230" stroke="#c8c8be" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="240" y1="304" x2="240" y2="320" stroke="#c8c8be" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="240" y1="394" x2="240" y2="410" stroke="#c8c8be" stroke-width="1" stroke-dasharray="3,2"/>
+
+        <!-- Continuous testing band -->
+        <rect x="16" y="30" width="12" height="454" rx="2" fill="#e2e2d8"/>
+        <text x="22" y="260" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#6b6b65" letter-spacing="0.07em" transform="rotate(-90,22,260)">DOCUMENTATION &amp; TESTING THROUGHOUT</text>
+
+        <!-- Legend -->
+        <rect x="190" y="500" width="16" height="12" rx="1" fill="#1a1a18"/>
+        <text x="212" y="511" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Prototype active</text>
+        <rect x="320" y="500" width="16" height="12" rx="1" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="342" y="511" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Prototype not needed</text>
+        <rect x="490" y="500" width="16" height="12" rx="1" fill="#f5f3ec" stroke="#c8c8be" stroke-width="0.5"/>
+        <text x="512" y="511" font-family="'Source Serif 4',serif" font-size="11" fill="#6b6b65">Standard mini-cycle phase</text>
+      </svg>
+      <p class="diagram-caption">Figure 5 — Applied lifecycle diagram: Incremental Model for the Timetable System (prototyping shown only in early increments)</p>
+    </div>
+  </section>
+
+  <!-- ══ SECTION 12 ══ -->
+  <section>
+    <h2><span class="section-num">Section 12</span>Conclusion</h2>
+
+    <p>The process of selecting a development lifecycle model is, at its core, an act of matching. It is about looking honestly at what a project actually is — what it needs, where it will fail, what it does not yet know about itself — and finding a structure that fits those realities rather than forcing the project into a shape it does not naturally have.</p>
+
+    <p>For the University Timetable Optimization and Management System, the Incremental Process Model is that fit. The project will encounter requirement evolution — it is that kind of domain. The project has natural structural layers that benefit from sequential delivery. The project's users need to see working interfaces early. The project carries real technical risk in its scheduling engine that is better mitigated through staged development than through a single high-stakes integration at the end.</p>
+
+    <p>The Waterfall model would freeze requirements that cannot be frozen. The Spiral model would impose procedural overhead that the project does not need at its scale. Agile practices are valuable but are better positioned as implementation-level tactics than as the primary process framework for an academic assignment requiring structured deliverables.</p>
+
+    <div class="callout">
+      <p>The Incremental Model gives this project the flexibility to learn from its own development without losing the structure that makes that development documentable, testable, and academically defensible. That is the right combination for a project of this kind, at this scale, on this timeline.</p>
+    </div>
+
+    <p>Prototyping will be used in early increments to validate screens and surface hidden preferences, but it will not govern the lifecycle. Development will proceed one meaningful, reviewable layer at a time. The final result will be a system that was not just built, but grown — each increment making the next one clearer, more confident, and more correct.</p>
+  </section>
+
+  <!-- ══ REFERENCES ══ -->
+  <section class="ref-block">
+    <h2><span class="section-num">References</span></h2>
+    <ol class="ref-list">
+      <li>Sommerville, I. <em>Software Engineering</em>, 10th ed. Pearson, 2015.</li>
+      <li>Pressman, R. S. &amp; Maxim, B. R. <em>Software Engineering: A Practitioner's Approach</em>, 8th ed. McGraw-Hill, 2014.</li>
+      <li>Larman, C. <em>Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design</em>, 3rd ed. Prentice Hall, 2004.</li>
+      <li>Boehm, B. W. "A Spiral Model of Software Development and Enhancement." <em>IEEE Computer</em>, 21(5), 61–72, 1988.</li>
+      <li>Beck, K. <em>Extreme Programming Explained: Embrace Change</em>, 2nd ed. Addison-Wesley, 2004.</li>
+      <li>Royce, W. W. "Managing the Development of Large Software Systems." <em>Proceedings of IEEE WESCON</em>, 1970.</li>
+    </ol>
+  </section>
+
+</div>
+</body>
+</html>
