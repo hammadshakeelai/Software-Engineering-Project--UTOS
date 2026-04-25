@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+app/data/*.sqlite
+app/data/*.sqlite-*
+temp/*contact_sheet*.png
+temp/utos-server*.log
