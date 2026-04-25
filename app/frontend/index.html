@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UTOS</title>
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+    <link rel="stylesheet" href="/styles/components.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">U</span>
+          <div>
+            <strong>UTOS</strong>
+            <span>Timetable Ops</span>
+          </div>
+        </div>
+        <nav class="nav-list" aria-label="Primary">
+          <a href="#dashboard" class="nav-link active">Dashboard</a>
+          <a href="#timetable" class="nav-link">Timetable</a>
+          <a href="#master-data" class="nav-link">Master Data</a>
+          <a href="#reports" class="nav-link">Reports</a>
+        </nav>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">University Timetable Optimization</p>
+            <h1>Schedule Control Center</h1>
+          </div>
+          <div class="actions">
+            <button id="refreshBtn" class="button secondary" type="button">Refresh</button>
+            <button id="generateBtn" class="button primary" type="button">Generate Draft</button>
+          </div>
+        </header>
+
+        <section id="dashboard" class="section-band">
+          <div class="stats-grid" id="statsGrid"></div>
+          <div class="status-panel" id="statusPanel"></div>
+        </section>
+
+        <section id="timetable" class="section-band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Weekly View</p>
+              <h2>Generated Timetable</h2>
+            </div>
+            <select id="viewFilter" class="select" aria-label="Timetable filter">
+              <option value="all">All sections</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table class="timetable-grid" id="timetableGrid"></table>
+          </div>
+          <div id="unplacedList" class="notice-list"></div>
+        </section>
+
+        <section id="master-data" class="section-band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Increment 1</p>
+              <h2>Master Data</h2>
+            </div>
+          </div>
+          <div class="data-columns">
+            <section>
+              <h3>Courses</h3>
+              <div id="coursesList" class="record-list"></div>
+            </section>
+            <section>
+              <h3>Rooms</h3>
+              <div id="roomsList" class="record-list"></div>
+            </section>
+            <section>
+              <h3>Preferences</h3>
+              <div id="preferencesList" class="record-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="reports" class="section-band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Operations</p>
+              <h2>Resource Reports</h2>
+            </div>
+          </div>
+          <div class="reports-grid">
+            <section>
+              <h3>Room Utilization</h3>
+              <div id="roomReport" class="report-table"></div>
+            </section>
+            <section>
+              <h3>Teacher Load</h3>
+              <div id="teacherReport" class="report-table"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/scripts/main.js"></script>
+  </body>
+</html>
