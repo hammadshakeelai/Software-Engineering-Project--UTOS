@@ -36,6 +36,7 @@ from app.backend.repositories.timetable_repository import (
     insert_change_request,
     get_change_requests,
     update_change_request_status,
+    add_coordinator_note,
 )
 from app.backend.services.bootstrap_service import get_bootstrap_payload
 from app.backend.services.timetable_service import generate_timetable
@@ -108,7 +109,15 @@ class RequestHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/change-requests":
             with connect() as conn:
-                request_id = insert_change_request(conn, body["requester_id"], body["target_type"], body["target_id"], body["reason"])
+                request_id = insert_change_request(
+                    conn,
+                    body["requester_id"],
+                    body["target_type"],
+                    body.get("target_id", 0),
+                    body["reason"],
+                    body.get("urgency", "normal"),
+                    body.get("preferred_alternative", ""),
+                )
                 self._json({"id": request_id, "success": True}, status=201)
             return
 
@@ -173,7 +182,14 @@ class RequestHandler(BaseHTTPRequestHandler):
             if "/change-requests/" in parsed.path and "/status" in parsed.path:
                 request_id = int(path_parts[3])
                 with connect() as conn:
-                    update_change_request_status(conn, request_id, body["status"])
+                    update_change_request_status(conn, request_id, body["status"], body.get("admin_response", ""))
+                self._json({"success": True})
+                return
+
+            if "/change-requests/" in parsed.path and "/note" in parsed.path:
+                request_id = int(path_parts[3])
+                with connect() as conn:
+                    add_coordinator_note(conn, request_id, body["note"])
                 self._json({"success": True})
                 return
 
