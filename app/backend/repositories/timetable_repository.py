@@ -164,10 +164,20 @@ def publish_version(conn: sqlite3.Connection, version_id: int) -> None:
     conn.commit()
 
 
-def insert_change_request(conn: sqlite3.Connection, requester_id: int, target_type: str, target_id: int, reason: str) -> int:
+def insert_change_request(
+    conn: sqlite3.Connection,
+    requester_id: int,
+    target_type: str,
+    target_id: int,
+    reason: str,
+    urgency: str = "normal",
+    preferred_alternative: str = "",
+) -> int:
     cursor = conn.execute(
-        "INSERT INTO change_requests (requester_id, target_type, target_id, reason, status) VALUES (?, ?, ?, ?, 'open')",
-        (requester_id, target_type, target_id, reason)
+        """INSERT INTO change_requests
+           (requester_id, target_type, target_id, reason, urgency, preferred_alternative, status)
+           VALUES (?, ?, ?, ?, ?, ?, 'pending')""",
+        (requester_id, target_type, target_id, reason, urgency, preferred_alternative),
     )
     conn.commit()
     return cursor.lastrowid
@@ -180,12 +190,26 @@ def get_change_requests(conn: sqlite3.Connection) -> list:
             SELECT cr.*, u.name AS requester_name, u.role AS requester_role
             FROM change_requests cr
             JOIN users u ON u.id = cr.requester_id
-            ORDER BY cr.created_at DESC
+            ORDER BY
+                CASE cr.urgency WHEN 'urgent' THEN 0 ELSE 1 END,
+                cr.created_at DESC
             """
         )
     )
 
 
-def update_change_request_status(conn: sqlite3.Connection, request_id: int, status: str) -> None:
-    conn.execute("UPDATE change_requests SET status = ? WHERE id = ?", (status, request_id))
+def update_change_request_status(conn: sqlite3.Connection, request_id: int, status: str, admin_response: str = "") -> None:
+    conn.execute(
+        "UPDATE change_requests SET status = ?, admin_response = ? WHERE id = ?",
+        (status, admin_response, request_id),
+    )
     conn.commit()
+
+
+def add_coordinator_note(conn: sqlite3.Connection, request_id: int, note: str) -> None:
+    conn.execute(
+        "UPDATE change_requests SET coordinator_note = ? WHERE id = ?",
+        (note, request_id),
+    )
+    conn.commit()
+
