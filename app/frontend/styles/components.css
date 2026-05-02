@@ -32,8 +32,8 @@
 }
 
 .button:disabled {
-  cursor: wait;
-  opacity: 0.7;
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .select {
@@ -229,75 +229,7 @@
   text-align: right;
 }
 
-.login-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--accent) 0%, #0f766e 100%);
-  z-index: 1000;
-}
 
-.login-panel {
-  width: 360px;
-  padding: 40px;
-  border-radius: 12px;
-  background: white;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  text-align: center;
-}
-
-.login-header {
-  margin-bottom: 30px;
-}
-
-.login-header .brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.login-header h1 {
-  margin: 10px 0 4px;
-  color: var(--ink);
-  font-size: 24px;
-}
-
-.login-header p {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.login-form {
-  display: grid;
-  gap: 14px;
-}
-
-.login-form label {
-  display: block;
-  text-align: left;
-  color: var(--ink);
-  font-weight: 700;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.login-form .select {
-  width: 100%;
-  min-width: auto;
-}
 
 .button.small {
   min-height: 32px;
@@ -430,3 +362,264 @@
   background: #ef4444;
   color: white;
 }
+
+.role-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 16px;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e8f1ff 100%);
+  border: 3px solid #0369a1;
+  border-radius: 12px;
+  margin: 16px 0 8px 0;
+  min-height: 60px;
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.15);
+}
+
+.role-badge-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.role-badge-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0369a1;
+}
+
+.role-badge[data-role="administrator"] {
+  border-color: #0f766e;
+  background: linear-gradient(135deg, #f0fdfb 0%, #ccfbf1 100%);
+}
+
+.role-badge[data-role="administrator"] .role-badge-name {
+  color: #0f766e;
+}
+
+.role-badge[data-role="coordinator"] {
+  border-color: #0369a1;
+  background: linear-gradient(135deg, #f0f9ff 0%, #bfdbfe 100%);
+}
+
+.role-badge[data-role="coordinator"] .role-badge-name {
+  color: #0369a1;
+}
+
+.role-badge[data-role="teacher"] {
+  border-color: #16a34a;
+  background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+}
+
+.role-badge[data-role="teacher"] .role-badge-name {
+  color: #16a34a;
+}
+
+.role-badge[data-role="student"] {
+  border-color: #7c3aed;
+  background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);
+}
+
+.role-badge[data-role="student"] .role-badge-name {
+  color: #7c3aed;
+}
+
+.role-badge[data-role="facility_manager"] {
+  border-color: #ea580c;
+  background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+}
+
+.role-badge[data-role="facility_manager"] .role-badge-name {
+  color: #ea580c;
+}
+
+
+/* -- Role guide banner -------------------------------------------------- */
+.role-guide-banner {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: #f0f7ff;
+  border: 1px solid #bcd6f8;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.1rem;
+  margin: 0 1.5rem 1rem;
+  font-size: 0.875rem;
+  color: #1e3a5f;
+}
+.role-guide-banner[data-role="administrator"] { background:#f0fdf4; border-color:#a7f3d0; color:#065f46; }
+.role-guide-banner[data-role="coordinator"]   { background:#fff7ed; border-color:#fed7aa; color:#7c2d12; }
+.role-guide-banner[data-role="teacher"]       { background:#faf5ff; border-color:#d8b4fe; color:#4c1d95; }
+.role-guide-banner[data-role="student"]       { background:#eff6ff; border-color:#bfdbfe; color:#1e3a8a; }
+.role-guide-banner[data-role="facility_manager"] { background:#fff1f2; border-color:#fecdd3; color:#881337; }
+.role-guide-banner > span { font-size: 1.4rem; line-height: 1; flex-shrink: 0; }
+.role-guide-banner strong { display: block; font-weight: 700; margin-bottom: 2px; }
+.role-guide-banner p { margin: 0; opacity: 0.85; line-height: 1.45; }
+
+/* -- Role badge in sidebar ---------------------------------------------- */
+.role-badge {
+  margin: 0.5rem 1rem 0.25rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--surface, #f8f9fa);
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted, #6b7280);
+}
+.role-badge strong { color: var(--ink, #111827); }
+
+/* -- Guide tip (inline help text) -------------------------------------- */
+.guide-tip {
+  background: #f8fafc;
+  border-left: 3px solid #128274;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 0.6rem 0.875rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+.guide-tip.small { font-size: 0.78rem; margin-bottom: 0.75rem; }
+
+/* -- Change request cards ----------------------------------------------- */
+.requests-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+
+.request-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.request-card[data-status="approved"] { border-left: 3px solid #22c55e; }
+.request-card[data-status="rejected"] { border-left: 3px solid #ef4444; }
+.request-card[data-status="pending"]  { border-left: 3px solid #f59e0b; }
+
+.request-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+}
+.request-card__reason {
+  margin: 0;
+  color: #374151;
+  font-size: 0.875rem;
+}
+.request-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.pill-role {
+  font-size: 0.72rem;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+.req-target { font-size: 0.8rem; color: #6b7280; }
+.req-date   { font-size: 0.75rem; color: #9ca3af; margin-left: auto; }
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+.status-pending  { background: #fef3c7; color: #92400e; }
+.status-approved { background: #d1fae5; color: #065f46; }
+.status-rejected { background: #fee2e2; color: #991b1b; }
+
+.request-actions { display: flex; gap: 0.4rem; }
+
+.button.small  { min-height: 28px; padding: 0 10px; font-size: 0.78rem; }
+.button.danger { background: #ef4444; color: #fff; }
+.button.danger:hover { background: #dc2626; }
+
+.empty-state {
+  text-align: center;
+  color: #9ca3af;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* -- Inline form (change request submit) ------------------------------- */
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.inline-form .input,
+.inline-form .select {
+  flex: 1;
+  min-width: 180px;
+}
+.input {
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--ink, #111827);
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input:focus { outline: 2px solid #128274; outline-offset: 1px; }
+
+.form-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.form-section h3 { margin: 0 0 0.5rem; font-size: 0.95rem; }
+
+/* -- CRUD add forms ---------------------------------------------------- */
+.add-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.75rem;
+  background: #f0fdf4;
+  border: 1px dashed #86efac;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.add-form .input { flex: 1; min-width: 120px; }
+.record { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; }
+.record div { display: flex; flex-direction: column; gap: 2px; }
+
+/* -- Change request form ------------------------------------------------ */
+.cr-form { display: flex; flex-direction: column; gap: 0.75rem; }
+.cr-form-row { display: flex; flex-direction: column; gap: 0.25rem; }
+.cr-form-row > label { font-weight: 600; font-size: 0.82rem; color: #374151; }
+.radio-group { display: flex; gap: 1rem; }
+.radio-group label { font-weight: 400; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; }
+
+/* -- Urgent pill -------------------------------------------------------- */
+.pill-urgent { background: #fee2e2; color: #991b1b; font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
+
+/* -- Request detail lines ----------------------------------------------- */
+.req-pref, .req-coord-note, .req-admin-resp { margin: 0.25rem 0; padding: 0.35rem 0.6rem; border-radius: 0.35rem; font-size: 0.82rem; }
+.req-pref { background: #fffbeb; border-left: 3px solid #f59e0b; }
+.req-coord-note { background: #f0f9ff; border-left: 3px solid #0ea5e9; }
+.req-admin-resp { background: #f5f3ff; border-left: 3px solid #8b5cf6; }
+
+/* -- Inline action rows ------------------------------------------------- */
+.coord-note-inline, .admin-action-inline { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; margin-top: 0.35rem; width: 100%; }
+.coord-note-inline .input, .admin-action-inline .input { flex: 1; min-width: 150px; min-height: 32px; font-size: 0.8rem; }
