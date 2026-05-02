@@ -87,16 +87,22 @@ export const api = {
   deleteCourse(course_id) {
     return request(`/api/master-data/courses/${course_id}`, { method: "DELETE" });
   },
-  submitChangeRequest(requester_id, target_type, target_id, reason) {
+  submitChangeRequest(requester_id, target_type, target_id, reason, urgency = "normal", preferred_alternative = "") {
     return request("/api/change-requests", {
       method: "POST",
-      body: JSON.stringify({ requester_id, target_type, target_id, reason })
+      body: JSON.stringify({ requester_id, target_type, target_id, reason, urgency, preferred_alternative })
     });
   },
-  updateChangeRequestStatus(request_id, status) {
+  updateChangeRequestStatus(request_id, status, admin_response = "") {
     return request(`/api/change-requests/${request_id}/status`, {
       method: "PUT",
-      body: JSON.stringify({ status })
+      body: JSON.stringify({ status, admin_response })
+    });
+  },
+  addCoordinatorNote(request_id, note) {
+    return request(`/api/change-requests/${request_id}/note`, {
+      method: "PUT",
+      body: JSON.stringify({ note })
     });
   },
   lockEntry(entry_id) {
