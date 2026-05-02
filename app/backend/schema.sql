@@ -2,7 +2,9 @@ CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    role TEXT NOT NULL CHECK (role IN ('administrator', 'coordinator', 'teacher', 'student', 'facility_manager', 'system_admin'))
+    role TEXT NOT NULL CHECK (role IN ('administrator', 'coordinator', 'teacher', 'student', 'facility_manager', 'system_admin')),
+    teacher_id INTEGER REFERENCES teachers(id) ON DELETE SET NULL,
+    section_id INTEGER REFERENCES sections(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS teachers (

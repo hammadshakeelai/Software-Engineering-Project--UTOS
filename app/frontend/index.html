@@ -9,6 +9,21 @@
     <link rel="stylesheet" href="/styles/components.css">
   </head>
   <body>
+    <div id="loginScreen" class="login-screen">
+      <div class="login-panel">
+        <div class="login-header">
+          <span class="brand-mark">U</span>
+          <h1>UTOS</h1>
+          <p>University Timetable Ops</p>
+        </div>
+        <div class="login-form">
+          <label for="userSelect">Select your role:</label>
+          <select id="userSelect" class="select"></select>
+          <button id="loginBtn" class="button primary">Sign In</button>
+        </div>
+      </div>
+    </div>
+
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand">
@@ -21,6 +36,7 @@
         <nav class="nav-list" aria-label="Primary">
           <a href="#dashboard" class="nav-link active">Dashboard</a>
           <a href="#timetable" class="nav-link">Timetable</a>
+          <a href="#change-requests" class="nav-link">Requests</a>
           <a href="#master-data" class="nav-link">Master Data</a>
           <a href="#reports" class="nav-link">Reports</a>
         </nav>
@@ -35,6 +51,8 @@
           <div class="actions">
             <button id="refreshBtn" class="button secondary" type="button">Refresh</button>
             <button id="generateBtn" class="button primary" type="button">Generate Draft</button>
+            <button id="publishBtn" class="button primary" type="button" style="display: none;">Publish</button>
+            <button id="logoutBtn" class="button secondary" type="button">Logout</button>
           </div>
         </header>
 
@@ -58,6 +76,8 @@
           </div>
           <div id="unplacedList" class="notice-list"></div>
         </section>
+
+        <section id="change-requests" class="section-band"></section>
 
         <section id="master-data" class="section-band">
           <div class="section-heading">

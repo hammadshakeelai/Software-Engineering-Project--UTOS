@@ -12,12 +12,12 @@ def seed_database(conn: sqlite3.Connection) -> None:
         return
 
     conn.executemany(
-        "INSERT INTO users(name, email, role) VALUES (?, ?, ?)",
+        "INSERT INTO users(name, email, role, teacher_id, section_id) VALUES (?, ?, ?, ?, ?)",
         [
-            ("Timetable Admin", "admin@utos.local", "administrator"),
-            ("Department Coordinator", "coordinator@utos.local", "coordinator"),
-            ("Facility Manager", "facilities@utos.local", "facility_manager"),
-            ("System Administrator", "sysadmin@utos.local", "system_admin"),
+            ("Timetable Admin", "admin@utos.local", "administrator", None, None),
+            ("Department Coordinator", "coordinator@utos.local", "coordinator", None, None),
+            ("Facility Manager", "facilities@utos.local", "facility_manager", None, None),
+            ("System Administrator", "sysadmin@utos.local", "system_admin", None, None),
         ],
     )
 
@@ -124,3 +124,15 @@ def seed_database(conn: sqlite3.Connection) -> None:
             ("traffic_reduction", "Avoid final daily slot", 1, 3, ""),
         ],
     )
+
+    conn.executemany(
+        "INSERT INTO users(name, email, role, teacher_id, section_id) VALUES (?, ?, ?, ?, ?)",
+        [
+            ("Dr. Ayesha Khan User", "ayesha@utos.local", "teacher", 1, None),
+            ("Dr. Bilal Ahmed User", "bilal@utos.local", "teacher", 2, None),
+            ("BSAI-4A Student", "student1@utos.local", "student", None, 1),
+            ("BSAI-4B Student", "student2@utos.local", "student", None, 2),
+        ],
+    )
+
+    conn.commit()

@@ -228,3 +228,205 @@
   font-weight: 800;
   text-align: right;
 }
+
+.login-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent) 0%, #0f766e 100%);
+  z-index: 1000;
+}
+
+.login-panel {
+  width: 360px;
+  padding: 40px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.login-header {
+  margin-bottom: 30px;
+}
+
+.login-header .brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.login-header h1 {
+  margin: 10px 0 4px;
+  color: var(--ink);
+  font-size: 24px;
+}
+
+.login-header p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.login-form {
+  display: grid;
+  gap: 14px;
+}
+
+.login-form label {
+  display: block;
+  text-align: left;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.login-form .select {
+  width: 100%;
+  min-width: auto;
+}
+
+.button.small {
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.locked-badge {
+  display: inline-block;
+  background: #fecaca;
+  color: #7f1d1d;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lock-btn {
+  margin-top: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.lock-btn:hover {
+  background: var(--accent-strong);
+}
+
+.form-section {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8f9fa;
+  margin-bottom: 14px;
+}
+
+.form-section h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.inline-form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+}
+
+.inline-form input,
+.inline-form select {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.inline-form button {
+  min-height: 36px;
+}
+
+.requests-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.request-card {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.request-card strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.request-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.request-card .pill {
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.pill.open {
+  background: #d4d4ff;
+  color: #312e81;
+}
+
+.pill.approved {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.pill.rejected {
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+.request-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.approve-btn, .reject-btn {
+  min-height: 28px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.approve-btn {
+  background: #10b981;
+  color: white;
+}
+
+.reject-btn {
+  background: #ef4444;
+  color: white;
+}
