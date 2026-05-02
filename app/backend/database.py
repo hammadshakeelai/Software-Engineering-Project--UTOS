@@ -32,8 +32,9 @@ def initialize_database() -> None:
     with connect() as conn:
         conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
         from .seed import seed_database
-
         seed_database(conn)
+        from .migrate import migrate_change_requests
+        migrate_change_requests(conn)
 
 
 def rows_to_dicts(rows: Iterable[sqlite3.Row]) -> list[dict]:
