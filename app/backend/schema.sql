@@ -106,7 +106,11 @@ CREATE TABLE IF NOT EXISTS change_requests (
     target_type TEXT NOT NULL,
     target_id INTEGER,
     reason TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'approved', 'rejected', 'implemented')),
+    urgency TEXT NOT NULL DEFAULT 'normal',
+    preferred_alternative TEXT NOT NULL DEFAULT '',
+    coordinator_note TEXT NOT NULL DEFAULT '',
+    admin_response TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'implemented')),
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
