@@ -1,0 +1,82 @@
+/* login.css – premium login screen styling */
+
+.login-background {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: -1;
+}
+
+/* Center the login card vertically and horizontally */
+.login-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Solid card for white background */
+.login-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  max-width: 320px;
+  width: 90%;
+  color: #1a202c; /* dark text for readable contrast */
+}
+
+/* Form label styling */
+.login-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+/* Role selector grid */
+.user-selector {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+/* Individual role card */
+.role-card {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid #d0d7de;
+  border-radius: 0.75rem;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.role-card:hover {
+  border-color: #128274;
+  background: #f2fbf9;
+}
+
+.role-card.selected {
+  border-color: #128274;
+  background: #e4f5f2;
+}
+
+.role-card strong {
+  font-size: 0.95rem;
+}
+
+.role-card span {
+  font-size: 0.8rem;
+  color: #607080;
+}
+
+/* Disabled button styling */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
