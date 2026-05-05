@@ -1,0 +1,101 @@
+erDiagram
+
+    TEACHERS {
+        int teacher_id PK
+        string name
+        string email
+        string department
+        text availability
+    }
+
+    COURSES {
+        int course_id PK
+        string course_name
+        string course_code
+        int credit_hours
+        string department
+    }
+
+    ROOMS {
+        int room_id PK
+        string room_number
+        string building
+        int floor
+        int capacity
+        text facilities
+    }
+
+    SECTIONS {
+        int section_id PK
+        string section_name
+        string program
+        int semester
+        int student_count
+    }
+
+    TIMESLOTS {
+        int timeslot_id PK
+        string day
+        time start_time
+        time end_time
+    }
+
+    ACADEMIC_CALENDAR {
+        int calendar_id PK
+        date semester_start
+        date semester_end
+        string working_days
+    }
+
+    HOLIDAYS {
+        int holiday_id PK
+        date date
+        string description
+        int calendar_id FK
+    }
+
+    CONSTRAINTS {
+        int constraint_id PK
+        string type
+        string name
+        boolean is_active
+        float priority_weight
+    }
+
+    TIMETABLE {
+        int entry_id PK
+        int course_id FK
+        int teacher_id FK
+        int room_id FK
+        int section_id FK
+        int timeslot_id FK
+        boolean is_locked
+        int version
+        string status
+    }
+
+    CHANGE_REQUESTS {
+        int request_id PK
+        int entry_id FK
+        int requested_by FK
+        text reason
+        string status
+        datetime created_at
+    }
+
+    USERS {
+        int user_id PK
+        string name
+        string email
+        string password_hash
+        string role
+    }
+
+    ACADEMIC_CALENDAR ||--o{ HOLIDAYS : "has"
+    TIMETABLE }o--|| TEACHERS : "assigned to"
+    TIMETABLE }o--|| COURSES : "for"
+    TIMETABLE }o--|| ROOMS : "held in"
+    TIMETABLE }o--|| SECTIONS : "for"
+    TIMETABLE }o--|| TIMESLOTS : "at"
+    CHANGE_REQUESTS }o--|| TIMETABLE : "references"
+    CHANGE_REQUESTS }o--|| USERS : "requested by"
