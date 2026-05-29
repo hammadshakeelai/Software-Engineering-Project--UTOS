@@ -1,0 +1,48 @@
+
+################## Frequency Distribution of BS AI Group-A
+rm(list=ls())
+set.seed(1234)
+
+x=c(106,107,76,82,109,107,115,93,187,95,123,125,111,92,86,70,126,68,
+    130,129,139,119,115,128,100,186,84,99,113,204,111,141,136,123,90,115,98,
+    110,78,185,162,178,140,152,173,146,158,194,148,90,107,181,131,75,184,104,
+    110,80,118,82);x        ## x is the value assigned
+
+summary(x)
+N = length(x);N
+
+########  Range############
+
+Range = max(x)-min(x);Range
+
+############# No. of classes #########
+
+k = 1+3.3*log10(N);k
+
+############## Class interval  #######
+
+h = Range/k;h
+
+
+########## Sequence of h = 20 ###########
+
+xint = seq(65,205,by=20);xint
+
+x.cut = cut(x,xint,right = FALSE);x.cut
+
+############ Frequency Distribution########
+
+x.freq = table(x.cut);x.freq
+
+cbind(x.freq)
+
+################### Graphically Representation ##########
+barplot(x.freq)
+
+plot(x.freq)
+
+##################### Modify Graph #########
+barplot(x.freq,xlab = "Class interval",ylab = "Frequency",main = "Frequency Distribution",col = "yellow",border = "red")
+
+
+
