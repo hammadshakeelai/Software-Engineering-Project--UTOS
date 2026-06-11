@@ -22,4 +22,10 @@ def migrate_change_requests(conn: sqlite3.Connection) -> None:
 
     # Fix status: rename 'open' → 'pending' for consistency
     conn.execute("UPDATE change_requests SET status = 'pending' WHERE status = 'open'")
+
+    # timetable_entries.reason explains why an unplaced session could not be scheduled.
+    entry_cols = {row[1] for row in conn.execute("PRAGMA table_info(timetable_entries)").fetchall()}
+    if "reason" not in entry_cols:
+        conn.execute("ALTER TABLE timetable_entries ADD COLUMN reason TEXT NOT NULL DEFAULT ''")
+
     conn.commit()
