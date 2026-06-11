@@ -17,13 +17,19 @@ Single test: `python -m unittest tests.test_solver -v`
 ### Frontend
 Vanilla JS/CSS - no build step required. Edit `index.html` or `scripts/*.js` directly.
 
-### Known Issue
-- `PUT /api/timetable/{id}/publish` crashes the server - avoid using it
-
 ### Role-Based Access
-- 5 roles: administrator, coordinator, teacher, student, facility_manager
-- Login uses localStorage session (no password)
-- Permissions enforced at render level in `render.js`
+- 6 roles: administrator, coordinator, teacher, student, facility_manager, system_admin
+  (only the first five appear on the login picker; `system_admin` is reserved).
+- Login uses localStorage session (no password).
+- Permissions enforced at the render level in `render.js` AND at the API level in
+  `server.py`: write requests carrying an `X-User-Id` header are checked against
+  role permissions (403 if insufficient). Header-less requests are treated as
+  trusted (tests/scripts).
+
+### Hosting / env vars
+- `UTOS_HOST` (bind address, set `0.0.0.0` when hosted), `PORT` (injected by
+  Render/Railway), `UTOS_PORT` (local fallback), `UTOS_DATA_DIR` (SQLite location
+  for a persistent disk). See `DEPLOY.md`.
 
 ### Key Files
 - `app/backend/server.py` - HTTP routing, no frameworks
@@ -32,8 +38,9 @@ Vanilla JS/CSS - no build step required. Edit `index.html` or `scripts/*.js` dir
 - `app/frontend/scripts/state.js` - global state, contains `currentUser`
 
 ### Database
-- Auto-created at `app/data/utos.sqlite` on first run
+- Auto-created at `app/data/utos.sqlite` on first run (override dir with `UTOS_DATA_DIR`)
 - Schema in `app/backend/schema.sql`, seeded by `app/backend/seed.py`
+- Additive schema changes go in `app/backend/migrate.py` (runs on startup, safe to re-run)
 
 ### Common Pitfalls
 1. Don't duplicate functions across files - import instead

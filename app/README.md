@@ -5,7 +5,7 @@ This is the first modular build for the University Timetable Optimization and Ma
 Run it from the repository root:
 
 ```powershell
-& "C:\Users\HP\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" -m app.backend.server
+python -m app.backend.server
 ```
 
 Then open:
@@ -18,6 +18,9 @@ The app uses only Python standard-library modules for the backend and SQLite dat
 
 Run the automated test suite:
 
-```powershell
-& "C:\Users\HP\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" -B -m unittest discover -v
+```bash
+python -B -m unittest discover -v
 ```
+
+See the top-level [README](../README.md) for full feature, architecture, and
+deployment documentation.

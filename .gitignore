@@ -1,6 +1,30 @@
+# Python
 __pycache__/
 *.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Database (auto-created and seeded on first run)
 app/data/*.sqlite
 app/data/*.sqlite-*
-temp/*contact_sheet*.png
-temp/utos-server*.log
+
+# Logs and scratch output
+*.log
+temp/
+tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Office temp lock files
+~$*
