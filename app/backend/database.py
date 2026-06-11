@@ -25,6 +25,9 @@ def connect() -> sqlite3.Connection:
     conn = sqlite3.connect(DB_PATH, factory=ClosingConnection)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
+    # Concurrent requests (ThreadingHTTPServer) each open their own connection;
+    # wait for writers instead of failing fast with "database is locked".
+    conn.execute("PRAGMA busy_timeout = 5000")
     return conn
 
 
