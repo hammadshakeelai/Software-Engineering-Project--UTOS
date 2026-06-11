@@ -1,15 +1,28 @@
-const jsonHeaders = {
-  "Content-Type": "application/json"
-};
+function actorHeaders() {
+  const headers = { "Content-Type": "application/json" };
+  try {
+    const stored = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (stored?.id) headers["X-User-Id"] = String(stored.id);
+  } catch {
+    /* no actor header */
+  }
+  return headers;
+}
 
 async function request(path, options = {}) {
   const response = await fetch(path, {
-    headers: jsonHeaders,
+    headers: actorHeaders(),
     ...options
   });
   if (!response.ok) {
-    const text = await response.text();
-    throw new Error(text || `Request failed: ${response.status}`);
+    let message = `Request failed: ${response.status}`;
+    try {
+      const payload = await response.json();
+      if (payload.error) message = payload.error;
+    } catch {
+      /* keep default message */
+    }
+    throw new Error(message);
   }
   return response.json();
 }
@@ -21,8 +34,26 @@ export const api = {
   generateTimetable() {
     return request("/api/timetable/generate", { method: "POST" });
   },
+  reoptimizeTimetable() {
+    return request("/api/timetable/reoptimize", { method: "POST" });
+  },
   getUsers() {
     return request("/api/users");
+  },
+  getVersions() {
+    return request("/api/timetable/versions");
+  },
+  compareVersions(a, b) {
+    return request(`/api/timetable/compare?a=${a}&b=${b}`);
+  },
+  getNotifications(user_id) {
+    return request(`/api/notifications?user_id=${user_id}`);
+  },
+  markNotificationRead(notification_id) {
+    return request(`/api/notifications/${notification_id}/read`, { method: "PUT" });
+  },
+  getAuditLog() {
+    return request("/api/audit-log");
   },
   getChangeRequests() {
     return request("/api/change-requests");
@@ -86,6 +117,39 @@ export const api = {
   },
   deleteCourse(course_id) {
     return request(`/api/master-data/courses/${course_id}`, { method: "DELETE" });
+  },
+  addHoliday(name, day) {
+    return request("/api/master-data/holidays", {
+      method: "POST",
+      body: JSON.stringify({ name, day })
+    });
+  },
+  deleteHoliday(holiday_id) {
+    return request(`/api/master-data/holidays/${holiday_id}`, { method: "DELETE" });
+  },
+  addTimeslot(day, start_time, end_time, sort_order, is_morning = 0, is_last_slot = 0) {
+    return request("/api/master-data/timeslots", {
+      method: "POST",
+      body: JSON.stringify({ day, start_time, end_time, sort_order, is_morning, is_last_slot })
+    });
+  },
+  deleteTimeslot(timeslot_id) {
+    return request(`/api/master-data/timeslots/${timeslot_id}`, { method: "DELETE" });
+  },
+  updatePreference(preference_id, enabled, weight) {
+    return request(`/api/master-data/preferences/${preference_id}`, {
+      method: "PUT",
+      body: JSON.stringify({ enabled, weight })
+    });
+  },
+  getTeacherAvailability(teacher_id) {
+    return request(`/api/teacher-availability?teacher_id=${teacher_id}`);
+  },
+  setTeacherAvailability(teacher_id, unavailable_slot_ids) {
+    return request(`/api/teacher-availability/${teacher_id}`, {
+      method: "PUT",
+      body: JSON.stringify({ unavailable_slot_ids })
+    });
   },
   submitChangeRequest(requester_id, target_type, target_id, reason, urgency = "normal", preferred_alternative = "") {
     return request("/api/change-requests", {
