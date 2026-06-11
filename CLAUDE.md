@@ -109,14 +109,31 @@ Vanilla HTML/CSS/JavaScript. No frameworks or build tools.
 
 ### Timetable Operations
 - `POST /api/timetable/generate` — run solver, create new version
-- `PUT /api/timetable/{id}/publish` — mark version as published ⚠️ **Known Issue**: causes server crash; avoid using
+- `POST /api/timetable/reoptimize` — repair latest draft preserving locked entries; returns disruption summary
+- `PUT /api/timetable/{id}/publish` — publish version, archive previous published, notify users (fixed; regression-tested)
 - `PUT /api/timetable/entry/{id}/lock` — lock a timetable entry (admin only)
 - `PUT /api/timetable/entry/{id}/unlock` — unlock a timetable entry (admin only)
+- `GET /api/timetable/versions` — list all versions with metrics
+- `GET /api/timetable/version/{id}` — one version with entries
+- `GET /api/timetable/compare?a={id}&b={id}` — diff two versions (added/removed/changed)
 
 ### Change Requests
 - `GET /api/change-requests` — list all change requests
-- `POST /api/change-requests` — submit a change request
-- `PUT /api/change-requests/{id}/status` — approve/reject/implement
+- `POST /api/change-requests` — submit a change request (notifies admins/coordinators)
+- `PUT /api/change-requests/{id}/status` — approve/reject/implement (notifies requester)
+- `PUT /api/change-requests/{id}/note` — coordinator recommendation
+
+### Master Data Extras
+- `POST/DELETE /api/master-data/holidays[/{id}]` — holiday management
+- `POST/DELETE /api/master-data/timeslots[/{id}]` — timeslot management (delete blocked with 409 if in use)
+- `PUT /api/master-data/preferences/{id}` — enable/disable + weight (0–10) for soft preferences
+- `GET /api/teacher-availability?teacher_id={id}` / `PUT /api/teacher-availability/{id}` — availability editor
+
+### System
+- `GET /api/notifications?user_id={id}` / `PUT /api/notifications/{id}/read` — in-app notifications
+- `GET /api/audit-log` — audit trail (actor, action, entity, old/new values)
+- Write endpoints accept an `X-User-Id` header identifying the acting user for audit logging.
+- Validation: missing/invalid fields → 400, unknown IDs → 404, method not allowed → 405, in-use deletes → 409.
 
 ## Database Schema
 
@@ -185,8 +202,8 @@ Run tests frequently during development.
 
 ## Known Issues
 
-### Publish Endpoint Crash
-The `PUT /api/timetable/{id}/publish` endpoint causes the server to crash with "Empty reply from server". The issue is intermittent and the root cause is unclear (possibly threading or request handling). **Workaround**: do not use the publish feature; mark timetables as published via direct database updates if needed. This is tracked as a TODO.
+### Publish Endpoint Crash — FIXED
+The historical `PUT /api/timetable/{id}/publish` crash ("Empty reply from server") is fixed: every handler now runs inside a dispatch wrapper that converts exceptions to JSON error responses instead of killing the worker thread. Covered by `tests/test_srs_features.py::PublishTests::test_publish_repeated_requests_never_crash_server`.
 
 ## Key Design Decisions
 
@@ -245,55 +262,43 @@ docs/
 - **Reports**: Facility Manager reports are stubbed; implement room utilization, teacher load, and capacity analysis.
 - **Error Handling**: Wrap API calls with try-catch; display user-friendly error messages in the UI.
 
-## Action Plan — What Remains To Be Built
+## Implementation Status (June 2026)
 
-### Priority 1: Fix Broken Features
-- [ ] **Fix publish endpoint crash** (`PUT /api/timetable/{id}/publish`) — debug `do_PUT` in `server.py`, likely a missing response or threading issue
-- [ ] **Student timetable filtering** — `renderTimetable()` in `render.js` must filter `timetable_entries` by `state.currentUser.section_id` when role is `student`
-- [ ] **Course CRUD forms** — Master Data section shows teachers/rooms but no course add/delete UI yet. Add inline form like teachers/rooms
+All MVP priorities from the original action plan are implemented and covered by tests
+(`tests/test_srs_features.py` plus the existing suites — run `python -B -m unittest discover`):
 
-### Priority 2: Missing CRUD Forms (Admin)
-- [ ] **Section management form** — add/edit/delete sections from Master Data
-- [ ] **Timeslot management** — currently seed-only; admin should be able to add/edit periods
-- [ ] **Holiday management** — add/remove holiday days from UI
-- [ ] **Teacher availability editor** — per-teacher, per-slot toggle grid
+- [x] **Publish** — fixed, archives previous published version, notifies users, regression-tested
+- [x] **Role-filtered views** — teachers/students see only the **published** version (`state.publishedTimetable`), filtered to their identity
+- [x] **Master data CRUD UI** — add/edit/delete for teachers, rooms, sections, courses; add/delete for holidays and timeslots
+- [x] **Teacher availability editor** — per-teacher per-slot checkbox grid (`renderAvailabilityEditor`)
+- [x] **Preference configuration** — enable/disable + weight 0–10 per soft preference
+- [x] **Change request → re-optimization** — approve, then "Re-generate with this change" (marks request implemented)
+- [x] **Lock/unlock** — grid buttons; locked entries survive re-optimization (solver `_preassign_locked`)
+- [x] **Versions & comparison** — version list with publish buttons; side-by-side diff (added/removed/changed)
+- [x] **Notifications** — bell + unread badge; events: generate, publish, request submit/decision
+- [x] **Audit log** — every write audited (actor via `X-User-Id`); admin viewer in Reports
+- [x] **Reports** — utilization % with peak/free flags, teacher busiest-day vs limit, section gap analysis
+- [x] **Validation & robustness** — 400/403/404/405/409 status codes; toasts for all errors; in-use deletes blocked
+- [x] **Role enforcement (backend)** — requests carrying `X-User-Id` are checked against role permissions (403); header-less requests are treated as trusted (tests/scripts)
+- [x] **Export/print** — client-side CSV export + print stylesheet
 
-### Priority 3: Constraint Configuration UI
-- [ ] **Preference toggle screen** — checkboxes + weight sliders for all 5 preferences (morning, early ending, proximity, energy, traffic)
-- [ ] The data exists in `preferences` table; UI just needs to read/write via `PUT /api/master-data/preferences/{id}`
+### Hardening & Realism (June 2026)
+- **Backend role enforcement (403):** write requests carrying `X-User-Id` are checked against role permissions; header-less requests stay trusted (tests/scripts).
+- **Input validation:** room types, weekdays, HH:MM time format + ordering, and string length are validated server-side (400 on violation). Malformed JSON, type confusion, SQLi, and XSS payloads are all handled safely (parametrized queries; UI escapes on render).
+- **Unplaced-session reasons:** the solver explains *why* each session is unplaced (no room of type, no room large enough, teacher unavailable, or contention). Stored on `timetable_entries.reason` and shown in the UI's unplaced list.
+- **Concurrency:** SQLite `busy_timeout=5000` so threaded requests wait rather than failing with "database is locked".
+- **Multi-account login:** the login screen lists every account per role with a searchable picker, so each teacher/student signs in as themselves (FR-09).
+- **Room delete guard:** rooms used by saved timetables can't be deleted (409), matching the timeslot guard.
 
-### Priority 4: Workflow Completion
-- [ ] **Change request → re-optimization** — when admin approves a change request, offer a "Re-generate with this change" button
-- [ ] **Lock/unlock UI** — timetable grid cells should show lock icons; clicking toggles lock via existing API
-- [ ] **Version comparison** — show diff between two timetable versions (before/after re-generation)
+### Test & seed tooling (`tools/`)
+- `university_seed.py` — loads a realistic, *solvable* Faculty of Computing dataset (14 teachers, 14 rooms, 8 sections, 32 courses) that generates conflict-free with score ~92; creates teacher + student login accounts; publishes. Run against the live dev server on :8765.
+- `stress_seed.py` — deliberately *infeasible* load (oversized sections, overloaded teachers) to prove the solver degrades gracefully and never violates a hard constraint.
+- `redteam.py` — 33 adversarial API checks (malformed input, injection, auth bypass, concurrency); all must return 4xx and keep the server alive.
+- `smoke_api.py` / `e2e_check.py` — quick endpoint and frontend-asset checks.
 
-### Priority 5: Reports Enhancement
-- [ ] **Room utilization report** — already partially built; add capacity warnings, peak load periods, free room identification
-- [ ] **Teacher load report** — show daily load per teacher, balance metrics
-- [ ] **Student gap analysis** — count free periods between classes per section
-
-### Priority 6: Polish & UX
-- [ ] **Form validation** — client-side required fields, server-side input sanitization on all POST/PUT
-- [ ] **Error toasts** — show user-friendly error messages instead of silent console.error
-- [ ] **Loading states** — spinner/skeleton during API calls (generate timetable can take seconds)
-- [ ] **Responsive design** — sidebar collapse on mobile
-- [ ] **Export/print** — generate PDF or CSV of timetable grid
-
-### Priority 7: Future / Out of Scope for MVP
-- [ ] **Real authentication** — server-side sessions, password hashing
-- [ ] **OR-Tools CP-SAT solver** — replace backtracking solver via `algorithms/ortools_solver.py`
-- [ ] **Academic calendar management** — semester dates, term boundaries
-- [ ] **Audit logging** — track who changed what and when
+### Remaining / Future (Phase 2)
+- [ ] **Real authentication** — server-side sessions, password hashing (login is picker-based)
+- [ ] **OR-Tools CP-SAT solver** — drop-in replacement via `algorithms/ortools_solver.py`
+- [ ] **Exam timetabling module** — UC16–UC20 from the SRS (rooms, student hierarchy, exam courses, exam solver, invigilation)
+- [ ] **Academic calendar with real dates** — semester boundaries (current model is weekly day-based)
 - [ ] **Multi-department support** — scope beyond single department
-
-### File-Specific Notes
-| What to change | Where |
-|----------------|-------|
-| Student timetable filter | `render.js` → `renderTimetable()` |
-| Course/section/holiday CRUD | `render.js` → `renderMasterData()` |
-| Preference toggles | New section in `render.js`, new PUT route in `server.py` |
-| Lock/unlock icons | `render.js` → timetable grid cells |
-| Fix publish crash | `server.py` → `do_PUT` handler for `/api/timetable/{id}/publish` |
-| Re-optimize after change | `render.js` + `api.js` + `timetable_service.py` |
-| Error toasts | `render.js` → add toast container + helper |
-| Export PDF/CSV | New `export.js` module |
