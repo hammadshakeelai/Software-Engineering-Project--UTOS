@@ -90,6 +90,13 @@ def update_room(conn: sqlite3.Connection, room_id: int, code: str, building: str
 
 
 def delete_room(conn: sqlite3.Connection, room_id: int) -> None:
+    # rooms use ON DELETE SET NULL, so without this guard a delete would
+    # silently strip the room from saved timetables (violates FR-02.6a).
+    used = conn.execute(
+        "SELECT COUNT(*) FROM timetable_entries WHERE room_id = ?", (room_id,)
+    ).fetchone()[0]
+    if used:
+        raise ValueError("Room is used by existing timetable entries")
     conn.execute("DELETE FROM rooms WHERE id = ?", (room_id,))
     conn.commit()
 
@@ -135,4 +142,72 @@ def update_course(conn: sqlite3.Connection, course_id: int, code: str, title: st
 
 def delete_course(conn: sqlite3.Connection, course_id: int) -> None:
     conn.execute("DELETE FROM courses WHERE id = ?", (course_id,))
+    conn.commit()
+
+
+def insert_holiday(conn: sqlite3.Connection, name: str, day: str) -> int:
+    cursor = conn.execute("INSERT INTO holidays (name, day) VALUES (?, ?)", (name, day))
+    conn.commit()
+    return cursor.lastrowid
+
+
+def delete_holiday(conn: sqlite3.Connection, holiday_id: int) -> bool:
+    cursor = conn.execute("DELETE FROM holidays WHERE id = ?", (holiday_id,))
+    conn.commit()
+    return cursor.rowcount > 0
+
+
+def insert_timeslot(
+    conn: sqlite3.Connection,
+    day: str,
+    start_time: str,
+    end_time: str,
+    sort_order: int,
+    is_morning: int = 0,
+    is_last_slot: int = 0,
+) -> int:
+    cursor = conn.execute(
+        """INSERT INTO timeslots (day, start_time, end_time, sort_order, is_morning, is_last_slot)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (day, start_time, end_time, sort_order, is_morning, is_last_slot),
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
+def delete_timeslot(conn: sqlite3.Connection, timeslot_id: int) -> bool:
+    used = conn.execute(
+        "SELECT COUNT(*) FROM timetable_entries WHERE timeslot_id = ?", (timeslot_id,)
+    ).fetchone()[0]
+    if used:
+        raise ValueError("Timeslot is used by existing timetable entries")
+    cursor = conn.execute("DELETE FROM timeslots WHERE id = ?", (timeslot_id,))
+    conn.commit()
+    return cursor.rowcount > 0
+
+
+def update_preference(conn: sqlite3.Connection, preference_id: int, enabled: int, weight: int) -> bool:
+    cursor = conn.execute(
+        "UPDATE preferences SET enabled = ?, weight = ? WHERE id = ?",
+        (enabled, weight, preference_id),
+    )
+    conn.commit()
+    return cursor.rowcount > 0
+
+
+def get_teacher_availability(conn: sqlite3.Connection, teacher_id: int) -> list[dict]:
+    return rows_to_dicts(
+        conn.execute(
+            "SELECT * FROM teacher_availability WHERE teacher_id = ?",
+            (teacher_id,),
+        )
+    )
+
+
+def set_teacher_availability(conn: sqlite3.Connection, teacher_id: int, unavailable_slot_ids: list[int]) -> None:
+    conn.execute("DELETE FROM teacher_availability WHERE teacher_id = ?", (teacher_id,))
+    conn.executemany(
+        "INSERT INTO teacher_availability (teacher_id, timeslot_id, is_available) VALUES (?, ?, 0)",
+        [(teacher_id, slot_id) for slot_id in unavailable_slot_ids],
+    )
     conn.commit()
