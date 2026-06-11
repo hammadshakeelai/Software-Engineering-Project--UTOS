@@ -97,7 +97,8 @@ CREATE TABLE IF NOT EXISTS timetable_entries (
     timeslot_id INTEGER REFERENCES timeslots(id) ON DELETE SET NULL,
     event_uid TEXT NOT NULL,
     locked INTEGER NOT NULL DEFAULT 0,
-    status TEXT NOT NULL DEFAULT 'placed' CHECK (status IN ('placed', 'unplaced'))
+    status TEXT NOT NULL DEFAULT 'placed' CHECK (status IN ('placed', 'unplaced')),
+    reason TEXT NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS change_requests (
@@ -113,6 +114,30 @@ CREATE TABLE IF NOT EXISTS change_requests (
     status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'implemented')),
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    category TEXT NOT NULL DEFAULT 'general',
+    title TEXT NOT NULL,
+    message TEXT NOT NULL DEFAULT '',
+    read INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    actor_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    action TEXT NOT NULL,
+    entity_type TEXT NOT NULL,
+    entity_id INTEGER,
+    old_value TEXT NOT NULL DEFAULT '',
+    new_value TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, read);
+CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log(created_at);
 
 CREATE INDEX IF NOT EXISTS idx_courses_teacher ON courses(teacher_id);
 CREATE INDEX IF NOT EXISTS idx_courses_section ON courses(section_id);
