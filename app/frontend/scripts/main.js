@@ -1,37 +1,41 @@
 import { api } from "./api.js";
-import { renderAll, renderLoginScreen, updateRoleBadge } from "./render.js";
+import {
+  renderAll,
+  renderLoginScreen,
+  renderNotificationList,
+  refreshNotifications,
+  refreshVersions,
+  toast,
+  updateRoleBadge
+} from "./render.js";
 import { setBootstrap, setGenerated, state, login, logout, loadUserFromStorage, setChangeRequests } from "./state.js";
 
-const appShell    = document.getElementById("appShell");
-const loginScreen = document.getElementById("loginScreen");
-const loginBtn    = document.getElementById("loginBtn");
-const logoutBtn   = document.getElementById("logoutBtn");
-const refreshBtn  = document.getElementById("refreshBtn");
-const generateBtn = document.getElementById("generateBtn");
-const publishBtn  = document.getElementById("publishBtn");
-const viewFilter  = document.getElementById("viewFilter");
-
-// ─── RBAC: role data ─────────────────────────────────────────────────────────
-// Maps data-user-id on the login cards → user objects.
-// Coordinator (id=5) maps to role "coordinator" in the DB seed.
-const staticUsers = [
-  { id: 1, name: "Timetable Admin",       role: "administrator"   },
-  { id: 5, name: "Department Coordinator",role: "coordinator"     },
-  { id: 2, name: "Dr. Ayesha Khan",       role: "teacher",  teacher_id: 1 },
-  { id: 3, name: "BSAI-4A Student",       role: "student",  section_id: 1 },
-  { id: 4, name: "Facility Manager",      role: "facility_manager"},
-];
+const appShell      = document.getElementById("appShell");
+const loginScreen   = document.getElementById("loginScreen");
+const loginBtn      = document.getElementById("loginBtn");
+const logoutBtn     = document.getElementById("logoutBtn");
+const refreshBtn    = document.getElementById("refreshBtn");
+const generateBtn   = document.getElementById("generateBtn");
+const reoptimizeBtn = document.getElementById("reoptimizeBtn");
+const publishBtn    = document.getElementById("publishBtn");
+const exportBtn     = document.getElementById("exportBtn");
+const printBtn      = document.getElementById("printBtn");
+const notifBtn      = document.getElementById("notifBtn");
+const notifPanel    = document.getElementById("notifPanel");
+const notifCloseBtn = document.getElementById("notifCloseBtn");
 
 async function loadLogin() {
-  state.masterData.users = staticUsers;
+  const { users } = await api.getUsers();
+  state.masterData.users = users;
   renderLoginScreen();
 }
 
 async function handleLogin() {
   const currentActive = document.querySelector(".role-card.selected");
-  if (!currentActive) return;
+  const selectedId    = document.getElementById("accountList")?.dataset.selectedId;
+  if (!currentActive || !selectedId) return;
 
-  const userId = parseInt(currentActive.getAttribute("data-user-id"));
+  const userId = parseInt(selectedId);
   const user   = state.masterData.users.find(u => u.id === userId);
 
   if (user) {
@@ -47,17 +51,15 @@ function handleLogout() {
   logout();
   loginScreen.style.display = "flex";
   appShell.style.display    = "none";
-  loadLogin();
+  loadLogin().catch(err => toast(err.message, "error"));
 }
 
 /** Apply role-specific topbar, button visibility, and guide banner. */
 function applyRoleUI(user) {
   const role = user.role;
 
-  // ── Update role badge in sidebar ─────────────────────────────────────────
   updateRoleBadge(user);
 
-  // ── Topbar title ──────────────────────────────────────────────────────────
   const titleMap = {
     administrator:    "Schedule Control Center",
     coordinator:      "Department Overview",
@@ -67,11 +69,12 @@ function applyRoleUI(user) {
   };
   document.getElementById("topbarTitle").textContent = titleMap[role] ?? "UTOS";
 
-  // ── Action buttons ────────────────────────────────────────────────────────
-  generateBtn.hidden = role !== "administrator";
-  publishBtn.hidden  = true;   // revealed only after generation by admin
+  generateBtn.hidden   = role !== "administrator";
+  reoptimizeBtn.hidden = role !== "administrator";
+  publishBtn.hidden    = true;   // revealed only when a draft exists, by load()
+  exportBtn.hidden     = !["administrator", "coordinator", "teacher", "student"].includes(role);
+  printBtn.hidden      = exportBtn.hidden;
 
-  // ── Guide banner ──────────────────────────────────────────────────────────
   const guides = {
     administrator: {
       icon: "🛠️",
@@ -100,7 +103,7 @@ function applyRoleUI(user) {
     },
   };
 
-  const banner     = document.getElementById("roleBanner");
+  const banner      = document.getElementById("roleBanner");
   const bannerIcon  = document.getElementById("roleBannerIcon");
   const bannerTitle = document.getElementById("roleBannerTitle");
   const bannerText  = document.getElementById("roleBannerText");
@@ -125,12 +128,14 @@ async function load() {
     const changeReqResp = await api.getChangeRequests();
     setChangeRequests(changeReqResp.changeRequests || []);
     renderAll();
-    // Re-apply role UI after render in case renderAll reset anything
     if (state.currentUser) applyRoleUI(state.currentUser);
-    // Show publish button only for admin after a timetable exists
     if (state.currentUser?.role === "administrator" && state.latestTimetable) {
-      publishBtn.hidden = false;
+      publishBtn.hidden = state.latestTimetable.status !== "draft";
     }
+    await refreshNotifications();
+    await refreshVersions();
+  } catch (err) {
+    toast(err.message, "error");
   } finally {
     setBusy(refreshBtn, false);
   }
@@ -145,8 +150,31 @@ async function generate() {
     if (state.currentUser?.role === "administrator") {
       publishBtn.hidden = false;
     }
+    await refreshVersions();
+    toast(`Draft version ${payload.versionId} generated (score ${payload.latestTimetable.score})`, "success");
+  } catch (err) {
+    toast(err.message, "error");
   } finally {
     setBusy(generateBtn, false);
+  }
+}
+
+async function reoptimize() {
+  setBusy(reoptimizeBtn, true);
+  try {
+    const payload = await api.reoptimizeTimetable();
+    setGenerated(payload);
+    renderAll();
+    if (state.currentUser?.role === "administrator") {
+      publishBtn.hidden = false;
+    }
+    await refreshVersions();
+    const d = payload.disruption || {};
+    toast(`Re-optimized: ${d.changed ?? 0} moved, ${d.unchanged ?? 0} unchanged, ${d.locked_preserved ?? 0} locked preserved`, "success");
+  } catch (err) {
+    toast(err.message, "error");
+  } finally {
+    setBusy(reoptimizeBtn, false);
   }
 }
 
@@ -154,12 +182,46 @@ async function publish() {
   if (!state.latestTimetable) return;
   setBusy(publishBtn, true);
   try {
-    await api.publishTimetable(state.latestTimetable.id);
-    state.latestTimetable.status = "published";
-    renderAll();
+    const result = await api.publishTimetable(state.latestTimetable.id);
+    await load();
+    toast(`Published — ${result.notified ?? 0} users notified`, "success");
+    publishBtn.hidden = true;
+  } catch (err) {
+    toast(err.message, "error");
   } finally {
     setBusy(publishBtn, false);
   }
+}
+
+// ─── Export (FR-12): CSV download of the visible timetable ───────────────────
+function exportCsv() {
+  const role = state.currentUser?.role;
+  // Teachers and students export the published timetable; staff export the latest draft.
+  const latest = ["teacher", "student"].includes(role) ? state.publishedTimetable : state.latestTimetable;
+  if (!latest?.entries?.length) {
+    toast("Nothing to export yet — no timetable available", "error");
+    return;
+  }
+  let entries = latest.entries.filter(e => e.status === "placed");
+  if (role === "teacher") entries = entries.filter(e => e.teacher_id === state.currentUser.teacher_id);
+  if (role === "student") entries = entries.filter(e => e.section_id === state.currentUser.section_id);
+
+  const header = ["Day", "Start", "End", "Course", "Title", "Teacher", "Section", "Room", "Building", "Locked"];
+  const quote = value => `"${String(value ?? "").replaceAll('"', '""')}"`;
+  const rows = entries.map(e => [
+    e.day, e.start_time, e.end_time, e.course_code, e.course_title,
+    e.teacher_name, e.section_name, e.room_code, e.room_building, e.locked ? "yes" : "no"
+  ].map(quote).join(","));
+  const csv = [header.join(","), ...rows].join("\r\n");
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `utos-timetable-v${latest.id}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("Timetable exported as CSV", "success");
 }
 
 function setBusy(button, busy) {
@@ -190,10 +252,25 @@ loginBtn.addEventListener("click", handleLogin);
 logoutBtn.addEventListener("click", handleLogout);
 refreshBtn.addEventListener("click", load);
 generateBtn.addEventListener("click", generate);
+reoptimizeBtn.addEventListener("click", reoptimize);
 publishBtn?.addEventListener("click", publish);
-viewFilter.addEventListener("change", (event) => {
-  state.selectedSection = event.target.value;
-  renderAll();
+exportBtn.addEventListener("click", exportCsv);
+printBtn.addEventListener("click", () => window.print());
+notifBtn.addEventListener("click", async () => {
+  notifPanel.hidden = !notifPanel.hidden;
+  if (!notifPanel.hidden) {
+    await refreshNotifications();
+    renderNotificationList();
+  }
+});
+notifCloseBtn.addEventListener("click", () => { notifPanel.hidden = true; });
+// Delegated: the #viewFilter select is re-created when role views swap the
+// timetable section, so a direct listener would be lost.
+document.addEventListener("change", (event) => {
+  if (event.target?.id === "viewFilter") {
+    state.selectedSection = event.target.value;
+    renderAll();
+  }
 });
 
 document.querySelectorAll(".nav-link").forEach((link) => {
