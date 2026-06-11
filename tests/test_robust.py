@@ -696,18 +696,22 @@ class RobustHTTPAPITests(unittest.TestCase):
             self.assertEqual(ctx.exception.code, 405)
 
     def test_api_missing_body_handled(self):
-        """Missing request body is handled gracefully."""
+        """Missing request body is handled gracefully (validation error, not a crash)."""
         with running_server() as base_url:
-            # Empty body should be handled
-            import urllib.request
             request = urllib.request.Request(
                 f"{base_url}/api/master-data/teachers",
                 data=b"{}",
                 method="POST"
             )
             request.add_header("Content-Type", "application/json")
-            with urllib.request.urlopen(request, timeout=10) as response:
-                self.assertIn(response.status, [200, 201, 400])
+            try:
+                with urllib.request.urlopen(request, timeout=10) as response:
+                    status = response.status
+            except urllib.error.HTTPError as error:
+                status = error.code
+            self.assertIn(status, [200, 201, 400])
+            # The server must still be alive afterwards.
+            read_json(f"{base_url}/api/health")
 
     def test_api_cors_preflight_not_required(self):
         """CORS not required for basic API."""
@@ -728,14 +732,18 @@ class RobustHTTPAPITests(unittest.TestCase):
             self.assertGreater(len(result), 0)
 
     def test_api_path_traversal_blocked_all_variants(self):
-        """Path traversal blocked for various encodings."""
+        """Path traversal blocked for various encodings.
+
+        The original version swallowed every exception inside the assertRaises
+        block, so it could never pass; this version asserts the 404 directly.
+        """
         with running_server() as base_url:
-            for path in ["/%2e%2e/api/health", "/..%2Fapi/health", "/%2e%2e%2fapi/health"]:
-                with self.assertRaises(urllib.error.HTTPError):
-                    try:
-                        read_text(f"{base_url}{path}")
-                    except:
-                        pass
+            for path in ["/%2e%2e/%2e%2e/app/backend/schema.sql",
+                         "/..%2F..%2Fapp%2Fbackend%2Fschema.sql",
+                         "/%2e%2e%2fapp%2fbackend%2fseed.py"]:
+                with self.assertRaises(urllib.error.HTTPError) as ctx:
+                    read_text(f"{base_url}{path}")
+                self.assertEqual(ctx.exception.code, 404, f"traversal not blocked for {path}")
 
 
 class RobustReportsTests(unittest.TestCase):
