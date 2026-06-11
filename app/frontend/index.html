@@ -30,22 +30,13 @@
       <form class="login-form">
         <label for="userSelector">Select your role to sign in:</label>
         <div id="userSelector" class="user-selector">
-          <button type="button" class="role-card" data-user-id="1" data-index="0">
-            <strong>Admin</strong>
-            <span>Timetable Manager</span>
-          </button>
-          <button type="button" class="role-card" data-user-id="5" data-index="1">
-            <strong>Coordinator</strong>
-          </button>
-          <button type="button" class="role-card" data-user-id="2" data-index="2">
-            <strong>Teacher</strong>
-          </button>
-          <button type="button" class="role-card" data-user-id="3" data-index="3">
-            <strong>Student</strong>
-          </button>
-          <button type="button" class="role-card" data-user-id="4" data-index="4">
-            <strong>Facility Manager</strong>
-          </button>
+          <!-- Role cards are generated from /api/users so IDs always match the database. -->
+        </div>
+
+        <div id="accountPickRow" class="account-pick" hidden>
+          <label for="accountSearch">Choose your account:</label>
+          <input id="accountSearch" class="input" type="search" placeholder="Search by name…" autocomplete="off" />
+          <div id="accountList" class="account-list"></div>
         </div>
 
         <button id="loginBtn" class="button primary" type="button" disabled>
@@ -76,6 +67,7 @@
         <a href="#timetable"       class="nav-link"             id="nav-timetable">Timetable</a>
         <a href="#change-requests" class="nav-link"             id="nav-requests">Requests</a>
         <a href="#master-data"     class="nav-link"             id="nav-master">Master Data</a>
+        <a href="#versions"        class="nav-link"             id="nav-versions">Versions</a>
         <a href="#reports"         class="nav-link"             id="nav-reports">Reports</a>
       </nav>
     </aside>
@@ -89,12 +81,27 @@
         </div>
 
         <div class="actions">
+          <button id="notifBtn" class="button secondary notif-btn" type="button" title="Notifications">
+            🔔<span id="notifBadge" class="notif-badge" hidden>0</span>
+          </button>
+          <button id="exportBtn"   class="button secondary" type="button" hidden>Export CSV</button>
+          <button id="printBtn"    class="button secondary" type="button" hidden>Print</button>
           <button id="refreshBtn"  class="button secondary" type="button">Refresh</button>
           <button id="generateBtn" class="button primary"   type="button">Generate Draft</button>
+          <button id="reoptimizeBtn" class="button primary" type="button" hidden>Re-optimize</button>
           <button id="publishBtn"  class="button primary"   type="button" hidden>Publish</button>
           <button id="logoutBtn"   class="button secondary" type="button">Logout</button>
         </div>
       </header>
+
+      <!-- ─── NOTIFICATIONS PANEL ─── -->
+      <div id="notifPanel" class="notif-panel" hidden>
+        <div class="notif-panel-head">
+          <strong>Notifications</strong>
+          <button id="notifCloseBtn" class="button small secondary" type="button">Close</button>
+        </div>
+        <div id="notifList" class="notif-list"></div>
+      </div>
 
       <!-- ─── ROLE GUIDE BANNER ─── -->
       <div id="roleBanner" class="role-guide-banner" hidden>
@@ -171,7 +178,7 @@
         <div class="data-columns">
           <section>
             <h3>Teachers</h3>
-            <div id="coursesList" class="record-list"></div>
+            <div id="teachersList" class="record-list"></div>
           </section>
 
           <section>
@@ -180,13 +187,64 @@
           </section>
 
           <section>
+            <h3>Sections</h3>
+            <div id="sectionsList" class="record-list"></div>
+          </section>
+        </div>
+
+        <div class="data-columns">
+          <section>
+            <h3>Courses</h3>
+            <div id="coursesList" class="record-list"></div>
+          </section>
+
+          <section>
+            <h3>Holidays / Blocked Days</h3>
+            <div class="guide-tip small">The solver never places classes on these days.</div>
+            <div id="holidaysList" class="record-list"></div>
+          </section>
+
+          <section>
+            <h3>Timeslots</h3>
+            <div id="timeslotsList" class="record-list"></div>
+          </section>
+        </div>
+
+        <div class="data-columns">
+          <section>
             <h3>Scheduling Preferences</h3>
             <div class="guide-tip small">Toggle preferences to steer the solver.
-              Higher weight = stronger influence on placement.
+              Higher weight = stronger influence on placement (0–10).
             </div>
             <div id="preferencesList" class="record-list"></div>
           </section>
+
+          <section class="span-2">
+            <h3>Teacher Availability</h3>
+            <div class="guide-tip small">Unchecked slots are unavailable: the solver will not schedule the teacher there.</div>
+            <div id="availabilityEditor"></div>
+          </section>
         </div>
+      </section>
+
+      <!-- ─── VERSIONS (admin/coordinator) ─── -->
+      <section id="versions" class="section-band">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">History</p>
+            <h2>Timetable Versions</h2>
+          </div>
+        </div>
+
+        <div id="versionsList" class="record-list"></div>
+
+        <div class="compare-controls">
+          <select id="compareA" class="select" aria-label="Compare version A"></select>
+          <span>vs</span>
+          <select id="compareB" class="select" aria-label="Compare version B"></select>
+          <button id="compareBtn" class="button secondary" type="button">Compare</button>
+        </div>
+        <div id="compareResult"></div>
       </section>
 
       <!-- ─── REPORTS ─── -->
@@ -208,10 +266,24 @@
             <h3>Teacher Load</h3>
             <div id="teacherReport" class="report-table"></div>
           </section>
+
+          <section>
+            <h3>Section Gap Analysis</h3>
+            <div class="guide-tip small">Free periods trapped between classes, per section per day.</div>
+            <div id="gapReport" class="report-table"></div>
+          </section>
+
+          <section id="auditSection" class="span-2">
+            <h3>Audit Log</h3>
+            <div class="guide-tip small">Who changed what and when (most recent first).</div>
+            <div id="auditReport" class="report-table"></div>
+          </section>
         </div>
       </section>
     </main>
   </div>
+
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
   <script type="module" src="/scripts/main.js"></script>
 </body>
