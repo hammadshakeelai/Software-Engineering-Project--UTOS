@@ -51,12 +51,19 @@ class TimetableSolver:
         self.best_soft_penalty = float("inf")
         self.warnings: list[str] = []
 
-        events = self._expand_events(problem["courses"])
+        locked_uids = self._preassign_locked(problem.get("locked_entries", []))
+        events = [
+            event
+            for event in self._expand_events(problem["courses"])
+            if event["event_uid"] not in locked_uids
+        ]
         events.sort(key=self._event_pressure_key)
         self.best_unplaced = events.copy()
         self._search(events, 0)
         self.entries = [entry.copy() for entry in self.best_entries]
         self.unplaced = [entry.copy() for entry in self.best_unplaced]
+        for event in self.unplaced:
+            event["reason"] = self._diagnose_unplaced(event)
 
         soft_penalty = sum(entry["soft_penalty"] for entry in self.entries)
         distance_to_feasibility = sum(entry["section_size"] for entry in self.unplaced)
@@ -82,6 +89,81 @@ class TimetableSolver:
                 "search_nodes": self.nodes,
             },
         }
+
+    def _diagnose_unplaced(self, event: dict[str, Any]) -> str:
+        """Explain, in plain language, why a session has no valid placement.
+
+        Distinguishes structural impossibility (no room is big enough / right
+        type, teacher never available) from contention (rooms and slots exist
+        but were all taken by other classes), so an admin knows what to fix.
+        """
+        required_type = event["required_room_type"]
+        size = int(event["section_size"])
+
+        type_rooms = [
+            r for r in self.rooms
+            if not (required_type and required_type != "lecture" and r["room_type"] != required_type)
+        ]
+        if not type_rooms:
+            return f"No room of type '{required_type}' exists."
+
+        big_enough = [r for r in type_rooms if int(r["capacity"]) >= size]
+        if not big_enough:
+            largest = max(int(r["capacity"]) for r in type_rooms)
+            return (f"No {required_type} room is large enough for {size} students "
+                    f"(largest holds {largest}).")
+
+        non_holiday_slots = [s for s in self.timeslots if s["day"] not in self.holiday_days]
+        if not non_holiday_slots:
+            return "Every timeslot falls on a holiday."
+
+        available_slots = [
+            s for s in non_holiday_slots
+            if self.availability.get((event["teacher_id"], s["id"]), True)
+        ]
+        if not available_slots:
+            return f"{event['teacher_name']} is marked unavailable for every working timeslot."
+
+        # Rooms and slots exist in principle: the conflict is contention with
+        # other classes (teacher/section/room already busy in the open slots).
+        return ("No free room and timeslot remained after placing higher-priority "
+                "classes (teacher, section, or room conflicts). Add rooms/slots or "
+                "relax load limits.")
+
+    def _preassign_locked(self, locked_entries: list[dict[str, Any]]) -> set[str]:
+        """Fix previously locked assignments in place (repair mode, FR-07.2).
+
+        Locked entries occupy their teacher/section/room slots before the search
+        starts, so the solver schedules everything else around them.
+        """
+        rooms_by_id = {room["id"]: room for room in self.rooms}
+        slots_by_id = {slot["id"]: slot for slot in self.timeslots}
+        locked_uids: set[str] = set()
+        for locked in locked_entries:
+            room = rooms_by_id.get(locked.get("room_id"))
+            slot = slots_by_id.get(locked.get("timeslot_id"))
+            if not room or not slot:
+                self.warnings.append(
+                    f"Locked entry {locked.get('event_uid')} references a missing room or timeslot; it was released."
+                )
+                continue
+            event = {
+                "event_uid": locked["event_uid"],
+                "course_id": locked["course_id"],
+                "course_code": locked.get("course_code", ""),
+                "course_title": locked.get("course_title", ""),
+                "teacher_id": locked["teacher_id"],
+                "teacher_name": locked.get("teacher_name", ""),
+                "section_id": locked["section_id"],
+                "section_name": locked.get("section_name", ""),
+                "section_size": locked.get("section_size", 0),
+                "required_room_type": locked.get("required_room_type", "lecture"),
+                "weekly_sessions": locked.get("weekly_sessions", 1),
+            }
+            self._assign(event, {"room": room, "slot": slot, "soft_penalty": 0})
+            self.entries[-1]["locked"] = True
+            locked_uids.add(locked["event_uid"])
+        return locked_uids
 
     def _expand_events(self, courses: list[dict[str, Any]]) -> list[dict[str, Any]]:
         events = []
@@ -197,7 +279,8 @@ class TimetableSolver:
             return False
         if int(room["capacity"]) < int(event["section_size"]):
             return False
-        if event["required_room_type"] == "lab" and room["room_type"] != "lab":
+        required_type = event["required_room_type"]
+        if required_type and required_type != "lecture" and room["room_type"] != required_type:
             return False
         if (event["teacher_id"], slot["id"]) in self.teacher_at_slot:
             return False
