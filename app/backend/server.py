@@ -63,8 +63,10 @@ from app.backend.services.bootstrap_service import get_bootstrap_payload
 from app.backend.services.timetable_service import generate_timetable, reoptimize_timetable
 
 
-HOST = "127.0.0.1"
-PORT = int(os.environ.get("UTOS_PORT", "8000"))
+# Bind to 0.0.0.0 in hosted environments (set UTOS_HOST). PORT is injected by
+# Render/Railway/Heroku-style platforms; UTOS_PORT is the local-dev fallback.
+HOST = os.environ.get("UTOS_HOST", "127.0.0.1")
+PORT = int(os.environ.get("PORT") or os.environ.get("UTOS_PORT") or "8000")
 FRONTEND_DIR = Path(__file__).resolve().parents[1] / "frontend"
 
 # API paths that only support GET; other methods on them return 405.

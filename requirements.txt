@@ -1,0 +1,3 @@
+# UTOS backend is intentionally stdlib-only (http.server, sqlite3, json) — no
+# third-party runtime dependencies. This file exists so Render/Railway's Python
+# build step succeeds; add packages here only if that design ever changes.

@@ -1,0 +1,31 @@
+# Render Blueprint for UTOS (https://render.com).
+# Deploys the persistent Python server as-is. Frontend + API are served from
+# the same origin, so there is no CORS or separate static host to configure.
+#
+# Deploy: push this repo to GitHub, then in Render choose
+# "New +" -> "Blueprint" and point it at this repo. Render reads this file.
+services:
+  - type: web
+    name: utos
+    runtime: python
+    plan: free                       # free tier: app runs, but see the disk note below
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.backend.server
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: UTOS_HOST              # bind to all interfaces so Render can reach it
+        value: "0.0.0.0"
+      # --- Data persistence -------------------------------------------------
+      # The free plan has NO persistent disk: the SQLite file lives in the
+      # container and reseeds to sample data on every deploy/restart. That is
+      # fine for a demo. For durable data, upgrade this service to "starter"
+      # (or higher), then UNCOMMENT the env var and the `disk:` block below.
+      # - key: UTOS_DATA_DIR
+      #   value: /var/data
+    # disk:
+    #   name: utos-data
+    #   mountPath: /var/data
+    #   sizeGB: 1

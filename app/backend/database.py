@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sqlite3
 from pathlib import Path
 from typing import Iterable
@@ -7,7 +8,9 @@ from typing import Iterable
 
 BACKEND_DIR = Path(__file__).resolve().parent
 APP_DIR = BACKEND_DIR.parent
-DATA_DIR = APP_DIR / "data"
+# UTOS_DATA_DIR lets hosted deployments point SQLite at a persistent disk mount
+# (e.g. /var/data on Render); locally it defaults to app/data.
+DATA_DIR = Path(os.environ.get("UTOS_DATA_DIR") or (APP_DIR / "data"))
 DB_PATH = DATA_DIR / "utos.sqlite"
 SCHEMA_PATH = BACKEND_DIR / "schema.sql"
 
