@@ -80,3 +80,11 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.login-status {
+  padding: 18px 8px;
+  color: var(--muted, #6b7280);
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+}

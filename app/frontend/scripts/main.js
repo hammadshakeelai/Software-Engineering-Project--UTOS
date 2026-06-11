@@ -24,10 +24,32 @@ const notifBtn      = document.getElementById("notifBtn");
 const notifPanel    = document.getElementById("notifPanel");
 const notifCloseBtn = document.getElementById("notifCloseBtn");
 
+function showLoginStatus(message) {
+  const selector = document.getElementById("userSelector");
+  if (selector) {
+    selector.innerHTML = `<div class="login-status">${message}</div>`;
+  }
+}
+
 async function loadLogin() {
-  const { users } = await api.getUsers();
-  state.masterData.users = users;
-  renderLoginScreen();
+  // Hosted free tiers (Render/Railway) sleep when idle, so the first request
+  // can take 30-50s to wake the server and may briefly return 502/503. Retry
+  // with a clear "waking up" message instead of looking broken.
+  const maxAttempts = 12;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      showLoginStatus(attempt === 1
+        ? "Loading…"
+        : `Waking up the server… (this can take ~30s on first visit)`);
+      const { users } = await api.getUsers();
+      state.masterData.users = users;
+      renderLoginScreen();
+      return;
+    } catch (err) {
+      if (attempt === maxAttempts) throw err;
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+  }
 }
 
 async function handleLogin() {
