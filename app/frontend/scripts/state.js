@@ -11,17 +11,31 @@ export const state = {
     users: []
   },
   latestTimetable: null,
+  publishedTimetable: null,
   reports: {
     room_utilization: [],
     teacher_load: []
   },
   changeRequests: [],
+  notifications: [],
+  unreadCount: 0,
+  versions: [],
   selectedSection: "all"
 };
+
+export function setNotifications(payload) {
+  state.notifications = payload.notifications || [];
+  state.unreadCount = payload.unread || 0;
+}
+
+export function setVersions(versions) {
+  state.versions = versions || [];
+}
 
 export function setBootstrap(payload) {
   state.masterData = payload.masterData;
   state.latestTimetable = payload.latestTimetable;
+  state.publishedTimetable = payload.publishedTimetable ?? null;
   state.reports = payload.reports;
 }
 
