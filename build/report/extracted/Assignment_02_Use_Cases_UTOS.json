@@ -1,0 +1,3160 @@
+{
+ "source": "Assignment_02_Use_Cases_UTOS.docx",
+ "stem": "Assignment_02_Use_Cases_UTOS",
+ "images_dir": "images\\Assignment_02_Use_Cases_UTOS",
+ "blocks": [
+  {
+   "type": "para",
+   "style": "",
+   "text": "UNIVERSITY TIMETABLE OPTIMIZATION SYSTEM"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "(UTOS)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case Analysis Document"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case Diagram, High-Level Use Cases, and Expanded Use Cases"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "By: Muhammad Hammad Shakeel"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Software Engineering Project"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "1. Introduction"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "This document presents the use case analysis for the University Timetable Optimization System (UTOS) following the analysis-modeling format taught in lecture: a use case diagram showing the system’s interactions with external actors, a high-level use case description for every identified use case, and a detailed (fully dressed) expanded use case specification for every identified use case."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "UTOS is a web-based platform for university class timetabling, exam timetabling, role-based access, versioning, notifications, reporting, and controlled timetable repair. The use cases below cover the full SRS scope and trace back to functional requirements identified in the SRS."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "2. Use Case Analysis Approach"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use cases are defined from actor goals rather than from database tables or UI pages. Each use case is presented twice:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "High-level use case — brief and structured (use case name, actors, type, description). Quick start for understanding overall scope."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Expanded use case — fully dressed (purpose, overview, type, cross-reference, typical course of events as Actor Action / System Response, and alternative courses)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use cases are categorized by business importance as Primary (major common processes such as authentication, generation, publication) or Secondary (rare or supporting processes such as version comparison, export, notifications history)."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "3. Actors and System Boundary"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "The System under Discussion (SuD) is the UTOS web application: frontend, backend API, database, scheduling solver orchestration, notifications, versioning, and reporting. Human actors remain outside the boundary. The solver engine is treated as an internal supporting actor invoked by the system rather than as a primary actor on the use case diagram."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor",
+     "Type",
+     "Goal and Responsibility"
+    ],
+    [
+     "Timetable Administrator",
+     "Primary",
+     "Full access to timetable setup, generation, review, repair, publishing, versioning, and reporting."
+    ],
+    [
+     "Department Coordinator",
+     "Primary / Supporting",
+     "Validates department data, reviews timetable quality, approves or rejects department change requests, and confirms department-level preferences."
+    ],
+    [
+     "Teacher",
+     "Primary",
+     "Views personal teaching timetable, submits availability, and requests changes when assigned times or rooms need adjustment."
+    ],
+    [
+     "Student",
+     "Primary",
+     "Views the published section timetable and exam schedule; receives notifications about published or changed schedules."
+    ],
+    [
+     "Facility Manager",
+     "Supporting",
+     "Maintains room information, monitors room availability, and reviews room utilization and capacity reports."
+    ],
+    [
+     "System Administrator",
+     "Primary",
+     "Manages user accounts, role permissions, backups, security settings, audit log visibility, and system configuration."
+    ],
+    [
+     "Solver Engine (offstage)",
+     "Supporting (system)",
+     "Internal optimization component invoked by class generation and exam scheduling. Modeled as a supporting actor in flows but not on the use-case diagram."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "4. Use Case Diagram"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "The use case diagram below illustrates the interactions between the UTOS system and its external actors. Because the full SRS contains too many goals for one clean diagram, the model is split into two views: a Class Timetabling view and an Exam / System-Wide view. A simplified baseline view is also retained for quick reference."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "4.1 Class Timetabling View"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "\nFigure 4.1\nClass Timetabling use case diagram — Timetable Administrator, Department Coordinator, Teacher, Student, and Solver Engine interacting with UC02–UC11."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "4.2 Exam Timetabling and System-Wide View"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "\nFigure 4.2\nExam and System-Wide use case diagram — covering UC00, UC01, UC13–UC22 with all six actors."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "4.3 Baseline (Simplified) View"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "\nFigure 4.3\nOriginal simplified use case diagram retained as a baseline reference for quick orientation."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "5. High-Level Use Case Summary"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "The table below lists every use case identified in the system. Each use case is then specified in detail in Section 6 with both a high-level description and a fully dressed expanded specification."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "ID",
+     "Use Case",
+     "Module",
+     "Primary Actor / Type"
+    ],
+    [
+     "UC00",
+     "Authenticate and Login",
+     "System-wide",
+     "All users (initiator), System Administrator | Primary"
+    ],
+    [
+     "UC01",
+     "Maintain Organization Hierarchy",
+     "System-wide",
+     "Timetable Administrator (initiator) | Primary"
+    ],
+    [
+     "UC02",
+     "Maintain Academic Calendar",
+     "Class Timetabling",
+     "Timetable Administrator (initiator) | Primary"
+    ],
+    [
+     "UC03",
+     "Manage Master Data",
+     "Class Timetabling",
+     "Timetable Administrator (initiator), Department Coordinator, Facility Manager | Primary"
+    ],
+    [
+     "UC04",
+     "Define Constraints and Preferences",
+     "Class Timetabling",
+     "Timetable Administrator (initiator), Department Coordinator, Teacher | Primary"
+    ],
+    [
+     "UC05",
+     "Generate Class Timetable",
+     "Class Timetabling",
+     "Timetable Administrator (initiator), Solver Engine | Primary"
+    ],
+    [
+     "UC06",
+     "Review Timetable Quality",
+     "Class Timetabling",
+     "Timetable Administrator (initiator), Department Coordinator, Facility Manager | Primary"
+    ],
+    [
+     "UC07",
+     "Manually Adjust and Lock Timetable",
+     "Class Timetabling",
+     "Timetable Administrator (initiator), Department Coordinator | Primary"
+    ],
+    [
+     "UC08",
+     "Submit Change Request",
+     "Class Timetabling",
+     "Teacher (initiator), Department Coordinator | Primary"
+    ],
+    [
+     "UC09",
+     "Approve or Reject Change Request",
+     "Class Timetabling",
+     "Department Coordinator (initiator), Timetable Administrator, Teacher | Primary"
+    ],
+    [
+     "UC10",
+     "Re-optimize Timetable",
+     "Class Timetabling",
+     "Timetable Administrator (initiator), Solver Engine | Primary"
+    ],
+    [
+     "UC11",
+     "Publish Timetable",
+     "Class Timetabling",
+     "Timetable Administrator (initiator), Department Coordinator, Teacher, Student | Primary"
+    ],
+    [
+     "UC12",
+     "View Personal or Section Timetable",
+     "Class Timetabling",
+     "Teacher (initiator), Student (initiator) | Primary"
+    ],
+    [
+     "UC13",
+     "Export Class Timetable",
+     "System-wide",
+     "Timetable Administrator (initiator), Teacher, Student | Secondary"
+    ],
+    [
+     "UC14",
+     "Manage Notifications",
+     "System-wide",
+     "All users (initiator), System | Secondary"
+    ],
+    [
+     "UC15",
+     "Compare Timetable Versions",
+     "System-wide",
+     "Timetable Administrator (initiator), Department Coordinator | Secondary"
+    ],
+    [
+     "UC16",
+     "Manage Exam Rooms",
+     "Exam Timetabling",
+     "Timetable Administrator (initiator), Facility Manager | Primary"
+    ],
+    [
+     "UC17",
+     "Manage Student Hierarchy",
+     "Exam Timetabling",
+     "Timetable Administrator (initiator) | Primary"
+    ],
+    [
+     "UC18",
+     "Manage Exam Courses",
+     "Exam Timetabling",
+     "Timetable Administrator (initiator) | Primary"
+    ],
+    [
+     "UC19",
+     "Schedule Exams",
+     "Exam Timetabling",
+     "Timetable Administrator (initiator), Student, Teacher, Facility Manager | Primary"
+    ],
+    [
+     "UC20",
+     "View Exam Schedule and Invigilation Duties",
+     "Exam Timetabling",
+     "Student (initiator), Teacher (initiator), Facility Manager (initiator) | Secondary"
+    ],
+    [
+     "UC21",
+     "Manage Users and Roles",
+     "Administration",
+     "System Administrator (initiator) | Primary"
+    ],
+    [
+     "UC22",
+     "View System Reports and Audit Logs",
+     "Administration",
+     "Timetable Administrator (initiator), Facility Manager, System Administrator, Department Coordinator | Secondary"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "6. Use Case Specifications"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "For each use case below, two specifications are provided: a high-level description (brief, structured) and an expanded specification (fully dressed with typical course of events and alternative courses)."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC00 — Authenticate and Login"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: System-wide"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Authenticate and Login"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC00 — Authenticate and Login"
+    ],
+    [
+     "Actors:",
+     "All users (initiator), System Administrator"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "A user opens UTOS and selects a role. The system validates credentials, creates a session, and opens the role-specific dashboard with permitted navigation."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Authenticate and Login"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC00 — Authenticate and Login"
+    ],
+    [
+     "Actors:",
+     "All users (initiator), System Administrator"
+    ],
+    [
+     "Purpose:",
+     "Allow authorized users to enter UTOS with role-appropriate access."
+    ],
+    [
+     "Overview:",
+     "A user selects a role and signs in. The system validates credentials, stores a session, opens the correct dashboard, and enforces role-based navigation. Logout terminates the session."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-00.1 to FR-00.6c; NFR-05 (security); role-based access requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when a user requests access to UTOS.",
+     "2. The system asks for identity and role information."
+    ],
+    [
+     "3. The user provides valid login information.",
+     "4. The system verifies the user and determines the assigned role."
+    ],
+    [
+     "5. The user confirms the login action.",
+     "6. The system starts a session and grants access to permitted functions."
+    ],
+    [
+     "7. The user may later request logout.",
+     "8. The system ends the session and returns to the login screen."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 3",
+     "Invalid credentials. The system rejects the login and shows a plain-language error."
+    ],
+    [
+     "Line 4",
+     "User has no assigned role. The system denies access and asks the user to contact the system administrator."
+    ],
+    [
+     "Line 6",
+     "Inactive non-admin user. The system may auto-logout according to security settings."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC01 — Maintain Organization Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: System-wide"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Maintain Organization Hierarchy"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC01 — Maintain Organization Hierarchy"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator)"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator defines the University, Faculty, Department, Batch, Section structure and academic terms so every course, teacher, student, and timetable version belongs to the correct unit."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Maintain Organization Hierarchy"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC01 — Maintain Organization Hierarchy"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), System Administrator"
+    ],
+    [
+     "Purpose:",
+     "Establish and maintain the organizational structure that anchors all scheduling data."
+    ],
+    [
+     "Overview:",
+     "The administrator creates and maintains the hierarchy of University, Faculty, Department, Batch, and Section, plus academic terms and versioned timetables. All other entities (courses, teachers, sections) reference this hierarchy."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-01.1 to FR-01.5; organization hierarchy requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator opens organization management.",
+     "2. The system displays the existing hierarchy tree and academic terms."
+    ],
+    [
+     "3. The administrator creates or edits a unit (faculty, department, batch, section, or term).",
+     "4. The system validates uniqueness, parent linkage, and naming rules."
+    ],
+    [
+     "5. The administrator saves the change.",
+     "6. The system stores the unit and refreshes the hierarchy tree."
+    ],
+    [
+     "7. The administrator may move or deactivate a unit.",
+     "8. The system updates references and warns about dependent records."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Duplicate or invalid name. The system blocks the save and highlights the conflicting field."
+    ],
+    [
+     "Line 7",
+     "Unit has dependent timetable entries. The system blocks deletion and requires reassignment."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC02 — Maintain Academic Calendar"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Maintain Academic Calendar"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC02 — Maintain Academic Calendar"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator)"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator defines semester dates, holidays, working days, and makeup-class windows so the solver does not place classes on blocked days."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Maintain Academic Calendar"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC02 — Maintain Academic Calendar"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator)"
+    ],
+    [
+     "Purpose:",
+     "Define the time foundation on which class timetables and exam timetables are generated."
+    ],
+    [
+     "Overview:",
+     "The administrator sets the semester start/end, blackout dates, official holidays, working days per week, and makeup-class windows. The calendar is consumed by both class generation and exam scheduling."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-02.1 to FR-02.6; calendar requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator opens the academic calendar settings.",
+     "2. The system displays the current term, holidays, and blackout dates."
+    ],
+    [
+     "3. The administrator adds or edits dates and working-day rules.",
+     "4. The system validates date ranges, overlaps, and weekend/holiday conflicts."
+    ],
+    [
+     "5. The administrator saves the calendar.",
+     "6. The system stores the configuration and applies it to future generation runs."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Overlapping holiday range. The system warns and asks for correction."
+    ],
+    [
+     "Line 4",
+     "End date before start date. The system blocks the save and highlights the field."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC03 — Manage Master Data"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Manage Master Data"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC03 — Manage Master Data"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Facility Manager"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator maintains teachers, rooms, courses, sections, timeslots, room types, capacities, and facilities. The validated data feeds class generation and exam scheduling."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Manage Master Data"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC03 — Manage Master Data"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Facility Manager"
+    ],
+    [
+     "Purpose:",
+     "Maintain the validated entity data that the solver and reporting modules consume."
+    ],
+    [
+     "Overview:",
+     "The administrator manages teachers, rooms, courses, sections, timeslots, room capacities, room types, and facilities. This use case also prepares shared room data for the exam module."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-02.1 to FR-02.6b; FR-15.1 to FR-15.4 (reusable room data)."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the Timetable Administrator chooses to maintain scheduling data.",
+     "2. The system presents the available master-data categories."
+    ],
+    [
+     "3. The administrator creates or edits a record.",
+     "4. The system validates required fields, duplicates, capacity, and relationship rules."
+    ],
+    [
+     "5. The administrator saves the record.",
+     "6. The system stores the record and makes it available to generation and reporting."
+    ],
+    [
+     "7. A coordinator or facility manager reviews relevant data.",
+     "8. The system shows filtered views according to role."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Required field missing. The system blocks saving and highlights the field."
+    ],
+    [
+     "Line 4",
+     "Room capacity smaller than linked section size. The system warns the user."
+    ],
+    [
+     "Line 5",
+     "Record used by an existing timetable entry. Deletion is blocked or requires replacement."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC04 — Define Constraints and Preferences"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Define Constraints and Preferences"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC04 — Define Constraints and Preferences"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Teacher"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator configures the active hard rules and weighted soft preferences that the solver uses for class generation."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Define Constraints and Preferences"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC04 — Define Constraints and Preferences"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Teacher"
+    ],
+    [
+     "Purpose:",
+     "Configure the rulebook that determines timetable feasibility and quality."
+    ],
+    [
+     "Overview:",
+     "Hard constraints must be enforced (no teacher clash, no room clash, capacity, lab rules, holiday exclusion). Soft preferences (morning preference, early ending, energy saving, room proximity, traffic reduction) are enabled, disabled, or weighted according to institutional policy."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-03.1 to FR-03.15."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator decides to configure scheduling rules.",
+     "2. The system shows hard constraints and soft preference options."
+    ],
+    [
+     "3. The administrator chooses active rules and priority weights.",
+     "4. The system checks whether the configuration is complete and consistent."
+    ],
+    [
+     "5. The administrator confirms the configuration.",
+     "6. The system saves it as the active rule configuration for future generation."
+    ],
+    [
+     "7. Teachers may provide availability restrictions.",
+     "8. The system stores unavailable slots as constraint data."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Soft preference weight outside the allowed range. The system requests correction."
+    ],
+    [
+     "Line 4",
+     "Hard rule disabled in an unsafe way. The system requires confirmation or blocks the change."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC05 — Generate Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Generate Class Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC05 — Generate Class Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Solver Engine"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator triggers timetable generation. The system validates data, runs the solver, saves a draft version, and reports score, conflicts, and unplaced sessions."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Generate Class Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC05 — Generate Class Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Solver Engine"
+    ],
+    [
+     "Purpose:",
+     "Produce a draft class timetable for an academic term."
+    ],
+    [
+     "Overview:",
+     "The administrator starts generation. The system validates data, builds a problem model, runs the solver, saves the result as a draft version, and displays status, score, conflicts, and unplaced sessions."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-04.1 to FR-04.7c; FR-05.1 to FR-05.5; versioning requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the Timetable Administrator requests generation for an academic term.",
+     "2. The system identifies the selected term, departments, sections, courses, teachers, rooms, timeslots, calendar, and constraints."
+    ],
+    [
+     "3. The administrator confirms that generation should begin.",
+     "4. The system validates that required data exists and that constraints are usable."
+    ],
+    [
+     "5. The administrator waits for the result.",
+     "6. The system attempts to assign every class session to a valid room and timeslot."
+    ],
+    [
+     "7. The administrator reviews the generated result.",
+     "8. The system stores the result as a draft version and shows feasibility status, conflicts, unplaced sessions, and quality score."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Master data missing. The system lists missing teachers, rooms, timeslots, courses, or sections and stops generation."
+    ],
+    [
+     "Line 6",
+     "No complete timetable feasible. The system saves the partial result and lists unplaced sessions with reasons."
+    ],
+    [
+     "Line 6",
+     "Conflict detected. The system tries alternate room/time assignments before reporting failure."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC06 — Review Timetable Quality"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Review Timetable Quality"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC06 — Review Timetable Quality"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Facility Manager"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator and reviewers inspect the draft for conflicts, quality score, room utilization, and teacher load before publishing or repair."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Review Timetable Quality"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC06 — Review Timetable Quality"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Facility Manager"
+    ],
+    [
+     "Purpose:",
+     "Evaluate whether the generated draft is feasible, acceptable, and efficient before publication."
+    ],
+    [
+     "Overview:",
+     "The system shows timetable grid, conflicts, quality score, room usage, teacher load, and soft-constraint penalties. Reviewers decide whether to accept, adjust, or regenerate."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-05.1 to FR-05.5; FR-21.1 to FR-21.8."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator opens a generated timetable draft.",
+     "2. The system displays the weekly timetable and summary status."
+    ],
+    [
+     "3. The administrator examines conflicts and warnings.",
+     "4. The system shows affected entries and explains each issue."
+    ],
+    [
+     "5. The administrator checks quality information.",
+     "6. The system shows score, room utilization, teacher load, and penalty breakdown."
+    ],
+    [
+     "7. The administrator decides whether the result is acceptable.",
+     "8. The system allows moving forward to locking, re-optimization, or publishing."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 3",
+     "Conflict unacceptable. The administrator sends the draft to manual adjustment or re-optimization."
+    ],
+    [
+     "Line 7",
+     "Zero hard conflicts but poor soft score. The administrator may tune preferences and regenerate."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC07 — Manually Adjust and Lock Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Manually Adjust and Lock Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC07 — Manually Adjust and Lock Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator manually moves or edits draft entries and locks selected entries so future re-optimization preserves them."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Manually Adjust and Lock Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC07 — Manually Adjust and Lock Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator"
+    ],
+    [
+     "Purpose:",
+     "Allow controlled manual editing and preserve important assignments from future solver changes."
+    ],
+    [
+     "Overview:",
+     "The administrator adjusts entries and locks selected timetable assignments. Locked entries become fixed constraints during re-optimization."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-06.1 to FR-06.4; FR-07.1 to FR-07.3."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator chooses an entry that needs adjustment or preservation.",
+     "2. The system shows the selected entry and editable assignment choices."
+    ],
+    [
+     "3. The administrator moves an entry or marks it locked.",
+     "4. The system validates the change against teacher, room, section, and timeslot constraints."
+    ],
+    [
+     "5. The administrator confirms the change.",
+     "6. The system saves the change, records audit history, and updates the draft."
+    ],
+    [
+     "7. The administrator runs future repair if needed.",
+     "8. The system keeps locked entries unchanged."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Chosen room already occupied. The system rejects the move and displays the colliding entry."
+    ],
+    [
+     "Line 4",
+     "Entry already published. The system requires a new draft or authorized revision workflow."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC08 — Submit Change Request"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Submit Change Request"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC08 — Submit Change Request"
+    ],
+    [
+     "Actors:",
+     "Teacher (initiator), Department Coordinator"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Teacher or coordinator submits a structured request for a teacher, room, or time change. The request is recorded as Pending and reviewers are notified."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Submit Change Request"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC08 — Submit Change Request"
+    ],
+    [
+     "Actors:",
+     "Teacher (initiator), Department Coordinator, Timetable Administrator"
+    ],
+    [
+     "Purpose:",
+     "Provide a structured way to request schedule changes without direct timetable editing."
+    ],
+    [
+     "Overview:",
+     "A teacher or coordinator submits a request with subject, summary, reason, and optional document. The system records it as pending and notifies reviewers."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-10.1 to FR-10.3; notification requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when a teacher or coordinator needs a timetable change.",
+     "2. The system offers a request submission function."
+    ],
+    [
+     "3. The requester describes the change and reason.",
+     "4. The system validates that the request is connected to a timetable item or valid context."
+    ],
+    [
+     "5. The requester submits the request.",
+     "6. The system records the request with status Pending and notifies reviewers."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Attachment larger than the allowed limit. The system asks the user to remove or replace it."
+    ],
+    [
+     "Line 5",
+     "Request summary empty. The system asks for enough details before submission."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC09 — Approve or Reject Change Request"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Approve or Reject Change Request"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC09 — Approve or Reject Change Request"
+    ],
+    [
+     "Actors:",
+     "Department Coordinator (initiator), Timetable Administrator, Teacher"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Reviewer opens a pending request, checks conflicts and details, and approves or rejects it. The requester is notified and approved requests can trigger repair."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Approve or Reject Change Request"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC09 — Approve or Reject Change Request"
+    ],
+    [
+     "Actors:",
+     "Department Coordinator (initiator), Timetable Administrator, Teacher"
+    ],
+    [
+     "Purpose:",
+     "Review a submitted request and decide whether it should affect the timetable."
+    ],
+    [
+     "Overview:",
+     "A reviewer examines details, checks conflicts, approves or rejects the request, optionally comments, and triggers status notification."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-10.2; FR-10.3; FR-07.1; notification requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when a reviewer opens a pending change request.",
+     "2. The system displays request details, requester, affected course, current schedule, and proposed change."
+    ],
+    [
+     "3. The reviewer evaluates the request.",
+     "4. The system provides conflict check and supporting data."
+    ],
+    [
+     "5. The reviewer approves or rejects the request.",
+     "6. The system records the decision, updates request status, and notifies the requester."
+    ],
+    [
+     "7. If approved, the reviewer may trigger timetable repair.",
+     "8. The system sends the approved change to re-optimization or manual adjustment workflow."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Conflict check fails. The reviewer may reject the request or route it to re-optimization."
+    ],
+    [
+     "Line 5",
+     "Reviewer lacks authority. The system disables decision buttons."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC10 — Re-optimize Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Re-optimize Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC10 — Re-optimize Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Solver Engine"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator triggers repair mode after approved changes. The solver respects locked entries and minimizes disruption to the existing draft."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Re-optimize Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC10 — Re-optimize Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Solver Engine"
+    ],
+    [
+     "Purpose:",
+     "Repair the timetable after approved changes while minimizing disturbance."
+    ],
+    [
+     "Overview:",
+     "The administrator triggers repair mode. The solver respects locked entries and attempts to change the smallest possible set of timetable entries."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-07.1 to FR-07.3; version comparison requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when an approved change requires timetable repair.",
+     "2. The system identifies affected courses, teachers, rooms, sections, and locked entries."
+    ],
+    [
+     "3. The administrator starts re-optimization.",
+     "4. The system builds a repair problem preserving accepted and locked entries."
+    ],
+    [
+     "5. The administrator waits for the repair result.",
+     "6. The system produces an updated draft and disruption summary."
+    ],
+    [
+     "7. The administrator compares old and new drafts.",
+     "8. The system highlights moved, added, and unchanged entries."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "No valid repair exists. The system reports unplaced sessions and explains blocking constraints."
+    ],
+    [
+     "Line 7",
+     "Disruption too high. The administrator may reject the repair and keep the previous version."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC11 — Publish Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Publish Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC11 — Publish Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Teacher, Student"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator releases an approved draft as the official live schedule. The system marks one published version per term and notifies affected users."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Publish Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC11 — Publish Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator, Teacher, Student"
+    ],
+    [
+     "Purpose:",
+     "Release the approved timetable as the official live schedule for users."
+    ],
+    [
+     "Overview:",
+     "The administrator confirms publication after review. The system marks the final version as published, makes it visible to teachers and students, and warns about overwriting previous public schedules."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-08.1 to FR-08.4b; export and notification requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator decides the timetable is ready for release.",
+     "2. The system checks whether required approvals and conflict status allow publication."
+    ],
+    [
+     "3. The administrator reviews final publication details.",
+     "4. The system shows effective date, timetable name, total entries, visibility, and warning."
+    ],
+    [
+     "5. The administrator confirms publication.",
+     "6. The system marks the version published, hides older public versions, and notifies users."
+    ],
+    [
+     "7. Teachers and students open the system.",
+     "8. The system shows the published timetable filtered to their role."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 2",
+     "Conflicts remain. The system blocks publication or requires override authority."
+    ],
+    [
+     "Line 5",
+     "Administrator cancels. The timetable remains a draft."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC12 — View Personal or Section Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Class Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: View Personal or Section Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC12 — View Personal or Section Timetable"
+    ],
+    [
+     "Actors:",
+     "Teacher (initiator), Student (initiator)"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Teacher views personal teaching load; student views section schedule. Both see the published timetable filtered by role and identity."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: View Personal or Section Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC12 — View Personal or Section Timetable"
+    ],
+    [
+     "Actors:",
+     "Teacher (initiator), Student (initiator)"
+    ],
+    [
+     "Purpose:",
+     "Provide each user a clear personal view of the published schedule."
+    ],
+    [
+     "Overview:",
+     "After login, the system filters the published timetable to the user's role: teachers see their teaching schedule; students see the schedule of their section. Both can see day, time, course, room, and counterpart (teacher or section)."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-08.4; FR-09.1 to FR-09.4; role-based access requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when a teacher or student opens the dashboard.",
+     "2. The system identifies the user role and identity."
+    ],
+    [
+     "3. The user requests their timetable view.",
+     "4. The system loads the published version and applies the role filter."
+    ],
+    [
+     "5. The user reviews entries.",
+     "6. The system displays the weekly grid with day, time, course, room, and counterpart."
+    ],
+    [
+     "7. The user may export or print.",
+     "8. The system generates the requested PDF/Excel output."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "No published timetable exists for the term. The system shows a clear empty-state message."
+    ],
+    [
+     "Line 4",
+     "User not assigned to any section/course. The system shows a notice and a contact link."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC13 — Export Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: System-wide"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Export Class Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC13 — Export Class Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Teacher, Student"
+    ],
+    [
+     "Type:",
+     "Secondary"
+    ],
+    [
+     "Description:",
+     "User exports the timetable to PDF, Excel, or CSV. The output is structured for printing or further processing."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Export Class Timetable"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC13 — Export Class Timetable"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Teacher, Student"
+    ],
+    [
+     "Purpose:",
+     "Allow users to obtain the timetable in usable file formats."
+    ],
+    [
+     "Overview:",
+     "The user selects an export format. The system serializes the timetable with day, time, course, teacher, room, and section into PDF (printable A4), Excel, or CSV."
+    ],
+    [
+     "Type:",
+     "Secondary, Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-12.1 to FR-12.4; export requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the user requests an export.",
+     "2. The system shows export options (PDF, Excel, CSV)."
+    ],
+    [
+     "3. The user selects a format and scope.",
+     "4. The system collects the corresponding timetable data."
+    ],
+    [
+     "5. The user starts the export.",
+     "6. The system produces the file and offers it for download."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "No timetable selected. The system asks the user to choose a version first."
+    ],
+    [
+     "Line 6",
+     "File generation fails. The system shows an error and offers retry."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC14 — Manage Notifications"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: System-wide"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Manage Notifications"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC14 — Manage Notifications"
+    ],
+    [
+     "Actors:",
+     "All users (initiator), System"
+    ],
+    [
+     "Type:",
+     "Secondary"
+    ],
+    [
+     "Description:",
+     "The system creates in-app notifications for generation completion, publication, lock/unlock, request status, and version creation. Users view a notification list with unread counts."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Manage Notifications"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC14 — Manage Notifications"
+    ],
+    [
+     "Actors:",
+     "All users (initiator), System"
+    ],
+    [
+     "Purpose:",
+     "Keep users informed about timetable events relevant to their role."
+    ],
+    [
+     "Overview:",
+     "When key events occur (generation complete, publish, lock/unlock, request approve/reject, version-create), the system creates an in-app notification routed to the affected users. Users see a notification history and an unread badge."
+    ],
+    [
+     "Type:",
+     "Secondary, Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-13.1 to FR-13.5; notification requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when a notifiable event occurs in the system.",
+     "2. The system identifies the event type and the affected user list."
+    ],
+    [
+     "3. (System-driven step.)",
+     "4. The system creates one in-app notification per recipient with title, summary, and link."
+    ],
+    [
+     "5. The user opens the notification panel.",
+     "6. The system shows unread count and notification history."
+    ],
+    [
+     "7. The user opens an item.",
+     "8. The system marks it read and navigates to the related screen."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "User has notifications disabled for that category. The system records the notification but does not surface it as unread."
+    ],
+    [
+     "Line 6",
+     "Notification list empty. The system shows an empty-state message."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC15 — Compare Timetable Versions"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: System-wide"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Compare Timetable Versions"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC15 — Compare Timetable Versions"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator"
+    ],
+    [
+     "Type:",
+     "Secondary"
+    ],
+    [
+     "Description:",
+     "Administrator compares two saved timetable versions side-by-side. The system summarizes added, removed, and changed entries."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Compare Timetable Versions"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC15 — Compare Timetable Versions"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator"
+    ],
+    [
+     "Purpose:",
+     "Provide transparency about how a timetable changed across versions."
+    ],
+    [
+     "Overview:",
+     "The administrator selects two versions of the same term. The system computes a diff and displays added, removed, and changed entries with highlighting and totals."
+    ],
+    [
+     "Type:",
+     "Secondary, Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-14.1 to FR-14.3; version comparison requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator opens version comparison.",
+     "2. The system lists available versions for the selected term."
+    ],
+    [
+     "3. The administrator picks two versions to compare.",
+     "4. The system computes the diff."
+    ],
+    [
+     "5. The administrator reviews the result.",
+     "6. The system shows side-by-side highlights with added, removed, and changed entries plus totals."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Versions belong to different terms. The system blocks the comparison and warns the user."
+    ],
+    [
+     "Line 6",
+     "No differences. The system shows a clear identical-versions message."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC16 — Manage Exam Rooms"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Exam Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Manage Exam Rooms"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC16 — Manage Exam Rooms"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Facility Manager"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator and facility manager maintain exam-suitable room data: capacity, type, layout, and availability windows. Class room data is reused where applicable."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Manage Exam Rooms"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC16 — Manage Exam Rooms"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Facility Manager"
+    ],
+    [
+     "Purpose:",
+     "Ensure the exam scheduler has accurate room capacity and availability data."
+    ],
+    [
+     "Overview:",
+     "Class rooms are reused as a base. The administrator and facility manager flag exam suitability, examination capacity (often less than class capacity), and exam-window availability."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-15.1 to FR-15.4; FR-18.1."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator or facility manager opens exam-room management.",
+     "2. The system lists existing rooms with class capacity and exam-suitability flags."
+    ],
+    [
+     "3. The user edits exam capacity, suitability, and availability.",
+     "4. The system validates capacity ranges and conflict-free availability windows."
+    ],
+    [
+     "5. The user saves changes.",
+     "6. The system stores the changes and refreshes exam-scheduler data."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Exam capacity exceeds class capacity. The system warns and asks for confirmation."
+    ],
+    [
+     "Line 4",
+     "Maintenance window conflicts with planned exam day. The system flags the conflict."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC17 — Manage Student Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Exam Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Manage Student Hierarchy"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC17 — Manage Student Hierarchy"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator)"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator maintains the University to Faculty to Department to Batch to Section to Student hierarchy and section-course enrollment data."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Manage Student Hierarchy"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC17 — Manage Student Hierarchy"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), System Administrator"
+    ],
+    [
+     "Purpose:",
+     "Maintain the student-side of the organization tree so exam scheduling can avoid student double-booking."
+    ],
+    [
+     "Overview:",
+     "The administrator views and edits the nested student hierarchy and imports or updates section membership and course enrollment, often via bulk import."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-16.1 to FR-16.4; FR-17.1."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator opens student hierarchy management.",
+     "2. The system displays the nested tree and bulk import controls."
+    ],
+    [
+     "3. The administrator imports or edits records.",
+     "4. The system validates IDs, parent references, and enrollment links."
+    ],
+    [
+     "5. The administrator saves or imports.",
+     "6. The system stores the changes and updates downstream views."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Bulk import contains invalid rows. The system reports the row numbers and skips them."
+    ],
+    [
+     "Line 4",
+     "Student already enrolled in another conflicting section. The system warns the administrator."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC18 — Manage Exam Courses"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Exam Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Manage Exam Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC18 — Manage Exam Courses"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator)"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator associates courses with exams, defines exam durations, and identifies the sections that will sit each exam."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Manage Exam Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC18 — Manage Exam Courses"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Department Coordinator"
+    ],
+    [
+     "Purpose:",
+     "Provide the exam-course catalog the scheduler uses to place exam sessions."
+    ],
+    [
+     "Overview:",
+     "The administrator marks which courses have exams, defines exam durations, attaches taking sections, and reviews exam student counts so room capacity can be matched."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-17.1 to FR-17.4; FR-18.2."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator opens exam-course management.",
+     "2. The system lists courses and their current exam configuration."
+    ],
+    [
+     "3. The administrator marks courses, sets durations, and links sections.",
+     "4. The system validates duration limits and section overlaps."
+    ],
+    [
+     "5. The administrator saves the configuration.",
+     "6. The system stores the data and recalculates exam student counts per course."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Duration outside allowed window (e.g., longer than the longest exam slot). The system blocks the save."
+    ],
+    [
+     "Line 4",
+     "Section appears in two exam-courses scheduled at the same time. The system flags the future conflict."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC19 — Schedule Exams"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Exam Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Schedule Exams"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC19 — Schedule Exams"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Student, Teacher, Facility Manager"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "Administrator generates exam suggestions; the system avoids student and room double-booking. Administrator confirms or modifies and assigns invigilation duties."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Schedule Exams"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC19 — Schedule Exams"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Student, Teacher, Facility Manager"
+    ],
+    [
+     "Purpose:",
+     "Place exam sessions into rooms and time slots while avoiding student and room clashes."
+    ],
+    [
+     "Overview:",
+     "The administrator configures exam courses, durations, rooms, and student sections. The system suggests room/time placements and invigilation assignments for confirmation."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-18.1 to FR-18.8; FR-19.1 to FR-19.5."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the administrator starts exam scheduling for a term.",
+     "2. The system loads exam courses, enrolled sections, students, available rooms, and exam rules."
+    ],
+    [
+     "3. The administrator requests scheduling suggestions.",
+     "4. The system finds room/time candidates that avoid room double-booking and student exam overlap."
+    ],
+    [
+     "5. The administrator confirms or modifies suggestions.",
+     "6. The system saves exam sessions and updates exam schedule views."
+    ],
+    [
+     "7. Students, teachers, and facility managers request exam views.",
+     "8. The system shows schedules relevant to each role."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Exam days running out. The system may allow a maximum of two exams per day per student per the rules."
+    ],
+    [
+     "Line 4",
+     "No room has enough capacity. The system reports the gap and suggests splitting or larger rooms."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC20 — View Exam Schedule and Invigilation Duties"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Exam Timetabling"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: View Exam Schedule and Invigilation Duties"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC20 — View Exam Schedule and Invigilation Duties"
+    ],
+    [
+     "Actors:",
+     "Student (initiator), Teacher (initiator), Facility Manager (initiator)"
+    ],
+    [
+     "Type:",
+     "Secondary"
+    ],
+    [
+     "Description:",
+     "Students view their own exams; teachers view invigilation duties; facility manager checks exam room utilization."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: View Exam Schedule and Invigilation Duties"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC20 — View Exam Schedule and Invigilation Duties"
+    ],
+    [
+     "Actors:",
+     "Student (initiator), Teacher (initiator), Facility Manager (initiator)"
+    ],
+    [
+     "Purpose:",
+     "Give each role a filtered, role-appropriate view of the exam timetable."
+    ],
+    [
+     "Overview:",
+     "The system filters published exam data by user role: student sees personal exam dates, teacher sees invigilation duties, facility manager sees room-level usage."
+    ],
+    [
+     "Type:",
+     "Secondary, Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-19.1 to FR-19.5; FR-08.4."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when a student, teacher, or facility manager opens the exam schedule view.",
+     "2. The system identifies the role and applies the role filter."
+    ],
+    [
+     "3. The user reviews entries.",
+     "4. The system displays exams (date, time, course, room) or invigilation duties or room utilization."
+    ],
+    [
+     "5. The user may export or print.",
+     "6. The system generates the requested file."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "No exams scheduled yet. The system shows an empty-state message."
+    ],
+    [
+     "Line 4",
+     "User has no invigilation duties. The system shows a clear notice."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC21 — Manage Users and Roles"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Administration"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: Manage Users and Roles"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC21 — Manage Users and Roles"
+    ],
+    [
+     "Actors:",
+     "System Administrator (initiator)"
+    ],
+    [
+     "Type:",
+     "Primary"
+    ],
+    [
+     "Description:",
+     "System administrator creates accounts, assigns roles, performs bulk import, and enforces access permissions across the application."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: Manage Users and Roles"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC21 — Manage Users and Roles"
+    ],
+    [
+     "Actors:",
+     "System Administrator (initiator), Timetable Administrator"
+    ],
+    [
+     "Purpose:",
+     "Maintain user identities and the role-based access matrix that controls UTOS visibility."
+    ],
+    [
+     "Overview:",
+     "The system administrator creates user accounts (admin, coordinator, teacher, student, facility manager), assigns roles, performs bulk imports, resets passwords, and audits permissions. Role-specific sidebars and screens follow from these assignments."
+    ],
+    [
+     "Type:",
+     "Primary, Essential and Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-20.1 to FR-20.5; NFR-05 (security); role-based access requirements."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when the system administrator opens user management.",
+     "2. The system displays the user list, role filters, and bulk-action controls."
+    ],
+    [
+     "3. The administrator creates, edits, or imports user accounts.",
+     "4. The system validates email, role, department, and uniqueness."
+    ],
+    [
+     "5. The administrator assigns or revokes roles.",
+     "6. The system updates the access matrix and the user's effective sidebar."
+    ],
+    [
+     "7. The administrator may force a password reset.",
+     "8. The system sends a reset link or temporary password."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 4",
+     "Email already in use. The system blocks creation and highlights the field."
+    ],
+    [
+     "Line 4",
+     "Bulk import contains invalid rows. The system imports valid ones and reports the rest."
+    ],
+    [
+     "Line 5",
+     "Attempt to remove the last admin role. The system blocks the change to prevent lockout."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "UC22 — View System Reports and Audit Logs"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Module: Administration"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "High-Level Use Case: View System Reports and Audit Logs"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC22 — View System Reports and Audit Logs"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Facility Manager, System Administrator, Department Coordinator"
+    ],
+    [
+     "Type:",
+     "Secondary"
+    ],
+    [
+     "Description:",
+     "Authorized users view room utilization, teacher load, conflict summaries, quality scores, energy usage, and audit logs (action, timestamp, user, old/new values)."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Expanded Use Case: View System Reports and Audit Logs"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Use case:",
+     "UC22 — View System Reports and Audit Logs"
+    ],
+    [
+     "Actors:",
+     "Timetable Administrator (initiator), Facility Manager, System Administrator, Department Coordinator"
+    ],
+    [
+     "Purpose:",
+     "Support operational review, accountability, and future timetable improvement."
+    ],
+    [
+     "Overview:",
+     "Users with permission view room utilization, teacher load, conflict summaries, section load, quality score, energy usage, and audit logs."
+    ],
+    [
+     "Type:",
+     "Secondary, Real"
+    ],
+    [
+     "Cross Reference:",
+     "FR-21.1 to FR-21.8; NFR-07 (audit logging)."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Typical Course of Events"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Actor Action",
+     "System Response"
+    ],
+    [
+     "1. This use case begins when an authorized user requests a report.",
+     "2. The system displays report types and filters."
+    ],
+    [
+     "3. The user chooses report type, period, building, department, or term.",
+     "4. The system collects relevant timetable, room, teacher, and audit data."
+    ],
+    [
+     "5. The user reviews the result.",
+     "6. The system shows charts, tables, warnings, and export/print options."
+    ],
+    [
+     "7. The user opens audit history.",
+     "8. The system shows action, timestamp, user, and old/new values."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Alternative Courses"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Line",
+     "Alternative / Exception"
+    ],
+    [
+     "Line 2",
+     "User lacks permission. The report is hidden or access is denied."
+    ],
+    [
+     "Line 4",
+     "No data for the selected period. The system shows an empty-state message rather than failing."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "7. Conclusion"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "This document captures the use case model for UTOS in the format prescribed by the analysis-modeling lecture: a system-boundary use case diagram and, for each of the 23 identified use cases, both a high-level description and a fully dressed expanded specification with typical course of events and alternative courses."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Primary use cases (authentication, master data, generation, review, manual adjustment, change request handling, re-optimization, publication, exam scheduling, user management) cover the major common processes of the system. Secondary use cases (export, notifications, version comparison, exam viewing, reports) cover supporting and less frequent activities."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Together with the SRS, the architecture diagrams, and the UI evidence, the use case model provides a complete actor-goal view of UTOS that can be traced from requirement to interface and used as the basis for design and testing."
+  }
+ ]
+}
