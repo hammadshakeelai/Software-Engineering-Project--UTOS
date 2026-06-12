@@ -1,0 +1,563 @@
+{
+ "source": "Assignment_05_Class_Diagram_UTOS.docx",
+ "stem": "Assignment_05_Class_Diagram_UTOS",
+ "images_dir": "images\\Assignment_05_Class_Diagram_UTOS",
+ "blocks": [
+  {
+   "type": "heading",
+   "level": 0,
+   "text": "Assignment 05"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "Class Diagram for University Timetable Optimization and Management System"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Project: UTOS"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Instructor",
+     "Sajid Anwar"
+    ],
+    [
+     "Submitted by",
+     "Muhammad Hammad Shakeel"
+    ],
+    [
+     "Date",
+     "May 2026"
+    ],
+    [
+     "Assignment",
+     "Develop a detailed class diagram: classes, attributes, methods, multiplicities"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "Class Catalogue"
+  },
+  {
+   "type": "para",
+   "style": "Body Text",
+   "text": "The table below lists every class with its layer, key attributes, and key methods."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Class",
+     "Layer",
+     "Key Attributes",
+     "Key Methods"
+    ],
+    [
+     "Person",
+     "Role",
+     "name: String, email: String",
+     "login(), logout(), getProfile()"
+    ],
+    [
+     "Teacher",
+     "Role",
+     "employeeNumber: String, maxDailyLoad: Integer",
+     "submitAvailability(), requestChange(), viewPersonalTimetable()"
+    ],
+    [
+     "Student",
+     "Role",
+     "registrationNumber: String",
+     "viewTimetable(), viewExamSchedule()"
+    ],
+    [
+     "TimetableAdministrator",
+     "Role",
+     "authorityLevel: Integer",
+     "generateTimetable(), publishTimetable(), approveChangeRequest(), exportTimetable()"
+    ],
+    [
+     "DepartmentCoordinator",
+     "Role",
+     "responsibilityArea: String",
+     "reviewTimetable(), approveChangeReq(), validateDeptData()"
+    ],
+    [
+     "FacilityManager",
+     "Role",
+     "responsibilityArea: String",
+     "manageRoom(), viewUtilization(), updateRoomStatus()"
+    ],
+    [
+     "SystemAdministrator",
+     "Role",
+     "(inherits Person)",
+     "manageUsers(), assignRole(), viewAuditLogs(), configureSystem()"
+    ],
+    [
+     "University",
+     "Academic",
+     "name: String, campusName: String",
+     "getFaculties(): List, getDepartments(): List"
+    ],
+    [
+     "Faculty",
+     "Academic",
+     "name: String",
+     "getDepartments(): List, getCourses(): List"
+    ]
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Department",
+     "Academic",
+     "name: String, code: String",
+     "getTeachers(), getSections(), getCourses(), getTimetables()"
+    ],
+    [
+     "AcademicTerm",
+     "Academic",
+     "name: String, startDate: Date, endDate: Date",
+     "getTimeslots(), getHolidays(), isActive(): Boolean"
+    ],
+    [
+     "Course",
+     "Academic",
+     "code: String, title: String, creditHours: Integer",
+     "getOfferings(): List, getDepartment(): Department"
+    ],
+    [
+     "StudentSection",
+     "Academic",
+     "name, program, semester, batch, size: Integer",
+     "getStudents(): List, getOfferings(): List"
+    ],
+    [
+     "CourseOffering",
+     "Scheduling",
+     "weeklySessions: Integer, requiredRoomType: String, sessionDuration: Integer",
+     "getSessions(), getTeacher(), getSection(), getTerm()"
+    ],
+    [
+     "Timetable",
+     "Scheduling",
+     "name, status: TimetableStatus, qualityScore: Float, hardConflictCount: Integer, unplacedSessionCount: Integer, createdAt: DateTime",
+     "generate(), publish(), getConflicts(), getQualityReport(), compareTo(), export(format)"
+    ],
+    [
+     "ClassSession",
+     "Scheduling",
+     "sessionNumber: Integer, status: SessionStatus, locked: Boolean",
+     "assignRoom(room), assignTimeslot(ts), lock(), unlock(), getConflicts()"
+    ],
+    [
+     "Timeslot",
+     "Scheduling",
+     "day: DayOfWeek, startTime: Time, endTime: Time, isMorning: Boolean, isLastSlot: Boolean",
+     "getDuration(): Integer, clashesWith(other): Boolean"
+    ],
+    [
+     "TeacherAvailability",
+     "Scheduling",
+     "isAvailable: Boolean, note: String",
+     "getTimeslot(): Timeslot, getTeacher(): Teacher"
+    ],
+    [
+     "SchedulingPolicy",
+     "Scheduling",
+     "name, policyType, priority: Integer, weight: Float, isHardConstraint: Boolean, isEnabled: Boolean",
+     "apply(session): Boolean, getPenalty(session): Float, validate(): Boolean"
+    ],
+    [
+     "ChangeRequest",
+     "Scheduling",
+     "requestType, reason, urgency, status: RequestStatus, createdAt: DateTime",
+     "approve(note), reject(note), getSubmitter(): Person"
+    ],
+    [
+     "Holiday",
+     "Scheduling",
+     "name: String, date: Date, reason: String",
+     "isOnDate(d: Date): Boolean"
+    ],
+    [
+     "Building",
+     "Facility",
+     "name: String, location: String",
+     "getRooms(): List, getRoomCount(): Integer"
+    ],
+    [
+     "Room",
+     "Facility",
+     "code, floor: Integer, capacity: Integer, roomType: RoomType, maintenanceStatus: Boolean",
+     "isAvailable(timeslot): Boolean, getUtilization(): Float"
+    ],
+    [
+     "TimetableVersion",
+     "System",
+     "versionNumber: Integer, createdAt: DateTime, changeSummary: String",
+     "compareTo(other): VersionDiff, getChangedEntries(): List"
+    ]
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Notification",
+     "System",
+     "message: String, notificationType, createdAt: DateTime, read: Boolean",
+     "markRead(), getRecipient(): Person"
+    ],
+    [
+     "AuditLog",
+     "System",
+     "entityType, action, oldValue, newValue: String, timestamp: DateTime, performedBy: String",
+     "getActor(): Person"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "Relationships and Multiplicity"
+  },
+  {
+   "type": "para",
+   "style": "Body Text",
+   "text": "The following table documents every relationship in the class diagram with its type and multiplicity."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Relationship",
+     "Type",
+     "Multiplicity",
+     "Notes"
+    ],
+    [
+     "Person → Teacher, Student, TimetableAdministrator, DeptCoordinator, FacilityManager, SystemAdministrator",
+     "Inheritance",
+     "1:1 (IS-A)",
+     "Person is abstract base; login/logout common to all"
+    ],
+    [
+     "University → Faculty",
+     "Association",
+     "1 to 1..*",
+     "University has at least one Faculty"
+    ],
+    [
+     "Faculty → Department",
+     "Association",
+     "1 to 1..*",
+     "Faculty has at least one Department"
+    ],
+    [
+     "Department → Teacher",
+     "Association",
+     "1 to 0..*",
+     "Department employs zero or more Teachers"
+    ],
+    [
+     "Department →\nStudentSection",
+     "Association",
+     "1 to 0..*",
+     "Sections belong to one Department"
+    ],
+    [
+     "Department → Course",
+     "Association",
+     "1 to 0..*",
+     "Department owns courses it offers"
+    ],
+    [
+     "Department →\nTimetable",
+     "Association",
+     "1 to 0..*",
+     "Department has its own timetables per term"
+    ],
+    [
+     "AcademicTerm →\nCourseOffering",
+     "Association",
+     "1 to 0..*",
+     "Offerings are scoped to a term"
+    ],
+    [
+     "AcademicTerm →\nTimeslot",
+     "Association",
+     "1 to 1..*",
+     "Term defines its available timeslots"
+    ],
+    [
+     "AcademicTerm →\nHoliday",
+     "Association",
+     "1 to 0..*",
+     "Term may have zero or more holidays"
+    ],
+    [
+     "AcademicTerm →\nTimetable",
+     "Association",
+     "1 to 0..*",
+     "Multiple timetable drafts per term allowed"
+    ],
+    [
+     "Course →\nCourseOffering",
+     "Association",
+     "1 to 0..*",
+     "Course description reused across offerings"
+    ],
+    [
+     "Teacher →\nCourseOffering",
+     "Association",
+     "1 to 0..*",
+     "Teacher may be assigned to multiple offerings"
+    ],
+    [
+     "StudentSection →\nCourseOffering",
+     "Association",
+     "1 to 0..*",
+     "Section attends multiple course offerings"
+    ]
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "StudentSection →\nStudent",
+     "Association",
+     "1 to 0..*",
+     "Section contains enrolled students"
+    ],
+    [
+     "Teacher →\nTeacherAvailability",
+     "Association",
+     "1 to 0..*",
+     "Teacher may declare availability for many timeslots"
+    ],
+    [
+     "TeacherAvailability →\nTimeslot",
+     "Association",
+     "1 to 1",
+     "Each availability record covers exactly one timeslot"
+    ],
+    [
+     "Timetable →\nClassSession",
+     "Composition",
+     "1 to 0..*",
+     "Sessions exist only within a timetable"
+    ],
+    [
+     "CourseOffering →\nClassSession",
+     "Association",
+     "1 to 1..*",
+     "At least one session per offering per week"
+    ],
+    [
+     "ClassSession →\nTimeslot",
+     "Association",
+     "1 to 0..1",
+     "0..1 allows unplaced sessions without a timeslot"
+    ],
+    [
+     "ClassSession → Room",
+     "Association",
+     "1 to 0..1",
+     "0..1 allows unplaced sessions without a room"
+    ],
+    [
+     "Timetable →\nSchedulingPolicy",
+     "Association",
+     "1 to 0..*",
+     "Timetable is guided by active policies"
+    ],
+    [
+     "Timetable →\nTimetableVersion",
+     "Association",
+     "1 to 1..*",
+     "Every saved timetable has at least one version"
+    ],
+    [
+     "Building → Room",
+     "Composition",
+     "1 to 1..*",
+     "Rooms exist inside a building"
+    ],
+    [
+     "FacilityManager →\nRoom",
+     "Association",
+     "1 to 0..*",
+     "Manager is responsible for rooms"
+    ],
+    [
+     "Person →\nChangeRequest",
+     "Association",
+     "1 to 0..*",
+     "Any person can submit change requests"
+    ],
+    [
+     "DeptCoordinator →\nChangeRequest",
+     "Dependency",
+     "1 to 0..*",
+     "Coordinator reviews requests (behavioral coupling)"
+    ],
+    [
+     "Timetable → Notification",
+     "Dependency",
+     "1 to 0..*",
+     "Publish/change events trigger notifications"
+    ],
+    [
+     "TimetableAdministrator\n→ AuditLog",
+     "Dependency",
+     "1 to 0..*",
+     "Admin actions are recorded in audit log"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "Enumerations"
+  },
+  {
+   "type": "para",
+   "style": "Body Text",
+   "text": "The following enumerations are used as attribute types throughout the class diagram."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Enumeration",
+     "Values"
+    ],
+    [
+     "TimetableStatus",
+     "DRAFT, UNDER_REVIEW, PUBLISHED, ARCHIVED, REGENERATING"
+    ],
+    [
+     "SessionStatus",
+     "PLACED, UNPLACED, LOCKED"
+    ],
+    [
+     "RoomType",
+     "LECTURE_HALL, SEMINAR_ROOM, LAB, EXAM_ROOM, AMPHITHEATER"
+    ],
+    [
+     "RequestStatus",
+     "PENDING, UNDER_REVIEW, APPROVED, REJECTED, WITHDRAWN"
+    ],
+    [
+     "UrgencyLevel",
+     "LOW, MEDIUM, HIGH, CRITICAL"
+    ],
+    [
+     "PolicyType",
+     "HARD_CONSTRAINT, SOFT_PREFERENCE"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "Key Design Decisions"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Decision",
+     "Rationale"
+    ],
+    [
+     "Person as abstract base",
+     "Centralises identity (name, email, login/logout) and avoids duplication across six actor types. All role-specific classes simply extend Person."
+    ],
+    [
+     "ClassSession 0..1 to Room and Timeslot",
+     "Allows unplaced sessions to exist as valid objects inside a draft timetable, supporting partial generation and conflict reporting."
+    ],
+    [
+     "CourseOffering separate from Course",
+     "Course is a reusable description; CourseOffering ties it to a specific term, teacher, and section. Same course can be offered multiple times across terms without duplication."
+    ],
+    [
+     "Timetable composes ClassSession",
+     "ClassSession only makes sense inside a Timetable. Composition signals that sessions are deleted if the timetable is removed."
+    ],
+    [
+     "TimetableVersion as separate class",
+     "Supports UC15 (Compare Timetable Versions) and provides an audit trail for timetable changes over time."
+    ],
+    [
+     "AuditLog as standalone class",
+     "Decouples logging from domain classes. Any entity change can be logged without modifying the entity itself."
+    ],
+    [
+     "SchedulingPolicy carries weight and isHardConstraint",
+     "Unifies hard and soft constraint configuration into one class, matching the constraint screen in the UI. isHardConstraint determines enforcement vs. penalisation."
+    ],
+    [
+     "Enumerations over raw Strings",
+     "TimetableStatus, SessionStatus, RoomType etc. prevent invalid attribute values and make the design implementation-ready."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Class Diagram"
+  },
+  {
+   "type": "para",
+   "style": "Body Text",
+   "text": "The full interactive class diagram is included in the interactive HTML submission and in the figure below. It is organised in six horizontal bands:"
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Roles and people — Person hierarchy at the top"
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Academic structure — University, Faculty, Department, AcademicTerm, Course, StudentSection"
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Scheduling core — CourseOffering, Timetable, ClassSession, Timeslot, TeacherAvailability"
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Policy and constraints — SchedulingPolicy, Holiday"
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Facility — Building, Room"
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "System-wide — ChangeRequest, Notification, TimetableVersion, AuditLog, enumerations"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_05_Class_Diagram_UTOS_img01_df7cabf1.jpeg"
+  }
+ ]
+}
