@@ -1,0 +1,381 @@
+{
+ "source": "Assignment_04_DFD_UTOS.docx",
+ "stem": "Assignment_04_DFD_UTOS",
+ "images_dir": "images\\Assignment_04_DFD_UTOS",
+ "blocks": [
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Assignment 04"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Data Flow Diagram Documentation"
+  },
+  {
+   "type": "para",
+   "style": "Intense Quote",
+   "text": "University Timetable Optimization System (UTOS)"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Software Engineering Project"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Prepared by",
+     "Muhammad Hammad Shakeel"
+    ],
+    [
+     "Course",
+     "BSAI 4th , B"
+    ],
+    [
+     "Instructor",
+     "Sajid_Anwar______________________"
+    ],
+    [
+     "Submission Date",
+     "10/5/26______________________"
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Scope: Level 0 Context Diagram, Functional Hierarchy, "
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Level 1 DFD, and Level 2 Process Decompositions"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "1. Introduction"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The University Timetable Optimization System (UTOS) is a scheduling system designed to organize university courses, teachers, rooms, constraints, timetable versions, change requests, and reports. The purpose of this document is to present the Data Flow Diagram (DFD) documentation for UTOS, beginning with the Level 0 context diagram and expanding into the functional hierarchy, Level 1 DFD, and selected Level 2 process decompositions."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "2. Scope of the DFD"
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "External actors: Admin, Department Coordinator, Teacher, Student, and Facility Manager."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "Major system processes: Manage Master Data, Configure Constraints, Generate Timetable, Handle Change Requests, Publish & View Timetable, and Generate Reports."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "Main data stores: D1 Master Data, D2 Constraints & Preferences, D3 Timetable Versions, and D4 Change Requests."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "DFD notation follows the Yourdon/DeMarco style: processes, external entities, data stores, and labeled data flows."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "3. Notation Legend"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Symbol",
+     "Meaning",
+     "Usage in UTOS"
+    ],
+    [
+     "Circle",
+     "Process",
+     "A transformation of input data into output data, such as Generate Timetable."
+    ],
+    [
+     "Rectangle",
+     "External Entity",
+     "A source or destination outside the system boundary, such as Teacher or Admin."
+    ],
+    [
+     "Open Rectangle",
+     "Data Store",
+     "A persistent store such as D1 Master Data or D3 Timetable Versions."
+    ],
+    [
+     "Arrow",
+     "Data Flow",
+     "A named data item moving between entities, processes, and data stores."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "4. Level 0 — Context Diagram"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_04_DFD_UTOS_img01_29132845.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 1: Level 0 Context Diagram for UTOS"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "5. Functional Hierarchy Diagram"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_04_DFD_UTOS_img02_b5a869db.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 2: Functional Hierarchy / Decomposition Diagram for UTOS"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "6. Level 1 — Data Flow Diagram"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_04_DFD_UTOS_img03_955a56e9.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 3: Level 1 Data Flow Diagram for UTOS"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "7. Level 2 — Process 1: Manage Master Data"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_04_DFD_UTOS_img04_734caff7.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 4: Level 2 DFD for Process 1 — Manage Master Data"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "8. Level 2 — Process 3: Generate Timetable"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_04_DFD_UTOS_img05_26c56f7e.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 5: Level 2 DFD for Process 3 — Generate Timetable"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "9. Level 2 — Process 4: Handle Change Requests"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_04_DFD_UTOS_img06_c1c93fbb.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 6: Level 2 DFD for Process 4 — Handle Change Requests"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "10. Level 2 — Process 6: Generate Reports"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_04_DFD_UTOS_img07_3ee15c39.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 7: Level 2 DFD for Process 6 — Generate Reports"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "11. Functional Decomposition Summary"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Level 1 Process",
+     "Level 2 Sub-processes",
+     "Purpose"
+    ],
+    [
+     "1. Manage Master Data",
+     "1.1 Receive Input; 1.2 Manage Courses; 1.3 Manage Teachers; 1.4 Manage Rooms; 1.5 Validate Records",
+     "Maintains course, teacher, and room records before they are stored in D1 Master Data."
+    ],
+    [
+     "2. Configure Constraints",
+     "2.1 Receive Constraint Rules; 2.2 Validate Constraints; 2.3 Store Constraints",
+     "Captures and stores hard and soft scheduling constraints from the Department Coordinator."
+    ],
+    [
+     "3. Generate Timetable",
+     "3.1 Validate Input; 3.2 Build Model; 3.3 Run Solver; 3.4 Score Conflicts; 3.5 Save Timetable",
+     "Builds and solves the timetable optimization model and saves the final timetable version."
+    ],
+    [
+     "4. Handle Change Requests",
+     "4.1 Receive Request; 4.2 Validate Request; 4.3 Route for Approval; 4.4 Apply Timetable Update; 4.5 Notify Users",
+     "Processes teacher change requests and updates timetable versions when approved."
+    ],
+    [
+     "5. Publish & View Timetable",
+     "5.1 Publish Timetable; 5.2 Serve Student View; 5.3 Serve Teacher View",
+     "Publishes approved timetables and provides role-specific timetable views."
+    ],
+    [
+     "6. Generate Reports",
+     "6.1 Route Request; 6.2 Compile Room Utilization; 6.3 Compile Faculty Workload; 6.4 Compile Conflict Quality Report; 6.5 Consolidate Output",
+     "Generates utilization, workload, and conflict/quality reports from stored data."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "12. Balancing Verification"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Balancing ensures that every input and output shown at a higher DFD level is preserved in the next detailed level. The diagrams maintain balance by carrying the same external flows and connected data-store flows into the decomposed processes."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Area",
+     "Higher-Level Flow",
+     "Where It Appears in Decomposition"
+    ],
+    [
+     "Level 0 to Level 1",
+     "Admin master data, constraints, generate command; generated timetable; conflict report",
+     "Processes 1, 2, and 3 with flows to D1, D2, D3, and Admin."
+    ],
+    [
+     "Level 0 to Level 1",
+     "Teacher availability, change request, personal timetable",
+     "Processes 4 and 5 with flows through D4 Change Requests and D3 Timetable Versions."
+    ],
+    [
+     "Level 0 to Level 1",
+     "Department preferences and approval decisions",
+     "Process 2 and Process 4 with constraint settings and approval decision flows."
+    ],
+    [
+     "Level 0 to Level 1",
+     "Student view request and section timetable",
+     "Process 5 Publish & View Timetable with Student output flow."
+    ],
+    [
+     "Level 0 to Level 1",
+     "Facility Manager report request and utilization report",
+     "Process 6 Generate Reports with D1 and D3 data access."
+    ],
+    [
+     "Process 1 Level 2",
+     "Master data input, conflict report, D1 Master Data, master data to Process 3",
+     "Flows through 1.1 Receive Input, 1.5 Validate Records, D1 Master Data, and Process 3."
+    ],
+    [
+     "Process 3 Level 2",
+     "Master data, constraints, generated timetable, conflict report",
+     "Flows through 3.1 Validate Input, 3.5 Save Timetable, D3 Timetable Versions, and Admin."
+    ],
+    [
+     "Process 4 Level 2",
+     "Change request, request record, pending requests, updated timetable, personal timetable",
+     "Flows through 4.1 to 4.5, D4 Change Requests, D3 Timetable Versions, and Teacher."
+    ],
+    [
+     "Process 6 Level 2",
+     "Report request, timetable data, room/usage data, utilization report",
+     "Flows through 6.1 to 6.5, D1 Master Data, D3 Timetable Versions, and Facility Manager."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "13. Data Store Summary"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Data Store",
+     "Contents",
+     "Used By"
+    ],
+    [
+     "D1 Master Data",
+     "Course records, teacher records, room records, room capacity, equipment information",
+     "Manage Master Data, Generate Timetable, Generate Reports"
+    ],
+    [
+     "D2 Constraints & Preferences",
+     "Hard constraints, soft constraints, department preferences, scheduling rules",
+     "Configure Constraints, Generate Timetable"
+    ],
+    [
+     "D3 Timetable Versions",
+     "Generated timetable, published timetable, updated timetable, timetable history",
+     "Generate Timetable, Publish & View Timetable, Handle Change Requests, Generate Reports"
+    ],
+    [
+     "D4 Change Requests",
+     "Teacher change request records, pending requests, validation results, approval status",
+     "Handle Change Requests"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "14. Conclusion"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "This DFD documentation describes the major UTOS data flows, external actors, data stores, and decomposed processes. The Level 0 context diagram defines the system boundary, the functional hierarchy shows process decomposition, the Level 1 DFD shows major internal processing, and the Level 2 DFDs explain detailed workflows for key UTOS processes."
+  }
+ ]
+}
