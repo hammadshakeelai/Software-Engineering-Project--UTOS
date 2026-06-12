@@ -1,0 +1,423 @@
+{
+ "source": "Assignment_01_Process_Model_UTOS.docx",
+ "stem": "Assignment_01_Process_Model_UTOS",
+ "images_dir": "images\\Assignment_01_Process_Model_UTOS",
+ "blocks": [
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UNIVERSITY TIMETABLE"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "OPTIMIZATION SYSTEM"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Software Engineering Project Document"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Process Model  ·  Requirements  ·  Use Cases  ·  System Modeling"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Project: Optimize Flow"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Version 1.0"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "1. Introduction"
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "1.1 What is this System?"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "This system is a web-based university timetable optimization platform that helps create, manage, and improve class schedules for teachers, students, rooms, and courses. It automatically generates timetables by following important rules such as teacher availability, room capacity, class conflicts, holidays, and student sections, while also considering preferences like reducing travel between classes, saving electricity, ending classes earlier, and making timetable changes with minimum disturbance."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "1.2 Problem Solved"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "It solves the problem of manually creating university timetables, which is time-consuming, error-prone, and difficult when there are many teachers, classes, rooms, holidays, and restrictions. The system helps avoid clashes, uses rooms properly, respects teacher availability, and makes timetable changes easier without disturbing the whole schedule."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "1.3 Scope"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Explicitly not in scope are exam timetabling, bus or transport route management, hostel scheduling, individual personalized timetables for every student, attendance management, fee management, full university ERP features, and advanced AI prediction. The system will focus only on generating, managing, and adjusting weekly class timetables for teachers, rooms, courses, and student sections."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "1.4 Main Features"
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Manage teachers, courses, rooms, sections, and time slots."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Add holidays and unavailable days."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Add teacher availability and preferences."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Define hard constraints and soft preferences."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Automatically generate a clash-free timetable."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Check room capacity and room availability."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Reduce teacher, room, and student-section conflicts."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Prefer nearby rooms or classes when selected."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Support energy-saving timetable options."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Support early-ending or morning-class preferences."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Allow manual timetable edits."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Lock fixed classes so they are not changed."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Re-optimize timetable after teacher or room changes."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Show timetable quality, conflicts, and warnings."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Publish timetable for teachers and students."
+  },
+  {
+   "type": "para",
+   "style": "List Paragraph",
+   "text": "Export or print the final timetable."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "1.5 System Dependencies"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The system depends on an internet connection, a web browser, a backend server, and a database to store teachers, courses, rooms, sections, timeslots, holidays, constraints, and generated timetables. It may also depend on university-provided data such as teacher availability, room details, academic calendar, and student section information, but it does not require integration with a full university ERP in the first version."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "2. Process Model"
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.1 Selected Model"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The Incremental Process Model has been selected for the development of the University Timetable Optimization System (UTOS), with evolutionary prototyping used as a supporting technique within early increments to validate the data model, the constraint configuration interface, and the timetable rendering before full generation logic is built."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.2 Why Incremental was Chosen"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UTOS is not a simple CRUD project. The correct soft-preference weights for this university cannot be elicited through interviews; they emerge by running generation against real data and reviewing outputs. Incremental delivery places a working generator in front of stakeholders by Increment 3, which is precisely when this discovery becomes possible. The solver is also the highest-risk component of the system, and a linear lifecycle would defer its implementation until the end of the project, exposing algorithmic risk too late. Incremental development surfaces this risk early, when there is still room to respond."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Each increment ends with software that delivers value to a real user, not just internal scaffolding. Increment 1 gives the Admin a digital course catalog. Increment 3 gives a working timetable generator. Increment 5 gives change-repair capability. By Increment 6, the full system is in production use. This phased delivery also avoids the integration-end-of-project death spiral typical of waterfall projects of this complexity."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.3 Why Other Models Were Rejected"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Waterfall"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_01_Process_Model_UTOS_img01_09547c99.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Waterfall demands a complete requirements specification before implementation begins. For a project where constraint weights are only correctable after viewing draft outputs, this guarantees a final system that misses real institutional needs. Late-stage changes such as a teacher's revised availability or a holiday added mid-semester become disproportionately expensive."
+  },
+  {
+   "type": "image",
+   "file": "Assignment_01_Process_Model_UTOS_img02_cea58c4b.jpeg"
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Spiral"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The risk-driven structure of Spiral is correct in spirit, but the formal risk-analysis overhead is built for large systems. A small student team cannot sustain Spiral's ceremony, and the project's failure mode is a poor schedule, not loss of life or money. The project is too small for Spiral and too uncertain for Waterfall."
+  },
+  {
+   "type": "heading",
+   "level": 3,
+   "text": "Pure Agile"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_01_Process_Model_UTOS_img03_1638191b.jpeg"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Full Agile/Scrum adds organizational overhead (sprint planning, daily standups, retrospectives, product backlog grooming) that is more ceremony than the project needs at the outset, given a relatively stable core domain and a small student team. Incremental delivery provides the adaptability of Agile within a cleaner, phased structure. Agile is therefore not adopted as the primary model, but it remains the most viable fallback if requirement volatility increases later in the project (see Section 2.6)."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.4 Increment Plan"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Increment",
+     "Focus",
+     "User-Visible Value"
+    ],
+    [
+     "1",
+     "Master Data + Calendar",
+     "Admin can digitally maintain courses, teachers, rooms, and the academic calendar."
+    ],
+    [
+     "2",
+     "Constraints & Preferences",
+     "Admin can configure hard constraints and weighted soft preferences through a UI."
+    ],
+    [
+     "3",
+     "Generation + Conflicts",
+     "Admin can produce a draft timetable and inspect violations."
+    ],
+    [
+     "4",
+     "Manual Editing + Locking",
+     "Admin can override solver decisions and protect them from re-runs."
+    ],
+    [
+     "5",
+     "Repair / Re-optimization",
+     "Admin can apply teacher and room changes with minimum disruption."
+    ],
+    [
+     "6",
+     "Publishing + Role Views",
+     "Teachers and students see personal timetables; export to PDF/CSV."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.5 Process Model Diagram"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The Incremental Process Model diagram below shows six increments arranged left-to-right, each consisting of an inner mini-cycle of plan, design, build, test, and review. A horizontal arrow connects each increment to the next, indicating that the next increment begins with the working output of the previous one. A bracket spanning all six increments at the top represents documentation, configuration management, and continuous testing running throughout the project. Prototyping is applied as a supporting technique on Increments 1 and 2."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 2.1 — Incremental Process Model"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_01_Process_Model_UTOS_img04_89a7e12f.png"
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.6 Fallback Process Model"
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.6.1 Selected Fallback: Agile/Scrum"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "If the Incremental Process Model proves unsuitable at any stage of development, the project will transition to Agile/Scrum as the fallback model. Scrum is selected over Waterfall and Spiral because the conditions that would cause Incremental to fail are conditions of increased volatility and faster feedback cycles — situations Waterfall handles worse than Incremental and that Spiral is too heavyweight to address for a project of this size. Scrum, by contrast, is built precisely for environments where requirements shift faster than fixed-scope deliveries can accommodate."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.6.2 Trigger Conditions for Switching"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The transition to Scrum will be triggered if any of the following are observed during development:"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Stakeholders request changes to constraint weights or soft preferences more frequently than the per-increment review cadence allows, indicating that 3–4 week increments are too coarse a feedback unit."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "New requirements or actors are discovered after an increment has been completed and signed off, forcing rework that cuts across multiple finished increments (for example, the late introduction of a Facility Manager role or a new category of soft preference)."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The timetable solver requires repeated algorithmic experimentation that does not fit the linear \"plan → build → test → review\" shape of an increment, and instead benefits from short, iterative spikes."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Stakeholder availability becomes irregular, making the structured per-increment review model impractical and favoring a continuous-feedback approach."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.6.3 Why Agile/Scrum Is the Correct Fallback"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Scrum operates on 2-week sprints, which is shorter than UTOS increments and therefore absorbs requirement churn faster. A product backlog allows cross-cutting changes — those that touch multiple already-completed increments — to be reprioritized and pulled into the next sprint without restructuring the original increment plan. Crucially, the modular nature of the Incremental Process Model means that any increments already delivered before the transition do not become wasted work; each completed increment maps directly onto a set of \"done\" items in the new product backlog. The transition cost is therefore low, and the project does not need to be restarted under the new model."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "2.6.4 Transition Strategy"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The table below summarizes the operational differences between the primary and fallback models, and the conditions that would cause the switch."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Aspect",
+     "Incremental (Primary)",
+     "Agile/Scrum (Fallback)"
+    ],
+    [
+     "Delivery unit",
+     "Increment (3–4 weeks)",
+     "Sprint (2 weeks)"
+    ],
+    [
+     "Planning horizon",
+     "Full six-increment plan defined upfront",
+     "Rolling product backlog, refined per sprint"
+    ],
+    [
+     "Change handling",
+     "Deferred to the next increment",
+     "Absorbed into the next sprint via backlog reprioritization"
+    ],
+    [
+     "Documentation",
+     "Per-increment, structured",
+     "Lightweight, just-in-time"
+    ],
+    [
+     "Stakeholder review",
+     "End of each increment",
+     "End of each sprint, plus continuous feedback"
+    ],
+    [
+     "Trigger to adopt",
+     "—",
+     "High requirement volatility or cross-cutting churn after Increment 2"
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "If the trigger conditions in Section 2.6.2 are observed, the project lead will formally propose the switch at the next increment review. Any increments completed before the transition will be retained as released features, and remaining scope will be re-expressed as a Scrum product backlog. This ensures continuity of delivered value and avoids restarting the project under a new model."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "End of Document  ·  University Timetable Optimization System  ·  v1.0"
+  }
+ ]
+}
