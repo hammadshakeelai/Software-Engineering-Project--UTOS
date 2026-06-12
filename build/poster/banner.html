@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --teal:#16b8a6; --teal-d:#0f6e66; --mint:#7ff0dd;
+    --ink:#e8f1f0; --sub:#9fb6b3; --card:#0f2430;
+  }
+  html,body{ font-family:'Segoe UI',Inter,system-ui,Arial,sans-serif; }
+  .banner{
+    position:relative; width:1280px; height:640px; overflow:hidden;
+    background:
+      radial-gradient(900px 520px at 88% 18%, rgba(22,184,166,.20), transparent 60%),
+      radial-gradient(700px 500px at 6% 96%, rgba(15,110,102,.28), transparent 62%),
+      linear-gradient(135deg,#0a1622 0%, #0c2128 52%, #0a1c22 100%);
+    color:var(--ink);
+  }
+  /* faint grid texture */
+  .grid-tex{ position:absolute; inset:0; opacity:.06;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:42px 42px; }
+  .wrap{ position:relative; display:flex; height:100%; }
+  .left{ width:610px; padding:54px 0 48px 64px; display:flex; flex-direction:column; }
+  .eyebrow{ font-size:13px; letter-spacing:3.5px; font-weight:700; color:var(--mint);
+    text-transform:uppercase; opacity:.92; }
+  .title{ font-size:104px; font-weight:800; line-height:.92; margin-top:14px; letter-spacing:-2px;
+    background:linear-gradient(120deg,#ffffff 8%, #7ff0dd 55%, #16b8a6 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  .subtitle{ font-size:25px; font-weight:600; color:#dff3f0; margin-top:6px; letter-spacing:.2px; }
+  .purpose{ font-size:16px; line-height:1.55; color:var(--sub); margin-top:16px; max-width:520px; }
+  .purpose b{ color:#cfeee9; font-weight:600; }
+  .pills{ display:flex; flex-wrap:wrap; gap:9px; margin-top:22px; max-width:540px; }
+  .pill{ font-size:13px; font-weight:600; color:#d6efeb; padding:7px 13px; border-radius:20px;
+    background:rgba(22,184,166,.13); border:1px solid rgba(22,184,166,.34); }
+  .pill .d{ color:var(--mint); }
+  .roles{ display:flex; gap:8px; margin-top:20px; flex-wrap:wrap; }
+  .role{ font-size:12px; font-weight:600; color:#bfe6e0; padding:6px 11px 6px 9px; border-radius:9px;
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.10); display:flex; align-items:center; gap:6px;}
+  .dot{ width:8px; height:8px; border-radius:50%; }
+  .foot{ margin-top:auto; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  .stack{ display:flex; gap:7px; flex-wrap:wrap; }
+  .tech{ font-size:12px; font-weight:700; letter-spacing:.3px; color:#0a1c22;
+    background:linear-gradient(180deg,#7ff0dd,#16b8a6); padding:5px 11px; border-radius:7px; }
+  .by{ font-size:13px; color:var(--sub); }
+  .by b{ color:#eafbf8; font-weight:600; }
+  /* right preview */
+  .right{ flex:1; position:relative; }
+  .browser{ position:absolute; top:96px; left:18px; width:560px;
+    border-radius:14px; overflow:hidden; transform:rotate(-2.2deg);
+    box-shadow:0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
+    background:#fff; }
+  .chrome{ height:34px; background:#0f2430; display:flex; align-items:center; padding:0 14px; gap:7px; }
+  .tl{ width:11px; height:11px; border-radius:50%; }
+  .url{ margin-left:12px; font-size:11px; color:#8fb3ae; background:#0a1a20; padding:3px 12px;
+    border-radius:11px; letter-spacing:.3px; }
+  .shot{ width:100%; display:block; }
+  .badge{ position:absolute; top:64px; left:430px; z-index:5; transform:rotate(-2.2deg);
+    background:linear-gradient(135deg,#16b8a6,#0f6e66); color:#fff; font-weight:800;
+    font-size:13px; padding:9px 15px; border-radius:12px; letter-spacing:.4px;
+    box-shadow:0 14px 30px rgba(0,0,0,.45); text-align:center; line-height:1.15;}
+  .badge small{ display:block; font-size:9.5px; font-weight:600; opacity:.9; letter-spacing:1px; }
+  .glow{ position:absolute; bottom:-60px; right:-40px; width:340px; height:340px;
+    background:radial-gradient(circle, rgba(22,184,166,.35), transparent 65%); }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="grid-tex"></div>
+    <div class="glow"></div>
+    <div class="wrap">
+      <div class="left">
+        <div class="eyebrow">Software Engineering &middot; Course Project</div>
+        <div class="title">UTOS</div>
+        <div class="subtitle">University Timetable Optimization System</div>
+        <div class="purpose">A web app that turns teachers, courses, rooms &amp; sections into
+          <b>conflict-free weekly timetables</b> through a constraint-based solver &mdash;
+          with role-based access, locking, re-optimization, versioning &amp; live reports.</div>
+
+        <div class="pills">
+          <span class="pill"><span class="d">&#9632;</span> Constraint solver</span>
+          <span class="pill"><span class="d">&#9632;</span> Lock &amp; re-optimize</span>
+          <span class="pill"><span class="d">&#9632;</span> Versioning &amp; diff</span>
+          <span class="pill"><span class="d">&#9632;</span> Change requests</span>
+          <span class="pill"><span class="d">&#9632;</span> Reports &amp; audit log</span>
+        </div>
+
+        <div class="roles">
+          <span class="role"><span class="dot" style="background:#16b8a6"></span>Administrator</span>
+          <span class="role"><span class="dot" style="background:#3fa9f5"></span>Coordinator</span>
+          <span class="role"><span class="dot" style="background:#f5a623"></span>Teacher</span>
+          <span class="role"><span class="dot" style="background:#b06ef5"></span>Student</span>
+          <span class="role"><span class="dot" style="background:#f55e7a"></span>Facility Mgr</span>
+        </div>
+
+        <div class="foot">
+          <div class="stack">
+            <span class="tech">Python</span>
+            <span class="tech">stdlib HTTP</span>
+            <span class="tech">SQLite</span>
+            <span class="tech">Vanilla JS</span>
+          </div>
+        </div>
+        <div class="by" style="margin-top:14px">
+          <b>Muhammad Hammad Shakeel</b> &middot; Team Hakari Bankai &nbsp;|&nbsp; utos.onrender.com
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="badge">CONFLICT-FREE<small>SCORE ~92 / 100</small></div>
+        <div class="browser">
+          <div class="chrome">
+            <span class="tl" style="background:#ff5f57"></span>
+            <span class="tl" style="background:#febc2e"></span>
+            <span class="tl" style="background:#28c840"></span>
+            <span class="url">utos.onrender.com</span>
+          </div>
+          <img class="shot" src="crop_timetable.png" alt="UTOS timetable">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
