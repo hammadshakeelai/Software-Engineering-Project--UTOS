@@ -1,4 +1,22 @@
-# UTOS — University Timetable Optimization System
+<p align="center">
+  <img src="assets/banner.png" alt="UTOS — University Timetable Optimization System" width="100%">
+</p>
+
+<h1 align="center">UTOS — University Timetable Optimization System</h1>
+
+<p align="center">
+  Conflict-free weekly timetables for academic departments — a constraint-based
+  solver with role-based access, locking, re-optimization, versioning &amp; live reports.
+</p>
+
+<p align="center">
+  <a href="https://utos.onrender.com"><img src="https://img.shields.io/badge/live%20demo-utos.onrender.com-0f6e66?style=flat-square" alt="Live demo"></a>
+  <img src="https://img.shields.io/badge/python-stdlib%20only-16b8a6?style=flat-square" alt="Python stdlib only">
+  <img src="https://img.shields.io/badge/database-SQLite-0f6e66?style=flat-square" alt="SQLite">
+  <img src="https://img.shields.io/badge/frontend-vanilla%20JS-16b8a6?style=flat-square" alt="Vanilla JS">
+</p>
+
+---
 
 A web-based timetable scheduling system for academic departments. UTOS manages
 teachers, courses, rooms, sections, and timeslots; generates conflict-free
