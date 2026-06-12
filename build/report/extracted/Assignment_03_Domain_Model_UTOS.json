@@ -1,0 +1,558 @@
+{
+ "source": "Assignment_03_Domain_Model_UTOS.docx",
+ "stem": "Assignment_03_Domain_Model_UTOS",
+ "images_dir": "images\\Assignment_03_Domain_Model_UTOS",
+ "blocks": [
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Assignment 03"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Domain Model for University Timetable Optimization and Management System"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Project: SE-Hakari-Bankai / UTOS"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Instructor",
+     "Sajid Anwar"
+    ],
+    [
+     "Submitted by",
+     "Hakari Bankai Team"
+    ],
+    [
+     "Date",
+     "May 9, 2026"
+    ],
+    [
+     "Assignment Requirement",
+     "Develop a domain model showing key concepts, attributes, and relationships."
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Domain model focuses on real-world concepts, not software design."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "1. Introduction"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "This document presents the domain model for the University Timetable Optimization and Management System (UTOS). It identifies the important real-world concepts in the project, their attributes, and the associations that connect them."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The model follows object-oriented analysis principles: concepts are domain things such as Teacher, CourseOffering, Room, Timeslot, Timetable, and ChangeRequest. Software details such as database tables, APIs, screens, local storage, and algorithms are intentionally excluded."
+  },
+  {
+   "type": "image",
+   "file": "Assignment_03_Domain_Model_UTOS_img01_cef1af26.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 1: UTOS Domain Concepts Overview"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "2. Concept Identification"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Concept Category",
+     "UTOS Concepts",
+     "Reason"
+    ],
+    [
+     "Physical/tangible objects",
+     "Room, Building",
+     "Rooms and buildings are real facilities used for classes."
+    ],
+    [
+     "Descriptions/specifications",
+     "Course, CourseOffering, SchedulingPolicy",
+     "Course describes subject; offering connects it to term, teacher, and section."
+    ],
+    [
+     "Places/containers",
+     "University, Faculty, Department, StudentSection",
+     "These contain people, courses, and academic groups."
+    ],
+    [
+     "Records/transactions",
+     "Timetable, ChangeRequest",
+     "These preserve scheduling decisions and requested changes."
+    ],
+    [
+     "Line items",
+     "ClassSession",
+     "One scheduled meeting inside a timetable."
+    ],
+    [
+     "Roles of people",
+     "Teacher, Student, Administrator, Coordinator, FacilityManager",
+     "Actors with real domain responsibility."
+    ],
+    [
+     "Rules/policies",
+     "SchedulingPolicy, TeacherAvailability, Holiday",
+     "Rules that guide or restrict timetable creation."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "3. Key Concepts and Attributes"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Attributes are kept simple. Relationships are not stored as foreign-key attributes in the domain model; they are shown as associations."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Concept",
+     "Attributes"
+    ],
+    [
+     "University",
+     "name, campusName"
+    ],
+    [
+     "Faculty",
+     "name"
+    ],
+    [
+     "Department",
+     "name, code"
+    ],
+    [
+     "Person",
+     "name, email"
+    ],
+    [
+     "Teacher",
+     "employeeNumber, maxDailyLoad"
+    ],
+    [
+     "Student",
+     "registrationNumber"
+    ],
+    [
+     "TimetableAdministrator",
+     "authorityLevel"
+    ],
+    [
+     "DepartmentCoordinator",
+     "responsibilityArea"
+    ],
+    [
+     "FacilityManager",
+     "responsibilityArea"
+    ],
+    [
+     "StudentSection",
+     "name, program, semester, batch, size"
+    ],
+    [
+     "AcademicTerm",
+     "name, startDate, endDate"
+    ],
+    [
+     "Course",
+     "code, title, creditHours"
+    ],
+    [
+     "CourseOffering",
+     "weeklySessions, requiredRoomType, sessionDuration"
+    ],
+    [
+     "Building",
+     "name, location"
+    ],
+    [
+     "Room",
+     "code, floor, capacity, roomType, features"
+    ],
+    [
+     "Timeslot",
+     "day, startTime, endTime, isMorning, isLastSlot"
+    ],
+    [
+     "Holiday",
+     "name, date, reason"
+    ],
+    [
+     "TeacherAvailability",
+     "isAvailable, note"
+    ],
+    [
+     "SchedulingPolicy",
+     "name, policyType, priority, weight, isHardConstraint, isEnabled"
+    ],
+    [
+     "Timetable",
+     "name, status, qualityScore, hardConflictCount, softPenalty, unplacedSessionCount, createdAt"
+    ],
+    [
+     "ClassSession",
+     "sessionNumber, status, locked"
+    ],
+    [
+     "ChangeRequest",
+     "requestType, reason, urgency, preferredAlternative, coordinatorNote, administratorResponse, status, createdAt"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "4. Domain Model Diagram"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 2 below shows the main UTOS concepts and their need-to-know relationships. Multiplicity appears in the relationship labels."
+  },
+  {
+   "type": "image",
+   "file": "Assignment_03_Domain_Model_UTOS_img02_258d5575.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure 2: UTOS Domain Model Class Diagram"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "5. Associations and Multiplicity"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Association",
+     "Multiplicity",
+     "Purpose"
+    ],
+    [
+     "University contains Faculty",
+     "1 to 1..*",
+     "Container relationship"
+    ],
+    [
+     "Faculty contains Department",
+     "1 to 1..*",
+     "Container relationship"
+    ],
+    [
+     "Department employs Teacher",
+     "1 to 0..*",
+     "Member/organization relationship"
+    ],
+    [
+     "Department contains StudentSection",
+     "1 to 0..*",
+     "Academic grouping"
+    ],
+    [
+     "Department offers Course",
+     "1 to 0..*",
+     "Course ownership"
+    ],
+    [
+     "StudentSection contains Student",
+     "1 to 0..*",
+     "Student membership"
+    ],
+    [
+     "AcademicTerm records CourseOffering",
+     "1 to 0..*",
+     "Offering belongs to a term"
+    ],
+    [
+     "Course is offered as CourseOffering",
+     "1 to 0..*",
+     "Description/specification separation"
+    ],
+    [
+     "Teacher teaches CourseOffering",
+     "1 to 0..*",
+     "Teaching assignment"
+    ],
+    [
+     "StudentSection takes CourseOffering",
+     "1 to 0..*",
+     "Section course load"
+    ],
+    [
+     "Building houses Room",
+     "1 to 1..*",
+     "Physical containment"
+    ],
+    [
+     "AcademicTerm defines Timeslot",
+     "1 to 1..*",
+     "Time structure"
+    ],
+    [
+     "AcademicTerm records Holiday",
+     "1 to 0..*",
+     "Blocked academic days"
+    ],
+    [
+     "Teacher states TeacherAvailability",
+     "1 to 0..*",
+     "Availability record"
+    ],
+    [
+     "TeacherAvailability refers to Timeslot",
+     "1 to 1",
+     "Availability is for a specific time"
+    ],
+    [
+     "Timetable contains ClassSession",
+     "1 to 0..*",
+     "ClassSession is a line item of Timetable"
+    ],
+    [
+     "CourseOffering is realized by ClassSession",
+     "1 to 1..*",
+     "Weekly sessions of one offering"
+    ],
+    [
+     "ClassSession occurs at Timeslot",
+     "1 to 0..1",
+     "0..1 allows unplaced sessions"
+    ],
+    [
+     "ClassSession is held in Room",
+     "1 to 0..1",
+     "0..1 allows unplaced sessions"
+    ],
+    [
+     "Timetable is guided by SchedulingPolicy",
+     "1 to 0..*",
+     "Rules and preferences"
+    ],
+    [
+     "Person submits ChangeRequest",
+     "1 to 0..*",
+     "Requested timetable change"
+    ],
+    [
+     "Coordinator reviews ChangeRequest",
+     "1 to 0..*",
+     "Review responsibility"
+    ],
+    [
+     "Administrator creates Timetable",
+     "1 to 0..*",
+     "Timetable management"
+    ],
+    [
+     "FacilityManager manages Room",
+     "1 to 0..*",
+     "Facility responsibility"
+    ],
+    [
+     "ChangeRequest concerns ClassSession/CourseOffering/Room/Timeslot",
+     "1 to 0..1 target",
+     "Request target"
+    ],
+    [
+     "AcademicTerm covers Timetable",
+     "1 to 0..*",
+     "Timetable is generated for a specific term"
+    ],
+    [
+     "Department owns Timetable",
+     "1 to 0..*",
+     "Department manages its scheduling timetable"
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "6. Notes on Important Modeling Choices"
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "Course and CourseOffering are separate because a course description can be reused across terms, sections, and teachers."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "ClassSession is separate because it is a line item inside a timetable and must remember placement, lock status, and scheduling status."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "Room belongs to Building because room proximity and facility management depend on building/location information."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "TeacherAvailability is modeled separately because availability is a relationship between a teacher and a timeslot with its own attribute."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "SchedulingPolicy is included because hard constraints and soft preferences are part of the timetable domain, not just code."
+  },
+  {
+   "type": "para",
+   "style": "List Bullet",
+   "text": "Database IDs and foreign keys are not attributes in this domain model; associations carry those relationships."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "7. Short Explanation"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "The UTOS domain model represents a university scheduling environment. A university contains faculties and departments. Departments employ teachers, contain student sections, and offer courses. Students belong to sections, and sections take course offerings."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "A course offering connects a course to a teacher, section, and academic term. Each offering is realized by one or more class sessions. A timetable contains class sessions, and each class session may be assigned a timeslot and a room. If a session has no room or timeslot, it is still part of the timetable but remains unplaced."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Scheduling policies, teacher availability, and holidays guide timetable validity and quality. Change requests allow teachers, students, coordinators, and administrators to communicate requested schedule changes. The model therefore captures the core concepts, attributes, and relationships needed for timetable generation, viewing, review, and improvement."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "8. Excluded Software Artifacts"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Excluded Item",
+     "Reason"
+    ],
+    [
+     "Database / SQLite table",
+     "Software storage design, not a real-world domain concept."
+    ],
+    [
+     "API endpoint / HTTP route",
+     "Implementation mechanism."
+    ],
+    [
+     "Browser screen / form",
+     "User interface artifact."
+    ],
+    [
+     "SolverRun / algorithm class",
+     "Software execution detail."
+    ],
+    [
+     "teacherId, roomId, timeslotId",
+     "Foreign-key style attributes; represented by associations instead."
+    ],
+    [
+     "CRUD operation",
+     "Function/process, not a domain concept."
+    ]
+   ]
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "9. Reviewed Project Diagrams"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "These existing project diagrams were reviewed while building the domain model. They are included as reference material only. The final domain model removes database, software architecture, and process details where they are not real-world domain concepts."
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "Reviewed Diagram",
+     "What It Helped With",
+     "How It Was Used"
+    ],
+    [
+     "Existing ERD/data model",
+     "Useful for noun extraction: calendar, holidays, timetable, teachers, rooms, courses, sections, timeslots, users, change requests.",
+     "Converted into domain concepts; PK/FK fields excluded."
+    ],
+    [
+     "Swimlane workflow",
+     "Useful for use-case context: generation, review, publish, view, submit change request, approve/reject.",
+     "Used to confirm ChangeRequest, Timetable, SchedulingPolicy, and actor roles."
+    ],
+    [
+     "Context diagram",
+     "Useful for external actors: Admin, Teacher, Student, Department Coordinator, Facility Manager.",
+     "Used to validate role concepts and major associations."
+    ],
+    [
+     "Architecture/DFD/process diagrams",
+     "Useful for project background.",
+     "Not part of core domain model because they describe software components or functions."
+    ]
+   ]
+  },
+  {
+   "type": "image",
+   "file": "Assignment_03_Domain_Model_UTOS_img03_6592257a.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Reference Figure A: Existing ERD/data model used for concept extraction. Database keys and FK attributes are not carried into the final domain model."
+  },
+  {
+   "type": "image",
+   "file": "Assignment_03_Domain_Model_UTOS_img04_34543652.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Reference Figure B: Timetable generation workflow used to validate core actions and change request flow."
+  },
+  {
+   "type": "image",
+   "file": "Assignment_03_Domain_Model_UTOS_img05_c5997a8c.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Reference Figure C: Context diagram used to validate major actor roles around UTOS."
+  }
+ ]
+}
