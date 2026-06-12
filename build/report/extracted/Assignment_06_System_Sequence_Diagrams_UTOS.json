@@ -1,0 +1,612 @@
+{
+ "source": "Assignment_06_System_Sequence_Diagrams_UTOS.docx",
+ "stem": "Assignment_06_System_Sequence_Diagrams_UTOS",
+ "images_dir": "images\\Assignment_06_System_Sequence_Diagrams_UTOS",
+ "blocks": [
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UNIVERSITY TIMETABLE OPTIMIZATION SYSTEM"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "(UTOS)"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "System Sequence Diagrams"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC00 through UC22"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "By: Muhammad Hammad Shakeel"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Software Engineering Project"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Generated: 15 May 2026"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Introduction"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "This document presents the System Sequence Diagrams (SSDs) for all 23 use cases identified in the UTOS Use Case Analysis. Each SSD illustrates the interactions between external actors and the UTOS system boundary for the main success scenario of each use case, derived from the uploaded generator metadata and organized in the same UC00–UC22 sequence."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Notation Key"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "•  Solid arrow  →  System operation message (initiator → system)"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "•  Dashed arrow  ⇢  System response / return value"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "•  Vertical dashed line  =  Actor / object lifeline"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "•  Stick figure  =  Human actor / user role"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "•  Named box  =  System or subsystem actor"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Use Case Index"
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     "#",
+     "Use Case",
+     "#",
+     "Use Case"
+    ],
+    [
+     "UC00",
+     "UC00 — Authenticate and Login  [System-wide]",
+     "UC12",
+     "UC12 — View Personal or Section Timetable  [Class Timetabling]"
+    ],
+    [
+     "UC01",
+     "UC01 — Maintain Organization Hierarchy  [System-wide]",
+     "UC13",
+     "UC13 — Export Class Timetable  [System-wide]"
+    ],
+    [
+     "UC02",
+     "UC02 — Maintain Academic Calendar  [Class Timetabling]",
+     "UC14",
+     "UC14 — Manage Notifications  [System-wide]"
+    ],
+    [
+     "UC03",
+     "UC03 — Manage Master Data  [Class Timetabling]",
+     "UC15",
+     "UC15 — Compare Timetable Versions  [System-wide]"
+    ],
+    [
+     "UC04",
+     "UC04 — Define Constraints and Preferences  [Class Timetabling]",
+     "UC16",
+     "UC16 — Manage Exam Rooms  [Exam Timetabling]"
+    ],
+    [
+     "UC05",
+     "UC05 — Generate Class Timetable  [Class Timetabling]",
+     "UC17",
+     "UC17 — Manage Student Hierarchy  [Exam Timetabling]"
+    ],
+    [
+     "UC06",
+     "UC06 — Review Timetable Quality  [Class Timetabling]",
+     "UC18",
+     "UC18 — Manage Exam Courses  [Exam Timetabling]"
+    ],
+    [
+     "UC07",
+     "UC07 — Manually Adjust and Lock Timetable  [Class Timetabling]",
+     "UC19",
+     "UC19 — Schedule Exams  [Exam Timetabling]"
+    ],
+    [
+     "UC08",
+     "UC08 — Submit Change Request  [Class Timetabling]",
+     "UC20",
+     "UC20 — View Exam Schedule and Invigilation Duties  [Exam Timetabling]"
+    ],
+    [
+     "UC09",
+     "UC09 — Approve or Reject Change Request  [Class Timetabling]",
+     "UC21",
+     "UC21 — Manage Users and Roles  [Administration]"
+    ],
+    [
+     "UC10",
+     "UC10 — Re-optimize Timetable  [Class Timetabling]",
+     "UC22",
+     "UC22 — View System Reports and Audit Logs  [Administration]"
+    ],
+    [
+     "UC11",
+     "UC11 — Publish Timetable  [Class Timetabling]",
+     "",
+     ""
+    ]
+   ]
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC00 — Authenticate and Login"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: System-wide   |   Actors: All users, System Administrator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img01_6ed52e12.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC00: System sequence diagram for Authenticate and Login."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC01 — Maintain Organization Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: System-wide   |   Actors: Timetable Administrator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img02_d29eb612.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC01: System sequence diagram for Maintain Organization Hierarchy."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC02 — Maintain Academic Calendar"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img03_e61b691d.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC02: System sequence diagram for Maintain Academic Calendar."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC03 — Manage Master Data"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator, Department Coordinator, Facility Manager   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img04_3246af75.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC03: System sequence diagram for Manage Master Data."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC04 — Define Constraints and Preferences"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator, Department Coordinator, Teacher   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img05_16f85244.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC04: System sequence diagram for Define Constraints and Preferences."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC05 — Generate Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator, Solver Engine   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img06_415b0026.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC05: System sequence diagram for Generate Class Timetable."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC06 — Review Timetable Quality"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator, Department Coordinator, Facility Manager   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img07_7a21b120.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC06: System sequence diagram for Review Timetable Quality."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC07 — Manually Adjust and Lock Timetable"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator, Department Coordinator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img08_a91b8300.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC07: System sequence diagram for Manually Adjust and Lock Timetable."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC08 — Submit Change Request"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Teacher, Department Coordinator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img09_58592a31.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC08: System sequence diagram for Submit Change Request."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC09 — Approve or Reject Change Request"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Department Coordinator, Timetable Administrator, Teacher   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img10_a863fbb4.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC09: System sequence diagram for Approve or Reject Change Request."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC10 — Re-optimize Timetable"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator, Solver Engine   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img11_18aad2fb.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC10: System sequence diagram for Re-optimize Timetable."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC11 — Publish Timetable"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Timetable Administrator, Department Coordinator, Teacher, Student   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img12_30caddb0.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC11: System sequence diagram for Publish Timetable."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC12 — View Personal or Section Timetable"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Class Timetabling   |   Actors: Teacher, Student   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img13_89f528a3.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC12: System sequence diagram for View Personal or Section Timetable."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC13 — Export Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: System-wide   |   Actors: Timetable Administrator, Teacher, Student   |   Type: Secondary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img14_e387fccf.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC13: System sequence diagram for Export Class Timetable."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC14 — Manage Notifications"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: System-wide   |   Actors: All users, System   |   Type: Secondary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img15_45c0a505.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC14: System sequence diagram for Manage Notifications."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC15 — Compare Timetable Versions"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: System-wide   |   Actors: Timetable Administrator, Department Coordinator   |   Type: Secondary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img16_3494f361.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC15: System sequence diagram for Compare Timetable Versions."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC16 — Manage Exam Rooms"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Exam Timetabling   |   Actors: Timetable Administrator, Facility Manager   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img17_f43fd006.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC16: System sequence diagram for Manage Exam Rooms."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC17 — Manage Student Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Exam Timetabling   |   Actors: Timetable Administrator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img18_c36a8170.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC17: System sequence diagram for Manage Student Hierarchy."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC18 — Manage Exam Courses"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Exam Timetabling   |   Actors: Timetable Administrator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img19_c45d94e4.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC18: System sequence diagram for Manage Exam Courses."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC19 — Schedule Exams"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Exam Timetabling   |   Actors: Timetable Administrator, Student, Teacher, Facility Manager   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img20_352f626e.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC19: System sequence diagram for Schedule Exams."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC20 — View Exam Schedule and Invigilation Duties"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Exam Timetabling   |   Actors: Student, Teacher, Facility Manager   |   Type: Secondary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img21_2bb7e519.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC20: System sequence diagram for View Exam Schedule and Invigilation Duties."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC21 — Manage Users and Roles"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Administration   |   Actors: System Administrator   |   Type: Primary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img22_1779aeac.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC21: System sequence diagram for Manage Users and Roles."
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "UC22 — View System Reports and Audit Logs"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Module: Administration   |   Actors: Timetable Administrator, Facility Manager, System Administrator, Department Coordinator   |   Type: Secondary"
+  },
+  {
+   "type": "image",
+   "file": "Assignment_06_System_Sequence_Diagrams_UTOS_img23_3be8e340.png"
+  },
+  {
+   "type": "para",
+   "style": "Normal",
+   "text": "Figure UC22: System sequence diagram for View System Reports and Audit Logs."
+  }
+ ]
+}
