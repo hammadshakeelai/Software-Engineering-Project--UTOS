@@ -1,0 +1,1942 @@
+{
+ "source": "Assignment_07_Operation_Contracts_UTOS.docx",
+ "stem": "Assignment_07_Operation_Contracts_UTOS",
+ "images_dir": "images\\Assignment_07_Operation_Contracts_UTOS",
+ "blocks": [
+  {
+   "type": "para",
+   "style": "",
+   "text": "UNIVERSITY TIMETABLE OPTIMIZATION SYSTEM"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "(UTOS)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation Contracts"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "UC00 through UC22  ·  23 System Operations"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "By: Muhammad Hammad Shakeel"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Software Engineering Project  ·  May 2026"
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "About This Document"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "This document provides a formal Operation Contract for every system operation identified in the UTOS System Sequence Diagrams (SSDs). Each contract follows the standard template used in Object-Oriented Analysis, specifying the operation signature, responsible use case, participating actors, cross-references, preconditions, postconditions (state changes), output/return values, and notable exceptions."
+  },
+  {
+   "type": "heading",
+   "level": 1,
+   "text": "Template Fields"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation: Full signature with parameters and types."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case: The SSD / use case from which the operation is derived."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors: Who initiates or participates in the operation."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References: Other use cases or operations related to this contract."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes: Implementation notes or special considerations."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions: Failure scenarios and system responses."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output / Return: Data returned to the calling actor or system."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions: Conditions that must be true before the operation executes."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions: State changes guaranteed upon successful completion (past-tense assertions)."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-00 — UC00 — Authenticate and Login"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  authenticateUser(userId: String, password: String, mfaToken: String [optional])"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC00 — Authenticate and Login"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  All Users, System Administrator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC21 (Manage Users and Roles)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Passwords are stored as salted hashes. MFA token is optional but enforced for Administrator accounts."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Invalid credentials → error message displayed; attempt logged. Account locked → locked-account message displayed. MFA failure → authentication rejected."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Session token; user role and permissions profile; redirect URL for the user's home dashboard."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The system is online and the login page is accessible."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The user account exists in the system."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A validated session token was created and associated with the user."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The session was logged in the audit trail."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The user's last-login timestamp was updated."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-01 — UC01 — Maintain Organization Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  maintainOrganizationHierarchy(action: Enum{ADD, UPDATE, DELETE}, nodeData: OrgNode)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC01 — Maintain Organization Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC03 (Manage Master Data), UC21 (Manage Users and Roles)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Duplicate node name at same level → validation error. DELETE with active timetable references → operation rejected with conflict list."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Updated organization hierarchy tree; confirmation message with node ID."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated and has ADMIN role."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE/DELETE: the target organizational node exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For ADD: a new organizational node (faculty/department/program) was persisted."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE: node attributes were updated in the database."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For DELETE: node and its children were removed and referential integrity was maintained."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Change event was recorded in the audit log."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-02 — UC02 — Maintain Academic Calendar"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  maintainAcademicCalendar(action: Enum{CREATE, UPDATE, DELETE}, calendarData: CalendarPeriod)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC02 — Maintain Academic Calendar"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC05 (Generate Class Timetable), UC19 (Schedule Exams)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Overlapping date ranges → validation error with conflict details. DELETE of period with published timetable → rejected with advisory message."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Persisted academic calendar record; generated list of teaching weeks and blackout dates."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE/DELETE: the target academic period exists and is not currently active for timetabling."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Calendar period (semester, term, holidays) was created/updated/deleted in the system."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Teaching weeks and exam windows were recalculated if dates changed."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Audit log entry was created."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-03 — UC03 — Manage Master Data"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  manageMasterData(entityType: Enum{ROOM, COURSE, TEACHER, SECTION, ...}, action: Enum{ADD, UPDATE, DELETE}, entityData: Object)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC03 — Manage Master Data"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Department Coordinator, Facility Manager"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC04, UC05, UC16, UC17, UC18, UC19"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Duplicate entity key → rejected with duplicate-record message. DELETE of entity referenced in active timetable → rejected with dependency list. Invalid capacity or attribute value → field-level validation error."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Persisted entity record with system-generated ID; updated data catalogue entry."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with appropriate data-management permissions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE/DELETE: the target entity record exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Master data entity (room, course, teacher, section, etc.) was created/updated/deleted."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Related constraint records were updated if capacity or attributes changed."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Change was logged in the audit trail."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-04 — UC04 — Define Constraints and Preferences"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  defineConstraint(constraintSpec: ConstraintDTO, priority: Enum{HARD, SOFT}, scope: Enum{GLOBAL, DEPARTMENT, TEACHER})"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC04 — Define Constraints and Preferences"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Department Coordinator, Teacher"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC05 (Generate Class Timetable), UC10 (Re-optimize Timetable)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Conflicting HARD constraints → system flags potential infeasibility and warns actor. Permission violation (e.g., Teacher sets global constraint) → rejected."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Constraint ID; constraint summary with priority and scope; validation result (feasibility check)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with constraint-definition permissions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Referenced entities (rooms, teachers, time slots) exist in master data."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Constraint or preference record was persisted and linked to the relevant scope."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Constraint was marked as ACTIVE and will be included in the next solver run."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Audit entry was created with actor identity."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-05 — UC05 — Generate Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  generateClassTimetable(semesterId: String, configParams: SolverConfig)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC05 — Generate Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Solver Engine"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC04 (Constraints), UC06 (Review Quality), UC10 (Re-optimize)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  HARD constraint infeasibility → generation fails; infeasibility report returned. Solver timeout → partial result saved with INCOMPLETE status. Missing mandatory master data → validation error listing missing items."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Timetable version ID; quality score (hard-constraint satisfaction rate, soft-constraint score); solver run summary."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Academic calendar for the semester is defined."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  All required master data (rooms, courses, teachers, sections) is complete."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  At least one HARD constraint set exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A new timetable version was created with status DRAFT."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  All class sessions were assigned to rooms and time slots."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Constraint violations (soft) were recorded against the timetable version."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Quality score and solver run log were stored."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-06 — UC06 — Review Timetable Quality"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  reviewTimetableQuality(timetableVersionId: String, filters: ReviewFilter [optional])"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC06 — Review Timetable Quality"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Department Coordinator, Facility Manager"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC05, UC07, UC10"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Timetable version not found → error message. No data available for filter criteria → empty report with advisory."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Quality report: overall score, hard-violation count (0 expected), soft-violation details, room-utilization statistics, teacher-workload balance metrics."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with review permissions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A timetable version with status DRAFT or PUBLISHED exists for the selected semester."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Quality review report was generated and linked to the timetable version."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Soft-constraint violations were listed with severity and affected sessions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Review event was logged (actor, timestamp, version reviewed)."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-07 — UC07 — Manually Adjust and Lock Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  adjustTimetableEntry(sessionId: String, newRoomId: String, newTimeSlot: TimeSlot, lock: Boolean)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC07 — Manually Adjust and Lock Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Department Coordinator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC06 (Review), UC09 (Change Requests), UC10 (Re-optimize)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Target slot already occupied → clash error with conflicting session details. Room capacity insufficient for session size → validation error. Session is LOCKED by another actor → edit rejected with lock-owner info."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Updated session record; recalculated conflict list for the affected slots; new partial quality score."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with manual-edit permissions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The timetable version is in DRAFT or UNDER_REVIEW status."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The target session exists and is not already LOCKED by another actor."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Session was moved to the specified room and time slot."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  If lock=true, session was marked LOCKED and excluded from future re-optimization."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Constraint scores were recalculated for the affected time slots and rooms."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Audit trail entry was recorded (who moved what and when)."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-08 — UC08 — Submit Change Request"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  submitChangeRequest(requestData: ChangeRequestDTO)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC08 — Submit Change Request"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Teacher, Department Coordinator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC09 (Approve/Reject), UC07 (Manual Adjust)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  No alternative slot available → system warns actor before submission. Duplicate request for same session → rejected with existing request reference. Request deadline exceeded → form disabled with expiry notice."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Change request ID; estimated review timeline; current request status (PENDING)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated as Teacher or Department Coordinator."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The published timetable has a session assigned to the requesting teacher/section."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The request deadline has not passed."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A change request record was created with status PENDING."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Notification was sent to the approving authority."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Request was logged in the audit trail."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-09 — UC09 — Approve or Reject Change Request"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  processChangeRequest(requestId: String, decision: Enum{APPROVE, REJECT}, notes: String [optional])"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC09 — Approve or Reject Change Request"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Department Coordinator, Timetable Administrator, Teacher"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC07 (Manual Adjust), UC08 (Submit Request), UC14 (Notifications)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Requested slot became unavailable between submission and approval → system prompts for alternative before finalizing. Concurrent approval attempt → optimistic lock conflict; second approver sees already-processed status."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Updated change request record with decision; notification confirmation; updated timetable entry (if APPROVE)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with approval permissions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The change request exists with status PENDING."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For APPROVE: the requested alternative slot is still available."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For APPROVE: timetable was updated via adjustTimetableEntry(); request status set to APPROVED."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For REJECT: request status was set to REJECTED; original session unchanged."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Notification was dispatched to the requesting teacher/coordinator."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Decision was recorded in audit log with actor ID and timestamp."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-10 — UC10 — Re-optimize Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  reoptimizeTimetable(timetableVersionId: String, scope: Enum{FULL, PARTIAL}, lockedSessions: List<String>)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC10 — Re-optimize Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Solver Engine"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC05, UC06, UC07"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Solver infeasibility after locking sessions → report returned; no changes committed. Solver timeout → partial result saved; admin notified. No unlocked sessions available → operation rejected with advisory."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  New/updated timetable version ID; quality score delta (before vs. after); list of sessions moved; solver run summary."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A timetable version in DRAFT or UNDER_REVIEW status exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Solver Engine is available and operational."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  New timetable version was created (or existing DRAFT updated) with re-optimized assignments."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  LOCKED sessions were preserved without modification."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Previous version was archived with status SUPERSEDED."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Re-optimization log and quality delta report were stored."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-11 — UC11 — Publish Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  publishTimetable(timetableVersionId: String, publishScope: Enum{FULL, DEPARTMENTAL})"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC11 — Publish Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC12 (View), UC14 (Notifications), UC13 (Export)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Remaining HARD constraint violations → publication blocked; violation list returned. Concurrent publish attempt → second attempt rejected with conflict message."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Publication confirmation with version ID, publish timestamp, and notified-user count."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Timetable version has zero HARD constraint violations."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Timetable is in DRAFT or UNDER_REVIEW status (not already PUBLISHED)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Timetable version status was set to PUBLISHED."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Previous PUBLISHED version (if any) was archived as HISTORICAL."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  All affected users received a publish notification."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Timetable became visible in UC12 view screens."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-12 — UC12 — View Personal or Section Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  viewPersonalTimetable(actorId: String, semesterId: String, viewType: Enum{PERSONAL, SECTION, ROOM})"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC12 — View Personal or Section Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Teacher, Student"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC11 (Publish), UC13 (Export)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  No published timetable for semester → informational message returned. Actor not enrolled in any section → empty timetable with advisory."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Personalized timetable data: sessions filtered by actor role, sorted by day and time."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A PUBLISHED timetable version exists for the requested semester."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For SECTION view: actor belongs to the requested section."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Timetable view event was logged (actor, view type, timestamp)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  No data was modified."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-13 — UC13 — Export Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  exportTimetable(timetableVersionId: String, format: Enum{PDF, XLSX, CSV, ICS}, scope: Enum{FULL, PERSONAL, DEPARTMENT})"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC13 — Export Class Timetable"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Teacher, Student"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC11 (Publish), UC12 (View), UC20 (Exam Schedule View)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Unsupported format requested → error with supported format list. Scope exceeds actor's permissions → export scoped down to permitted data with advisory. File generation timeout → error with retry option."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Download URL or file stream for the generated export file; file size and expiry timestamp."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A PUBLISHED timetable version exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor has permissions matching the requested scope."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Export file was generated and stored temporarily in the export cache."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Export event was logged (actor, format, scope, timestamp)."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-14 — UC14 — Manage Notifications"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  manageNotification(action: Enum{SEND, MARK_READ, DELETE, CONFIG}, notificationData: NotificationDTO)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC14 — Manage Notifications"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  All Users, System"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC08, UC09, UC11 (event sources that trigger notifications)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Recipient not found → notification skipped; error logged. Email/push delivery failure → notification retained in inbox; retry queued."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Notification delivery status; updated inbox summary (unread count)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For SEND: triggering system event has occurred."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For MARK_READ/DELETE: the notification exists and belongs to the actor's inbox."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For CONFIG: actor is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For SEND: notification record was created in recipient's inbox; push/email dispatched."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For MARK_READ: notification status was updated to READ."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For DELETE: notification was removed from inbox."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For CONFIG: actor's notification preferences were updated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  All actions were logged in the system event log."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-15 — UC15 — Compare Timetable Versions"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  compareTimetableVersions(versionIdA: String, versionIdB: String, diffScope: Enum{ALL, DEPARTMENT, ROOM})"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC15 — Compare Timetable Versions"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Department Coordinator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC05, UC10, UC11"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Versions from different semesters → rejected with advisory. One or both versions not found → error with version IDs."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Diff report: list of added, removed, and modified sessions with before/after room-timeslot pairs; summary count by department."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with timetable-view permissions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Both timetable versions exist and belong to the same semester."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Diff report was computed and temporarily cached."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Comparison event was logged (actor, versions compared, timestamp)."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-16 — UC16 — Manage Exam Rooms"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  manageExamRoom(action: Enum{ADD, UPDATE, DELETE, TOGGLE_AVAILABILITY}, examRoomData: ExamRoomDTO)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC16 — Manage Exam Rooms"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Facility Manager"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC19 (Schedule Exams), UC03 (Master Data)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  DELETE of room assigned in a scheduled exam → rejected with exam schedule references. Capacity set below minimum allowed value → validation error."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Updated exam room record with ID, capacity, and current availability status."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with exam-room management permissions."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE/DELETE/TOGGLE: the exam room record exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Exam room record was created/updated/deleted/toggled in the exam resource pool."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Room capacity and availability flags were updated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Change was logged in the audit trail."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-17 — UC17 — Manage Student Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  manageStudentHierarchy(action: Enum{ADD, UPDATE, DELETE, IMPORT}, hierarchyData: StudentHierarchyDTO)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC17 — Manage Student Hierarchy"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC18 (Exam Courses), UC19 (Schedule Exams)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Duplicate student ID or section code → validation error list. Malformed import file → file-level error with line-number details. DELETE of group enrolled in scheduled exam → rejected with dependency list."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Persisted hierarchy structure; import summary (records created, updated, rejected with reasons)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For IMPORT: the import file is in the accepted format (CSV/XLSX) and passes schema validation."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE/DELETE: the target group/batch/section record exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Student grouping hierarchy (batch, program year, section) was persisted."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Student-course enrolment associations were updated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Import results report was generated for IMPORT action."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Audit log entry was created."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-18 — UC18 — Manage Exam Courses"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  manageExamCourse(action: Enum{ADD, UPDATE, DELETE, LINK_STUDENTS}, examCourseData: ExamCourseDTO)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC18 — Manage Exam Courses"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC17 (Student Hierarchy), UC19 (Schedule Exams)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Duplicate course code in same exam session → validation error. DELETE of course with scheduled exam → rejected with exam reference."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Exam course record with ID, enrolled student count, and required invigilation ratio."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For LINK_STUDENTS: student groups in UC17 are already defined."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE/DELETE: the exam course record exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Exam course (course code, exam duration, eligible student groups) was persisted."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Student-to-exam-course mappings were updated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Audit log entry was created."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-19 — UC19 — Schedule Exams"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  scheduleExams(examSessionId: String, configParams: ExamSolverConfig)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC19 — Schedule Exams"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Student, Teacher, Facility Manager"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC16, UC17, UC18, UC20"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Student clash infeasibility → generation fails; clash matrix returned. Insufficient room capacity for enrolment → capacity gap report returned. Solver timeout → partial schedule saved as INCOMPLETE."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Exam schedule version ID; clash-free confirmation; room-utilization report; invigilation assignment summary."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Exam rooms (UC16), student hierarchy (UC17), and exam courses (UC18) are fully configured."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Academic exam window is defined in the academic calendar (UC02)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Exam schedule was generated with status DRAFT."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Each exam was assigned a date, time slot, and one or more exam rooms."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Invigilation duties were automatically assigned based on teacher availability."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Clash report (same student in two simultaneous exams) was verified to be zero."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Schedule version and solver log were persisted."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-20 — UC20 — View Exam Schedule and Invigilation Duties"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  viewExamSchedule(actorId: String, examSessionId: String, viewType: Enum{STUDENT, TEACHER_INVIGILATION, FACILITY})"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC20 — View Exam Schedule and Invigilation Duties"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Student, Teacher, Facility Manager"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC19 (Schedule Exams), UC13 (Export)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  No published exam schedule → informational message returned. Actor has no assigned duties/exams → empty view with advisory."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Filtered exam schedule: for Student — own exam list with dates, rooms, and seat; for Teacher — invigilation duty list; for Facility Manager — room-occupation schedule."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  A PUBLISHED exam schedule exists for the requested exam session."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For TEACHER_INVIGILATION: actor is assigned as an invigilator."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  View event was logged (actor, view type, timestamp)."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  No data was modified."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-21 — UC21 — Manage Users and Roles"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  manageUserAccount(action: Enum{CREATE, UPDATE, DELETE, ASSIGN_ROLE, RESET_PASSWORD}, userData: UserDTO)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC21 — Manage Users and Roles"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  System Administrator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  UC00 (Authentication), UC01 (Organization Hierarchy)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Duplicate username/email on CREATE → validation error. DELETE of the only ADMIN account → rejected with safety message. Unauthorized role assignment → rejected."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Updated user record; action confirmation with timestamp; for RESET_PASSWORD: masked delivery confirmation."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  System Administrator is authenticated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE/DELETE/ASSIGN_ROLE/RESET_PASSWORD: the target user account exists."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For ASSIGN_ROLE: the role being assigned is defined in the system role catalogue."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For CREATE: new user account was persisted with hashed credentials; welcome email sent."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For UPDATE: user profile attributes were updated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For DELETE: account was deactivated (soft-delete); active sessions invalidated."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For ASSIGN_ROLE: role-permission mapping was updated; effective immediately."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  For RESET_PASSWORD: temporary password was generated; reset link emailed."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  All actions were logged in security audit trail."
+  },
+  {
+   "type": "heading",
+   "level": 2,
+   "text": "OC-22 — UC22 — View System Reports and Audit Logs"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Operation:  viewSystemReports(reportType: Enum{AUDIT_LOG, USAGE, SOLVER_PERFORMANCE, ROOM_UTILIZATION, ...}, filterParams: ReportFilter)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Use Case:  UC22 — View System Reports and Audit Logs"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Actors:  Timetable Administrator, Facility Manager, System Administrator, Department Coordinator"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Cross References:  All UCs (audit log aggregates events from every use case)"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Notes:  Nil"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Exceptions:  Filter yields no results → empty report with advisory. Actor requests report type outside their permissions → access denied with permitted report list. Report generation exceeds timeout → partial result with truncation notice."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Output:  Report data: tabular rows or aggregated metrics matching the filter; export option (PDF/XLSX) URL."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Pre-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Actor is authenticated with reporting permissions appropriate to the requested report type."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  The date range and filter parameters are valid."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "Post-conditions:"
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Report was generated from the audit and metrics database."
+  },
+  {
+   "type": "para",
+   "style": "",
+   "text": "▪  Report-access event was logged (actor, report type, filter, timestamp)."
+  }
+ ]
+}
